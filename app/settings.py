@@ -49,7 +49,7 @@ class DevConfig(Config):
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
-class TestConfig(Config):
+class StgConfig(Config):
     """Test configuration."""
     # app config
     ENV = 'test'

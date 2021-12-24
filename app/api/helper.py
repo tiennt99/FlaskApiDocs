@@ -2,13 +2,34 @@ import os
 
 from flask import jsonify
 
-from app.models import Message
+from app.models import Message, User, GroupRole, RolePermission
 from app.settings import ProdConfig, DevConfig
 
 # call config service
 
 
 CONFIG = DevConfig if os.environ.get('FLASK_DEBUG') == '1' else ProdConfig
+
+
+def get_permissions(user: User):
+    """
+    get all permission of user login
+    Args:
+        user:
+
+    Returns:
+        permissions:
+    """
+    permissions = []
+    group_id = user.group_id
+    list_role = GroupRole.query.filter(GroupRole.group_id == group_id).all()
+    for group_role in list_role:
+        list_permission = RolePermission.query.filter(RolePermission.role_id == group_role.role_id).all()
+        for role_permission in list_permission:
+            if role_permission.permission.resource not in permissions:
+                permissions.append(role_permission.permission.resource)
+
+    return permissions
 
 
 def send_result(data: any = None, message_id: str = '', message: str = "OK", code: int = 200,

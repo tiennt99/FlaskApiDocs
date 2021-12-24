@@ -146,7 +146,7 @@ class Message(db.Model):
     message = db.Column(db.String(255), nullable=False)
 
 
-class Users(db.Model):
+class User(db.Model):
     __tablename__ = 'users'
 
     id = db.Column(db.String(50), primary_key=True)
@@ -158,3 +158,73 @@ class Users(db.Model):
     status = db.Column(db.String(50))
     type = db.Column(db.String(50))
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
+    group_id = db.Column(ForeignKey('group.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
+                         index=True)
+
+    group = relationship('Group', primaryjoin='User.group_id == Group.id')
+
+
+class Permission(db.Model):
+    __tablename__ = 'permission'
+
+    id = db.Column(db.String(50), primary_key=True)
+    name = db.Column(db.String(100), nullable=False, unique=False)
+    resource = db.Column(db.String(500), nullable=False, unique=True)
+
+
+class Role(db.Model):
+    __tablename__ = 'role'
+
+    id = db.Column(db.String(50), primary_key=True)
+    key = db.Column(db.String(100), nullable=False, unique=True)
+    name = db.Column(db.String(100), nullable=False, unique=True)
+    description = db.Column(db.String(255))
+    type = db.Column(db.SmallInteger, default=1)  # tổng của 4 loại quyền sau 1: Xem, 2: Thêm, 4: Sửa, 8: Xóa
+    is_show = db.Column(db.Boolean, default=1)
+
+
+class RolePermission(db.Model):
+    __tablename__ = 'role_permission'
+
+    id = db.Column(db.String(50), primary_key=True)
+    role_id = db.Column(ForeignKey('role.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
+    permission_id = db.Column(ForeignKey('permission.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
+                              index=True)
+
+    permission = relationship('Permission', primaryjoin='RolePermission.permission_id == Permission.id')
+    role = relationship('Role', primaryjoin='RolePermission.role_id == Role.id')
+
+
+class GroupRole(db.Model):
+    __tablename__ = 'group_role'
+
+    id = db.Column(db.String(50), primary_key=True)
+    role_id = db.Column(ForeignKey('role.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
+    group_id = db.Column(ForeignKey('group.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
+
+    # group = relationship('Group', primaryjoin='GroupRole.group_id == Group.id')
+    role = relationship('Role', primaryjoin='GroupRole.role_id == Role.id')
+
+    @classmethod
+    def get_by_id(cls, _id):
+        return cls.query.get(_id)
+
+
+class Group(db.Model):
+    __tablename__ = 'group'
+
+    id = db.Column(db.String(50), primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(255))
+    created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
+    modified_date = db.Column(INTEGER(unsigned=True), default=0)
+
+    @classmethod
+    def get_by_id(cls, _id):
+        return cls.query.get(_id)
+
+    group_roles = relationship('GroupRole', primaryjoin='GroupRole.group_id == Group.id')
+
+    @property
+    def roles(self):
+        return [gr.role for gr in self.group_roles]

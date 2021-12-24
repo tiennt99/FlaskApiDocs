@@ -2,7 +2,7 @@
 ACCESS_TOKEN = 'access_token'
 REFRESH_TOKEN = 'refresh_token'
 THRESHOLD = 0.8
-
+TIME_FORMAT_LOG = "[%Y-%b-%d %H:%M]"
 # Set response code
 ERROR = 500
 SUCCESS = 1

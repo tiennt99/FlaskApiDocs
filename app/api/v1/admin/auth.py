@@ -1,12 +1,12 @@
 from datetime import timedelta
 from flask import Blueprint, request
 from app.extensions import jwt, logger
-from app.api.helper import send_error, send_result
+from app.api.helper import send_error, send_result, get_permissions
 from flask_jwt_extended import (
     jwt_required, create_access_token,
     jwt_refresh_token_required, get_jwt_identity,
     create_refresh_token, get_raw_jwt)
-from app.models import Users, Token
+from app.models import User, Token
 
 ACCESS_EXPIRES = timedelta(days=30)
 REFRESH_EXPIRES = timedelta(days=90)
@@ -30,13 +30,22 @@ def sign_in():
     password = json_data['password'].strip()
     # Check input
 
-    user = Users.query.filter(Users.email == email).first()
+    user = User.query.filter(User.email == email).first()
     user_id = user.id
     first_name = user.first_name
     last_name = user.last_name
-
-    access_token = create_access_token(identity=str(user_id), expires_delta=ACCESS_EXPIRES)
-    refresh_token = create_refresh_token(identity=str(user_id), expires_delta=REFRESH_EXPIRES)
+    list_permission = ["delete@/api/v1/admin/auth/logout",
+                       "post@/api/v1/admin/auth/sign-in",
+                       "post@/api/v1/admin/auth/token/refresh",
+                       "post@/api/v1/admin/users",
+                       "get@/api/v1/helper/site-map",
+                       "get@/static/<path:filename>"]
+    access_token = create_access_token(identity=str(user.id), expires_delta=ACCESS_EXPIRES,
+                                       user_claims={"list_permission": list_permission})
+    refresh_token = create_refresh_token(identity=str(user.id), expires_delta=REFRESH_EXPIRES,
+                                         user_claims={"list_permission": list_permission})
+    # access_token = create_access_token(identity=str(user_id), expires_delta=ACCESS_EXPIRES)
+    # refresh_token = create_refresh_token(identity=str(user_id), expires_delta=REFRESH_EXPIRES)
     Token.add_token_to_database(access_token, user.id)
     Token.add_token_to_database(refresh_token, user.id)
     data = dict(
@@ -49,7 +58,7 @@ def sign_in():
     return send_result(data=data, message_id='1')
 
 
-@api.route('/refresh-token', methods=['POST'])
+@api.route('token/refresh', methods=['POST'])
 @jwt_refresh_token_required
 def refresh():
     """

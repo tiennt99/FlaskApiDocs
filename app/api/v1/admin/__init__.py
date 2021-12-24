@@ -1,1 +1,1 @@
-from app.api.v1.admin import users
+from app.api.v1.admin import user

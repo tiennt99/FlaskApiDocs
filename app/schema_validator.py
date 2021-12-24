@@ -13,6 +13,42 @@ class CreateUserValidation(Schema):
     status = fields.String(required=False, validate=validate.Length(min=1, max=50))
     type = fields.String(required=False, validate=validate.Length(min=1, max=50))
 
+
+class RoleSchema(Schema):
+    """
+    Marshmallow Schema
+    Author: phongnv
+    Target: Use for permission
+    """
+    id = fields.String()
+    key = fields.String()
+    name = fields.String()
+    description = fields.String()
+    is_show = fields.Boolean()
+    type = fields.Integer()
+
+
+class PermissionSchema(Schema):
+    """
+    Marshmallow Schema
+    Author: LyChan
+    Target: Use for permission
+    """
+    id = fields.String()
+    name = fields.String()
+    resource = fields.String()
+
+
+class RolePermissionSchema(Schema):
+    """
+    Marshmallow Schema
+    Author: LyChan
+    Target: Use for permission
+    """
+    id = fields.String()
+    role_id = fields.String()
+    permission_id = fields.String()
+
 # user_validator = {
 #     "type": "object",
 #     "properties": {

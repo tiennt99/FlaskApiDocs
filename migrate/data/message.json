@@ -1,0 +1,18 @@
+[
+  {
+    "id": "1",
+    "show": 1,
+    "description": "Thành công",
+    "duration": 5,
+    "status": "success",
+    "message": "Thành công"
+  },
+  {
+    "id": "0",
+    "show": 1,
+    "description": "Thất Bại",
+    "duration": 5,
+    "status": "error",
+    "message": "Không thành công"
+  }
+]

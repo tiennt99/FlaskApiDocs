@@ -5,7 +5,7 @@ import uuid
 from flask import Flask
 
 from app.extensions import db
-from app.models import Users, Message
+from app.models import User, Message, Group
 from app.settings import ProdConfig, DevConfig
 
 
@@ -28,24 +28,34 @@ class Worker:
         app_context.push()
         db.drop_all()  # drop all tables
         db.create_all()  # create a new schema
+        with open('data/group.json', encoding='utf-8') as file:
+            self.default_group = json.load(file)
+        with open('data/user.json', encoding='utf-8') as file:
+            self.default_user = json.load(file)
+        with open('data/message.json', encoding='utf-8') as file:
+            self.default_message = json.load(file)
 
-        with open('user.json', encoding='utf-8') as file:
-            self.default_users = json.load(file)
-        with open('message.json', encoding='utf-8') as file:
-            self.default_data = json.load(file)
-
-    def create_default_users(self):
-        users = self.default_users
-        for item in users:
-            instance = Users()
+    def create_default_group(self):
+        groups = self.default_group
+        for item in groups:
+            instance = Group()
             for key in item.keys():
                 instance.__setattr__(key, item[key])
             db.session.add(instance)
 
         db.session.commit()
 
+    def create_default_user(self):
+        users = self.default_user
+        for item in users:
+            instance = User()
+            for key in item.keys():
+                instance.__setattr__(key, item[key])
+            db.session.add(instance)
+        db.session.commit()
+
     def create_default_message(self):
-        messages = self.default_data
+        messages = self.default_message
         for item in messages:
             instance = Message()
             for key in item.keys():
@@ -57,6 +67,7 @@ class Worker:
 
 if __name__ == '__main__':
     worker = Worker()
-    worker.create_default_users()
+    worker.create_default_group()
+    worker.create_default_user()
     worker.create_default_message()
     print("=" * 50, "Database Migrate Completed", "=" * 50)

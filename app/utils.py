@@ -8,6 +8,27 @@ from app.extensions import parser
 from marshmallow import fields, validate as validate_
 
 
+def are_equal(arr1: list, arr2: list) -> bool:
+    """
+    Check two array are equal or not
+    :param arr1: [int]
+    :param arr2: [int]
+    :return:
+    """
+    if len(arr1) != len(arr2):
+        return False
+
+    # Sort both arrays
+    arr1.sort()
+    arr2.sort()
+
+    # Linearly compare elements
+    for i, j in zip(arr1, arr2):
+        if i != j:
+            return False
+
+    # If all elements were same.
+    return True
 def get_timestamp_now() -> int:
     """
         Returns:
