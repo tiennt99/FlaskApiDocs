@@ -224,8 +224,6 @@ class Group(db.Model):
     def get_by_id(cls, _id):
         return cls.query.get(_id)
 
-    group_roles = relationship('GroupRole', primaryjoin='GroupRole.group_id == Group.id')
-
     @property
     def roles(self):
         return [gr.role for gr in self.group_roles]
