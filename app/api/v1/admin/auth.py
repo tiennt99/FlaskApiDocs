@@ -13,8 +13,8 @@ REFRESH_EXPIRES = timedelta(days=90)
 api = Blueprint('auth', __name__)
 
 
-@api.route('/sign-in', methods=['POST'])
-def sign_in():
+@api.route('/login', methods=['POST'])
+def login():
     """
 
     Returns:

@@ -2,10 +2,9 @@
 import uuid
 
 from flask_jwt_extended import decode_token, get_raw_jwt
-from sqlalchemy import Column, ForeignKey, String, Boolean, SmallInteger, TEXT
+from sqlalchemy import ForeignKey
 from sqlalchemy.dialects.mysql import INTEGER
 from sqlalchemy.orm import relationship
-from sqlalchemy import or_, and_
 
 from app.extensions import db
 from app.utils import get_timestamp_now
@@ -147,7 +146,7 @@ class Message(db.Model):
 
 
 class User(db.Model):
-    __tablename__ = 'users'
+    __tablename__ = 'user'
 
     id = db.Column(db.String(50), primary_key=True)
     email = db.Column(db.String(50))
@@ -158,6 +157,7 @@ class User(db.Model):
     status = db.Column(db.String(50))
     type = db.Column(db.String(50))
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
+    modified_date = db.Column(INTEGER(unsigned=True), default=0)
     group_id = db.Column(ForeignKey('group.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
                          index=True)
 
@@ -176,11 +176,8 @@ class Role(db.Model):
     __tablename__ = 'role'
 
     id = db.Column(db.String(50), primary_key=True)
-    key = db.Column(db.String(100), nullable=False, unique=True)
     name = db.Column(db.String(100), nullable=False, unique=True)
     description = db.Column(db.String(255))
-    type = db.Column(db.SmallInteger, default=1)  # tổng của 4 loại quyền sau 1: Xem, 2: Thêm, 4: Sửa, 8: Xóa
-    is_show = db.Column(db.Boolean, default=1)
 
 
 class RolePermission(db.Model):
@@ -190,6 +187,8 @@ class RolePermission(db.Model):
     role_id = db.Column(ForeignKey('role.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
     permission_id = db.Column(ForeignKey('permission.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
                               index=True)
+    created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
+    modified_date = db.Column(INTEGER(unsigned=True), default=0)
 
     permission = relationship('Permission', primaryjoin='RolePermission.permission_id == Permission.id')
     role = relationship('Role', primaryjoin='RolePermission.role_id == Role.id')
@@ -201,8 +200,10 @@ class GroupRole(db.Model):
     id = db.Column(db.String(50), primary_key=True)
     role_id = db.Column(ForeignKey('role.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
     group_id = db.Column(ForeignKey('group.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
+    created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
+    modified_date = db.Column(INTEGER(unsigned=True), default=0)
 
-    # group = relationship('Group', primaryjoin='GroupRole.group_id == Group.id')
+    group = relationship('Group', primaryjoin='GroupRole.group_id == Group.id')
     role = relationship('Role', primaryjoin='GroupRole.role_id == Role.id')
 
     @classmethod

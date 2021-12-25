@@ -1,0 +1,26 @@
+[{
+  "id": "cad2ea2a-6496-11ec-90d6-0242ac120004",
+  "first_name": "Tien",
+  "last_name": "Nguyen Huu",
+  "email": "tiennguyenhuu1999@gmail.com",
+  "username": "tiennt99",
+  "password": "123456",
+  "group_id": "8dfd6c40-7e42-414c-ae16-bda38b4f9652"
+}, {
+  "id": "8dbd546c-6497-11ec-90d6-0242ac120003",
+  "first_name": "Mạnh",
+  "last_name": "Nguyễn",
+  "email": "manh.nguyen@gmail.com",
+  "username": "manh.nguyen",
+  "password": "123456",
+  "group_id": "f256ff9a-d0d2-4472-a1e9-db6b4752ad91"
+}, {
+  "id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+  "first_name": "Hường",
+  "last_name": "Đỗ",
+  "email": "huong.do@gmail.com",
+  "username": "huong.do",
+  "password": "123456",
+  "group_id": "cd828c11-aeb2-421c-b71c-2f43c5668bd4"
+}
+]
