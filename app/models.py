@@ -17,6 +17,7 @@ def close_session():
     session.close()
 
 
+# Start Phân Quyền
 class Token(db.Model):
     __tablename__ = 'token'
 
@@ -154,8 +155,8 @@ class User(db.Model):
     first_name = db.Column(db.String(100))
     last_name = db.Column(db.String(100))
     username = db.Column(db.String(100))
-    status = db.Column(db.String(50))
-    type = db.Column(db.String(50))
+    status = db.Column(db.Boolean, default=1)
+    creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
     group_id = db.Column(ForeignKey('group.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
@@ -178,6 +179,7 @@ class Role(db.Model):
     id = db.Column(db.String(50), primary_key=True)
     name = db.Column(db.String(100), nullable=False, unique=True)
     description = db.Column(db.String(255))
+    creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
 
 
 class RolePermission(db.Model):
@@ -189,7 +191,7 @@ class RolePermission(db.Model):
                               index=True)
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
-
+    creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
     permission = relationship('Permission', primaryjoin='RolePermission.permission_id == Permission.id')
     role = relationship('Role', primaryjoin='RolePermission.role_id == Role.id')
 
@@ -202,6 +204,7 @@ class GroupRole(db.Model):
     group_id = db.Column(ForeignKey('group.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
+    creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
 
     group = relationship('Group', primaryjoin='GroupRole.group_id == Group.id')
     role = relationship('Role', primaryjoin='GroupRole.role_id == Role.id')
@@ -217,6 +220,7 @@ class Group(db.Model):
     id = db.Column(db.String(50), primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(255))
+    creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
 
@@ -227,3 +231,50 @@ class Group(db.Model):
     @property
     def roles(self):
         return [gr.role for gr in self.group_roles]
+
+
+# End phân quyền
+# Start quản lý tiếp đón
+class TopicQuestion(db.Model):
+    __tablename__ = 'top_question'
+
+    id = db.Column(db.String(50), primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(255))
+    creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
+    created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
+    modified_date = db.Column(INTEGER(unsigned=True), default=0)
+
+
+class Question(db.Model):
+    __tablename__ = 'question'
+
+    id = db.Column(db.String(50), primary_key=True)
+    description = db.Column(db.String(255))
+    content = db.Column(db.String(255))
+    created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
+    modified_date = db.Column(INTEGER(unsigned=True), default=0)
+    creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
+    user_id = db.Column(ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
+    topic_id = db.Column(ForeignKey('topic_question.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
+                         index=True)
+    topic = relationship('TopicQuestion', primaryjoin='Question.topic_id == TopicQuestion.id')
+    user = relationship('User', primaryjoin='Question.user_id == User.id')
+
+
+class History(db.Model):
+    __tablename__ = 'history'
+
+    id = db.Column(db.String(50), primary_key=True)
+    content = db.Column(db.String(255))
+    status_question = db.Column(db.SmallInteger, default=0)  # 0 - Đang xử lý, 1 - Xử lý xong
+    created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
+    modified_date = db.Column(INTEGER(unsigned=True), default=0)
+    person_in_change_id = db.Column(ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
+                                    index=True)
+    question_id = db.Column(ForeignKey('question.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
+                            index=True)
+    question = relationship('Question', primaryjoin='History.question_id == Question.id')
+    user = relationship('User', primaryjoin='History.person_in_change_id == User.id')
+
+# End quản lý tiếp đón
