@@ -77,7 +77,7 @@ def register_extensions(app, config_object):
 
     @parser.error_handler
     def handle_error(error, req, schema, *, error_status_code, error_headers):
-        return send_error(message='Parser error. Please check your requests body', code=500, message_id='0')
+        return send_error(message='Parser error. Please check your requests body', code=500, message_id=FAIL)
 
     # # Return validation errors as JSON
     # @app.errorhandler(422)

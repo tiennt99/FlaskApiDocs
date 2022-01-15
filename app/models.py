@@ -192,6 +192,7 @@ class RolePermission(db.Model):
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
     creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
+
     permission = relationship('Permission', primaryjoin='RolePermission.permission_id == Permission.id')
     role = relationship('Role', primaryjoin='RolePermission.role_id == Role.id')
 
@@ -236,7 +237,7 @@ class Group(db.Model):
 # End phân quyền
 # Start quản lý tiếp đón
 class TopicQuestion(db.Model):
-    __tablename__ = 'top_question'
+    __tablename__ = 'topic_question'
 
     id = db.Column(db.String(50), primary_key=True)
     name = db.Column(db.String(100), nullable=False)
@@ -277,4 +278,27 @@ class History(db.Model):
     question = relationship('Question', primaryjoin='History.question_id == Question.id')
     user = relationship('User', primaryjoin='History.person_in_change_id == User.id')
 
+
 # End quản lý tiếp đón
+# Start Quan Tri sinh vien giao vien
+class UserDetail(db.Model):
+    __tablename__ = 'user_detail'
+
+    id = db.Column(db.String(50), primary_key=True)
+    name = db.Column(db.String(50))
+    student_code = db.Column(db.String(50))
+    birth_day = db.Column(INTEGER(unsigned=True), default=0)
+    is_card = db.Column(db.Boolean)
+    is_priority = db.Column(db.Boolean)
+    folk = db.Column(db.String(50))
+    address = db.Column(db.String(255))
+    phone = db.Column(db.String(50))
+    file_number = db.Column(db.String(50))
+    sex = db.Column(db.String(50))
+
+    status_question = db.Column(db.SmallInteger, default=0)  # 0 - Đang xử lý, 1 - Xử lý xong
+    created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
+    modified_date = db.Column(INTEGER(unsigned=True), default=0)
+
+
+# End Quan Tri sinh vien giao vien

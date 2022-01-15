@@ -1,5 +1,13 @@
 [
   {
+    "id": "0",
+    "show": 1,
+    "description": "Thất Bại",
+    "duration": 5,
+    "status": "error",
+    "message": "Không thành công"
+  },
+  {
     "id": "1",
     "show": 1,
     "description": "Thành công",
@@ -8,11 +16,19 @@
     "message": "Thành công"
   },
   {
-    "id": "0",
+    "id": "2",
     "show": 1,
-    "description": "Thất Bại",
+    "description": "Sai tên người dùng thông tin",
     "duration": 5,
     "status": "error",
-    "message": "Không thành công"
+    "message": "Username không tồn tại"
+  },
+  {
+    "id": "3",
+    "show": 1,
+    "description": "Sai password người dùng thông tin",
+    "duration": 5,
+    "status": "error",
+    "message": "Sai thông tin pasword"
   }
 ]

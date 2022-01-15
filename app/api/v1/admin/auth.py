@@ -7,6 +7,10 @@ from flask_jwt_extended import (
     jwt_refresh_token_required, get_jwt_identity,
     create_refresh_token, get_raw_jwt)
 from app.models import User, Token
+from app.schema_validator import LoginValidation
+from sqlalchemy import or_, and_
+from app.enums import SUCCESS, FAIL, LOGIN_WRONG_USERNAME, LOGIN_WRONG_PASSWORD
+from app.utils import password_encode
 
 ACCESS_EXPIRES = timedelta(days=30)
 REFRESH_EXPIRES = timedelta(days=90)
@@ -25,12 +29,24 @@ def login():
         # Check valid params
     except Exception as ex:
         return send_error(message="Request Body incorrect json format: " + str(ex), code=442)
-    email = json_data['email'].lower().strip()
-    # time_now = json_data.datetime.utcnow().timestamp()
-    password = json_data['password'].strip()
+    try:
+        json_body = request.get_json()
+    except Exception as ex:
+        return send_error(message="Request Body incorrect json format: " + str(ex), code=442)
+    # validate request body
+    validator_input = LoginValidation()
+    is_not_validate = validator_input.validate(json_body)
+    if is_not_validate:
+        return send_error(data=is_not_validate, message_id=FAIL)
+    username = json_data.get('username', '').lower().strip()
+    password = json_data.get('password', '').strip()
     # Check input
-
-    user = User.query.filter(User.email == email).first()
+    user = User.query.filter(or_(User.username == username, User.email == username)).first()
+    if user is None:
+        return send_error(message_id=LOGIN_WRONG_USERNAME)
+    if password_encode(password) != user.password:
+        return send_error(message_id=LOGIN_WRONG_PASSWORD)
+    # get info user
     user_id = user.id
     first_name = user.first_name
     last_name = user.last_name
@@ -55,7 +71,7 @@ def login():
         first_name=first_name,
         last_name=last_name,
     )
-    return send_result(data=data, message_id='1')
+    return send_result(data=data, message_id=SUCCESS)
 
 
 @api.route('token/refresh', methods=['POST'])

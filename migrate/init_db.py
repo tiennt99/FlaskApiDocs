@@ -6,6 +6,7 @@ from flask import Flask
 from app.extensions import db
 from app.models import User, Message, Group, Role, GroupRole, Permission
 from app.settings import ProdConfig, DevConfig
+from app.utils import password_encode
 
 
 class Worker:
@@ -84,6 +85,7 @@ class Worker:
             instance = User()
             for key in item.keys():
                 instance.__setattr__(key, item[key])
+            instance.password = password_encode(instance.password)
             db.session.add(instance)
         db.session.commit()
 
@@ -93,6 +95,7 @@ class Worker:
             instance = User()
             for key in item.keys():
                 instance.__setattr__(key, item[key])
+            instance.password = password_encode(instance.password)
             db.session.add(instance)
         db.session.commit()
 
