@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Clone') {
             steps {
-               git 'https://github.com/tiennt99/FlaskApiDocs.git'
+               git branch: 'main', url: 'https://github.com/tiennt99/FlaskApiDocs.git'
             }
         }
     }
