@@ -300,5 +300,4 @@ class UserDetail(db.Model):
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
 
-
 # End Quan Tri sinh vien giao vien
