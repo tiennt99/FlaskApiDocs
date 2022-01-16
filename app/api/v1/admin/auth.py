@@ -51,9 +51,11 @@ def login():
     first_name = user.first_name
     last_name = user.last_name
     list_permission = ["delete@/api/v1/admin/auth/logout",
-                       "post@/api/v1/admin/auth/sign-in",
+                       "post@/api/v1/admin/auth/login",
                        "post@/api/v1/admin/auth/token/refresh",
-                       "post@/api/v1/admin/users",
+                       "post@/api/v1/admin/user",
+                       "get@/api/v1/admin/user",
+                       "put@/api/v1/admin/user/<user_id>",
                        "get@/api/v1/helper/site-map",
                        "get@/static/<path:filename>"]
     access_token = create_access_token(identity=str(user.id), expires_delta=ACCESS_EXPIRES,
