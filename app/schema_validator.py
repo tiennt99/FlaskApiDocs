@@ -3,7 +3,7 @@ import uuid
 from marshmallow import Schema, fields, validate, pre_load, validates, ValidationError, validates_schema
 
 from app.enums import LIST_GROUP
-from app.models import User
+from app.models import User, Role
 from app.utils import REGEX_EMAIL
 
 """
@@ -12,6 +12,7 @@ CreatedDate: 15/01/2022
 """
 
 
+# Manage User
 class CreateUserValidation(Schema):
     """
     Validator
@@ -97,13 +98,84 @@ class GetUserValidation(Schema):
     page_size = fields.Integer(required=False)
     from_date = fields.Integer(required=False)
     to_date = fields.Integer(required=False)
-    search_name = fields.String(required=False, validate=validate.Length(min=0, max=50))
+    search_name = fields.String(required=False)
 
     sort_by = fields.String(required=False,
                             validate=validate.OneOf(
                                 ["username", "email", "first_name", "last_name", "created_date", "modified_date"]))
     order_by = fields.String(required=False, validate=validate.OneOf(["asc", "desc"]))
 
+
+# Manage Role
+class CreateRoleValidation(Schema):
+    """
+    Validator
+    """
+    name = fields.String(required=True)
+    description = fields.String(required=False)
+    creator_id = fields.String(required=False)
+
+    @validates("name")
+    def validate_name(self, value):
+        if Role.check_role_exists(value):
+            raise ValidationError("Role đã tồn tại")
+
+    # Clean up data
+    @pre_load
+    def process_input(self, data, **kwargs):
+        data["name"] = data["name"].lower().strip()
+        data["description"] = data["description"].lower().strip() if data["description"] else None
+        return data
+
+
+class UpdateRoleValidation(Schema):
+    """
+    Validator
+    """
+    id = fields.String(required=False)
+    name = fields.String(required=True)
+    description = fields.String(required=False)
+    creator_id = fields.String(required=False)
+
+    # Clean up data
+    @pre_load
+    def process_input(self, data, **kwargs):
+        data["name"] = data["name"].lower().strip()
+        data["description"] = data["description"].lower().strip() if data["description"] else None
+        return data
+
+    @validates_schema
+    def validate_name(self, data, **kwargs):
+        if Role.check_role_exists(data["name"], data["id"]):
+            raise ValidationError('Role đã tồn tại')
+
+
+class RoleSchema(Schema):
+    """
+    Validator
+    """
+    id = fields.String()
+    name = fields.String()
+    description = fields.String()
+    creator_id = fields.String(required=False)
+
+
+class GetRoleValidation(Schema):
+    """
+    """
+    page = fields.Integer(required=False)
+    page_size = fields.Integer(required=False)
+    from_date = fields.Integer(required=False)
+    to_date = fields.Integer(required=False)
+    search_name = fields.String(required=False)
+
+    sort_by = fields.String(required=False,
+                            validate=validate.OneOf(
+                                ["name", "created_date", "modified_date"]))
+    order_by = fields.String(required=False, validate=validate.OneOf(["asc", "desc"]))
+
+
+# Login
 
 class LoginValidation(Schema):
     """

@@ -181,6 +181,7 @@ class Permission(db.Model):
     id = db.Column(db.String(50), primary_key=True, default=uuid.uuid1)
     name = db.Column(db.String(100), nullable=False, unique=False)
     resource = db.Column(db.String(500), nullable=False, unique=True)
+    created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
 
 
 class Role(db.Model):
@@ -190,6 +191,17 @@ class Role(db.Model):
     name = db.Column(db.String(100), nullable=False, unique=True)
     description = db.Column(db.String(255))
     creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
+    created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
+
+    @classmethod
+    def get_role_by_id(cls, _id):
+        return cls.query.get(_id)
+
+    @classmethod
+    def check_role_exists(cls, keyword: str, role_id: str = None):
+        if role_id:
+            return cls.query.filter(and_(cls.id != role_id, cls.name == keyword)).first()
+        return cls.query.filter(cls.name == keyword).first()
 
 
 class RolePermission(db.Model):

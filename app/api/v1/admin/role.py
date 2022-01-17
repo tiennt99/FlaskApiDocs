@@ -9,25 +9,25 @@ from app.api.helper import send_error, send_result
 from app.enums import FAIL, SUCCESS
 from app.extensions import db
 from app.gateway import authorization_require
-from app.schema_validator import CreateUserValidation, UpdateUserValidation, UserSchema, GetUserValidation
-from app.models import User
+from app.schema_validator import UpdateRoleValidation, GetRoleValidation, CreateRoleValidation, RoleSchema
+from app.models import User, Role
 
 from app.utils import escape_wildcard, get_timestamp_now
 
-api = Blueprint('users', __name__)
+api = Blueprint('role', __name__)
 
 
 @api.route('', methods=['GET'])
 @authorization_require()
-def get_users():
-    """ This is api get all user by filter
+def get_roles():
+    """ This is api get all role by filter
 
     Returns: list users
     """
     # 1. validate request parameters
     try:
         params = request.args
-        params = GetUserValidation().load(params) if params else dict()
+        params = GetRoleValidation().load(params) if params else dict()
     except ValidationError as err:
         return send_error(message_id=FAIL, data=err.messages)
 
@@ -43,14 +43,12 @@ def get_users():
     order_by = params.get('order_by', 'desc')
 
     # 3. Query
-    query = User.query
+    query = Role.query
     if len(search_name):
         query = query.filter(
-            or_(User.username.like("%{}%".format(search_name)),
-                User.email.like("%{}%".format(search_name)),
-                User.first_name.like("%{}%".format(search_name)),
-                User.last_name.like("%{}%".format(search_name))))
-    query = query.filter(and_(User.created_date > from_date, User.created_date < to_date))
+            or_(Role.name.like("%{}%".format(search_name)),
+                Role.description.like("%{}%".format(search_name))))
+    query = query.filter(and_(Role.created_date > from_date, Role.created_date < to_date))
     # 4. Sort by collum
     if sort_by:
         column_sorted = getattr(User, sort_by)
@@ -60,14 +58,14 @@ def get_users():
             query = query.order_by(desc(column_sorted))
     # Default: sort by created date
     else:
-        query = query.order_by(User.created_date.desc())
+        query = query.order_by(Role.created_date.desc())
 
     # 5. Paginator
     paginator = paginate(query, page_number, page_size)
     # 6. Dump data
-    users = UserSchema(many=True).dump(paginator.items)
+    users = RoleSchema(many=True).dump(paginator.items)
     response_data = dict(
-        users=users,
+        roles=users,
         total_pages=paginator.pages,
         total=paginator.total
     )
@@ -76,17 +74,13 @@ def get_users():
 
 @api.route('', methods=['POST'])
 @authorization_require()
-def create_user():
-    """ This is api create user
+def create_role():
+    """ This is api create role
 
     Body: {
-          "first_name": "Anthia",
-          "email":"test@gmail.com",
-          "last_name": "Paumier",
-          "username": "apaumier0",
-          "password": "pqwjEghVUazZ",
-          "group_id": ""
-        }
+            "name": "Quản trị người dùng",
+            "description": "Thêm sửa xóa người dùng"
+            }
     Returns: SUCCESS/FAIL
     """
     try:
@@ -96,34 +90,30 @@ def create_user():
     except Exception as ex:
         return send_error(message="Request Body incorrect json format: " + str(ex), code=442)
     # validate request body
-    validator_input = CreateUserValidation()
+    validator_input = CreateRoleValidation()
     is_not_validate = validator_input.validate(json_body)
     if is_not_validate:
         return send_error(data=is_not_validate, message_id=FAIL)
     # create user
-    user = User()
+    role = Role()
     for key in json_body.keys():
-        user.__setattr__(key, json_body[key])
+        role.__setattr__(key, json_body[key])
 
-    db.session.add(user)
+    db.session.add(role)
     db.session.commit()
     return send_result(message_id=SUCCESS)
 
 
-@api.route('/<user_id>', methods=['PUT'])
+@api.route('/<role_id>', methods=['PUT'])
 @authorization_require()
-def update_user(user_id: str):
-    """ This is api update user
+def update_role(role_id: str):
+    """ This is api update role
 
-    :type user_id: string
-    Body: {
-          "first_name": "Anthia",
-          "email":"test@gmail.com",
-          "last_name": "Paumier",
-          "username": "apaumier0",
-          "password": "pqwjEghVUazZ",
-          "group_id": ""
-        }
+    :type role_id: string
+    Body:   {
+            "name": "Quản trị người dùng",
+            "description": "Thêm sửa xóa người dùng"
+            }
     Returns: user
 
     """
@@ -131,35 +121,35 @@ def update_user(user_id: str):
         json_body = request.get_json()
         current_user_id = get_jwt_identity()
         json_body["creator_id"] = current_user_id
-        json_body["id"] = user_id
+        json_body["id"] = role_id
     except Exception as ex:
         return send_error(message="Request Body incorrect json format: " + str(ex), code=442)
     # validate request body
-    validator_input = UpdateUserValidation()
+    validator_input = UpdateRoleValidation()
     is_not_validate = validator_input.validate(json_body)
     if is_not_validate:
         return send_error(data=is_not_validate, message_id=FAIL)
-    # create user
-    user = User.get_user_by_id(user_id)
+    # create role
+    role = Role.get_role_by_id(role_id)
     for key in json_body.keys():
-        user.__setattr__(key, json_body[key])
+        role.__setattr__(key, json_body[key])
 
-    db.session.add(user)
+    db.session.add(role)
     db.session.commit()
-    return send_result(data=UserSchema().dump(user), message_id=SUCCESS)
+    return send_result(data=RoleSchema().dump(role), message_id=SUCCESS)
 
 
-@api.route('/<user_id>', methods=['DELETE'])
+@api.route('/<role_id>', methods=['DELETE'])
 @authorization_require()
-def delete_user(user_id: str):
-    """ This is api delete user
+def delete_role(role_id: str):
+    """ This is api delete role
 
-    :type user_id: string
+    :type role_id: string
     Returns: SUCCESS/False
     """
-    user = User.get_user_by_id(user_id)
-    if not user:
+    role = Role.get_role_by_id(role_id)
+    if not role:
         return send_error(message_id=FAIL)
-    db.session.delete(user)
+    db.session.delete(role)
     db.session.commit()
     return send_result(message_id=SUCCESS)
