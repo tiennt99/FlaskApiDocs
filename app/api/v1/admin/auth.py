@@ -61,6 +61,10 @@ def login():
                        "get@/api/v1/admin/role",
                        "put@/api/v1/admin/role/<role_id>",
                        "delete@/api/v1/admin/role/<role_id>",
+                       "post@/api/v1/admin/group",
+                       "get@/api/v1/admin/group",
+                       "put@/api/v1/admin/group/<group_id>",
+                       "delete@/api/v1/admin/group/<group_id>",
                        "get@/api/v1/helper/site-map",
                        "get@/static/<path:filename>"]
     access_token = create_access_token(identity=str(user.id), expires_delta=ACCESS_EXPIRES,

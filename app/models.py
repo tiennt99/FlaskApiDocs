@@ -248,12 +248,14 @@ class Group(db.Model):
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
 
     @classmethod
-    def get_by_id(cls, _id):
+    def get_group_by_id(cls, _id):
         return cls.query.get(_id)
 
-    @property
-    def roles(self):
-        return [gr.role for gr in self.group_roles]
+    @classmethod
+    def check_group_exists(cls, keyword: str, group_id: str = None):
+        if group_id:
+            return cls.query.filter(and_(cls.id != group_id, cls.name == keyword)).first()
+        return cls.query.filter(cls.name == keyword).first()
 
 
 # End phân quyền

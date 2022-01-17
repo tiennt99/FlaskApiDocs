@@ -3,7 +3,7 @@ import uuid
 from marshmallow import Schema, fields, validate, pre_load, validates, ValidationError, validates_schema
 
 from app.enums import LIST_GROUP
-from app.models import User, Role
+from app.models import User, Role, Group
 from app.utils import REGEX_EMAIL
 
 """
@@ -161,6 +161,75 @@ class RoleSchema(Schema):
 
 
 class GetRoleValidation(Schema):
+    """
+    """
+    page = fields.Integer(required=False)
+    page_size = fields.Integer(required=False)
+    from_date = fields.Integer(required=False)
+    to_date = fields.Integer(required=False)
+    search_name = fields.String(required=False)
+
+    sort_by = fields.String(required=False,
+                            validate=validate.OneOf(
+                                ["name", "created_date", "modified_date"]))
+    order_by = fields.String(required=False, validate=validate.OneOf(["asc", "desc"]))
+
+
+# Manage Group
+class CreateGroupValidation(Schema):
+    """
+    Validator
+    """
+    name = fields.String(required=True)
+    description = fields.String(required=False)
+    creator_id = fields.String(required=False)
+
+    @validates("name")
+    def validate_name(self, value):
+        if Group.check_group_exists(value):
+            raise ValidationError("Group đã tồn tại")
+
+    # Clean up data
+    @pre_load
+    def process_input(self, data, **kwargs):
+        data["name"] = data["name"].lower().strip()
+        data["description"] = data["description"].lower().strip() if data["description"] else None
+        return data
+
+
+class UpdateGroupValidation(Schema):
+    """
+    Validator
+    """
+    id = fields.String(required=False)
+    name = fields.String(required=True)
+    description = fields.String(required=False)
+    creator_id = fields.String(required=False)
+
+    # Clean up data
+    @pre_load
+    def process_input(self, data, **kwargs):
+        data["name"] = data["name"].lower().strip()
+        data["description"] = data["description"].lower().strip() if data["description"] else None
+        return data
+
+    @validates_schema
+    def validate_name(self, data, **kwargs):
+        if Group.check_group_exists(data["name"], data["id"]):
+            raise ValidationError('Group đã tồn tại')
+
+
+class GroupSchema(Schema):
+    """
+    Validator
+    """
+    id = fields.String()
+    name = fields.String()
+    description = fields.String()
+    creator_id = fields.String(required=False)
+
+
+class GetGroupValidation(Schema):
     """
     """
     page = fields.Integer(required=False)
