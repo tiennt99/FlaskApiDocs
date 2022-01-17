@@ -37,7 +37,7 @@ deactivate () {
 # unset irrelevant variables
 deactivate nondestructive
 
-VIRTUAL_ENV="E:\Study\Backend\Flask\FlaskApi\venv"
+VIRTUAL_ENV="D:\Đồ Án\Project\FlaskApiDocs\venv"
 export VIRTUAL_ENV
 
 _OLD_VIRTUAL_PATH="$PATH"
