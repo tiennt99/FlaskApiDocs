@@ -1,17 +1,38 @@
-[{
-  "id": "a55332a2-9998-4b92-9dc1-be000f4e1e45",
-  "name": "Người dùng mới ",
-  "description": "Người dùng mới"
-},{
-  "id": "3c0e7ac2-648a-11ec-90d6-0242ac120003",
-  "name": "Xem danh sách người dùng",
-  "description": "Xem danh sách người dùng"
-}, {
-  "id": "aedffa3e-6495-11ec-90d6-0242ac120003",
-  "name": "Quản trị người dùng",
-  "description": "Thêm sửa xóa người dùng"
-}, {
-  "id": "c9a68356-6495-11ec-90d6-0242ac120003",
-  "name": "Nhập điểm",
-  "description": "nhập điểm cho sinh viên"
-}]
+[
+  {
+    "id": "a55332a2-9998-4b92-9dc1-be000f4e1e45",
+    "name": "Người dùng mới ",
+    "description": "Người dùng mới",
+    "permission_ids": [
+      "22ec23de-65f1-4f0f-8c7e-6b9122939444",
+      "31c284a8-552b-4f4f-a8c2-22ff998de895"
+    ]
+  },
+  {
+    "id": "3c0e7ac2-648a-11ec-90d6-0242ac120003",
+    "name": "Xem danh sách người dùng",
+    "description": "Xem danh sách người dùng",
+    "permission_ids": [
+      "22ec23de-65f1-4f0f-8c7e-6b9122939444",
+      "31c284a8-552b-4f4f-a8c2-22ff998de895"
+    ]
+  },
+  {
+    "id": "aedffa3e-6495-11ec-90d6-0242ac120003",
+    "name": "Quản trị người dùng",
+    "description": "Thêm sửa xóa người dùng",
+    "permission_ids": [
+      "22ec23de-65f1-4f0f-8c7e-6b9122939444",
+      "31c284a8-552b-4f4f-a8c2-22ff998de895"
+    ]
+  },
+  {
+    "id": "c9a68356-6495-11ec-90d6-0242ac120003",
+    "name": "Nhập điểm",
+    "description": "nhập điểm cho sinh viên",
+    "permission_ids": [
+      "22ec23de-65f1-4f0f-8c7e-6b9122939444",
+      "31c284a8-552b-4f4f-a8c2-22ff998de895"
+    ]
+  }
+]

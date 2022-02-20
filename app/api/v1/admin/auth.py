@@ -50,6 +50,7 @@ def login():
     user_id = user.id
     first_name = user.first_name
     last_name = user.last_name
+    # list_permission = get_permissions(user)
     list_permission = ["delete@/api/v1/admin/auth/logout",
                        "post@/api/v1/admin/auth/login",
                        "post@/api/v1/admin/auth/token/refresh",

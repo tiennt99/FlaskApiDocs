@@ -1,4 +1,5 @@
 import urllib
+import uuid
 
 from flask import Blueprint, request
 from flask_jwt_extended import get_jwt_identity
@@ -92,7 +93,7 @@ def create_user():
     try:
         json_body = request.get_json()
         current_user_id = get_jwt_identity()
-        json_body["creator_id"] = current_user_id
+
     except Exception as ex:
         return send_error(message="Request Body incorrect json format: " + str(ex), code=442)
     # validate request body
@@ -101,13 +102,15 @@ def create_user():
     if is_not_validate:
         return send_error(data=is_not_validate, message_id=FAIL)
     # create user
+    user_id = str(uuid.uuid4())
     user = User()
     for key in json_body.keys():
         user.__setattr__(key, json_body[key])
-
+    user.id = user_id
+    user.creator_id = current_user_id
     db.session.add(user)
     db.session.commit()
-    return send_result(message_id=SUCCESS)
+    return send_result(message_id=SUCCESS, data=UserSchema().dump(user))
 
 
 @api.route('/<user_id>', methods=['PUT'])
@@ -130,8 +133,8 @@ def update_user(user_id: str):
     try:
         json_body = request.get_json()
         current_user_id = get_jwt_identity()
-        json_body["creator_id"] = current_user_id
         json_body["id"] = user_id
+
     except Exception as ex:
         return send_error(message="Request Body incorrect json format: " + str(ex), code=442)
     # validate request body
@@ -143,7 +146,7 @@ def update_user(user_id: str):
     user = User.get_user_by_id(user_id)
     for key in json_body.keys():
         user.__setattr__(key, json_body[key])
-
+    user.creator_id = current_user_id
     db.session.add(user)
     db.session.commit()
     return send_result(data=UserSchema().dump(user), message_id=SUCCESS)

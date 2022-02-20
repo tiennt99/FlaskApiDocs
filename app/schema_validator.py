@@ -1,4 +1,5 @@
 import uuid
+from builtins import float
 
 from marshmallow import Schema, fields, validate, pre_load, validates, ValidationError, validates_schema
 
@@ -114,6 +115,7 @@ class CreateRoleValidation(Schema):
     name = fields.String(required=True)
     description = fields.String(required=False)
     creator_id = fields.String(required=False)
+    permission_ids = fields.List(fields.String(required=False))
 
     @validates("name")
     def validate_name(self, value):
@@ -136,11 +138,12 @@ class UpdateRoleValidation(Schema):
     name = fields.String(required=True)
     description = fields.String(required=False)
     creator_id = fields.String(required=False)
+    permission_ids = fields.List(fields.String(required=False))
 
     # Clean up data
     @pre_load
     def process_input(self, data, **kwargs):
-        data["name"] = data["name"].lower().strip()
+        data["name"] = data["name"].strip()
         data["description"] = data["description"].lower().strip() if data["description"] else None
         return data
 
@@ -148,6 +151,15 @@ class UpdateRoleValidation(Schema):
     def validate_name(self, data, **kwargs):
         if Role.check_role_exists(data["name"], data["id"]):
             raise ValidationError('Role đã tồn tại')
+
+
+class PermissionSchema(Schema):
+    """
+    Validator
+    """
+    id = fields.String()
+    name = fields.String()
+    resource = fields.String()
 
 
 class RoleSchema(Schema):
@@ -158,6 +170,7 @@ class RoleSchema(Schema):
     name = fields.String()
     description = fields.String()
     creator_id = fields.String(required=False)
+    permissions = fields.List(fields.Nested(PermissionSchema(only=["id", "name"])))
 
 
 class GetRoleValidation(Schema):
@@ -182,7 +195,7 @@ class CreateGroupValidation(Schema):
     """
     name = fields.String(required=True)
     description = fields.String(required=False)
-    creator_id = fields.String(required=False)
+    role_ids = fields.List(fields.String(required=False))
 
     @validates("name")
     def validate_name(self, value):
@@ -205,12 +218,13 @@ class UpdateGroupValidation(Schema):
     name = fields.String(required=True)
     description = fields.String(required=False)
     creator_id = fields.String(required=False)
+    role_ids = fields.List(fields.String(required=False))
 
     # Clean up data
     @pre_load
     def process_input(self, data, **kwargs):
-        data["name"] = data["name"].lower().strip()
-        data["description"] = data["description"].lower().strip() if data["description"] else None
+        data["name"] = data["name"].strip()
+        data["description"] = data["description"].strip() if data["description"] else None
         return data
 
     @validates_schema
@@ -227,6 +241,8 @@ class GroupSchema(Schema):
     name = fields.String()
     description = fields.String()
     creator_id = fields.String(required=False)
+    creator = fields.Nested(UserSchema(only=['id', 'email']))
+    roles = fields.List(fields.Nested(RoleSchema(only=['id', 'name'])))
 
 
 class GetGroupValidation(Schema):

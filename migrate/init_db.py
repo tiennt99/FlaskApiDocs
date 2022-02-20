@@ -1,10 +1,11 @@
 import os
 import json
+import uuid
 
 from flask import Flask
 
 from app.extensions import db
-from app.models import User, Message, Group, Role, GroupRole, Permission
+from app.models import User, Message, Group, Role, GroupRole, Permission, RolePermission
 from app.settings import ProdConfig, DevConfig
 from app.utils import password_encode
 
@@ -46,19 +47,34 @@ class Worker:
     def create_default_group(self):
         groups = self.default_group
         for item in groups:
+            role_ids = item["role_ids"]
             instance = Group()
             for key in item.keys():
                 instance.__setattr__(key, item[key])
+            group_id = instance.id
             db.session.add(instance)
+            for role_id in role_ids:
+                group_role = GroupRole(id=str(uuid.uuid4()),
+                                       group_id=group_id,
+                                       role_id=role_id)
+                db.session.add(group_role)
         db.session.commit()
 
     def create_default_role(self):
         roles = self.default_role
         for item in roles:
+            permission_ids = item["permission_ids"]
             instance = Role()
             for key in item.keys():
                 instance.__setattr__(key, item[key])
+            role_id = instance.id
             db.session.add(instance)
+            # add roles
+            for permission_id in permission_ids:
+                role_permission = RolePermission(id=str(uuid.uuid4()),
+                                                 role_id=role_id,
+                                                 permission_id=permission_id)
+                db.session.add(role_permission)
         db.session.commit()
 
     def create_default_permission(self):
@@ -113,21 +129,14 @@ if __name__ == '__main__':
     worker = Worker()
     # Message id
     worker.create_default_message()
-
-    # Group admin, teacher, student
-    worker.create_default_group()
-
-    # Role default
-    worker.create_default_role()
-
     # Permission default
     worker.create_default_permission()
-
+    # Role default
+    worker.create_default_role()
+    # Group admin, teacher, student
+    worker.create_default_group()
     # User default
     worker.create_default_user()
     worker.create_default_user_example()
-    """
-    relation table
-    """
-    worker.create_default_group_role()
+
     print("=" * 50, "Database Migrate Completed", "=" * 50)

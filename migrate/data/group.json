@@ -1,13 +1,29 @@
-[{
-  "id": "f256ff9a-d0d2-4472-a1e9-db6b4752ad91",
-  "name": "Quản trị viên",
-  "description": "Người thuộc phòng đào tạo"
-}, {
-  "id": "cd828c11-aeb2-421c-b71c-2f43c5668bd4",
-  "name": "Giáo viên",
-  "description": "Nhập điểm cho sinh viên"
-}, {
-  "id": "8dfd6c40-7e42-414c-ae16-bda38b4f9652",
-  "name": "Sinh viên",
-  "description": "Người là sinh viên trong trường"
-}]
+[
+  {
+    "id": "f256ff9a-d0d2-4472-a1e9-db6b4752ad91",
+    "name": "Quản trị viên",
+    "description": "Người thuộc phòng đào tạo",
+    "role_ids": [
+      "3c0e7ac2-648a-11ec-90d6-0242ac120003",
+      "a55332a2-9998-4b92-9dc1-be000f4e1e45"
+    ]
+  },
+  {
+    "id": "cd828c11-aeb2-421c-b71c-2f43c5668bd4",
+    "name": "Giáo viên",
+    "description": "Nhập điểm cho sinh viên",
+    "role_ids": [
+      "3c0e7ac2-648a-11ec-90d6-0242ac120003",
+      "a55332a2-9998-4b92-9dc1-be000f4e1e45"
+    ]
+  },
+  {
+    "id": "8dfd6c40-7e42-414c-ae16-bda38b4f9652",
+    "name": "Sinh viên",
+    "description": "Người là sinh viên trong trường",
+    "role_ids": [
+      "3c0e7ac2-648a-11ec-90d6-0242ac120003",
+      "a55332a2-9998-4b92-9dc1-be000f4e1e45"
+    ]
+  }
+]

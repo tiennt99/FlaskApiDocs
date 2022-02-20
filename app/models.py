@@ -21,7 +21,7 @@ def close_session():
 class Token(db.Model):
     __tablename__ = 'token'
 
-    id = db.Column(db.String(50), primary_key=True, default=uuid.uuid1)
+    id = db.Column(db.String(50), primary_key=True)
     jti = db.Column(db.String(36), nullable=False)
     token_type = db.Column(db.String(10), nullable=False)
     user_identity = db.Column(db.String(50), nullable=False)
@@ -138,7 +138,7 @@ class Token(db.Model):
 class Message(db.Model):
     __tablename__ = 'message'
 
-    id = db.Column(db.String(50), primary_key=True, default=uuid.uuid1)
+    id = db.Column(db.String(50), primary_key=True)
     description = db.Column(db.String(255))
     show = db.Column(db.Boolean, nullable=0)
     duration = db.Column(db.Integer, default=5)
@@ -149,7 +149,7 @@ class Message(db.Model):
 class User(db.Model):
     __tablename__ = 'user'
 
-    id = db.Column(db.String(50), primary_key=True, default=uuid.uuid1)
+    id = db.Column(db.String(50), primary_key=True)
     email = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(255))
     first_name = db.Column(db.String(100))
@@ -178,7 +178,7 @@ class User(db.Model):
 class Permission(db.Model):
     __tablename__ = 'permission'
 
-    id = db.Column(db.String(50), primary_key=True, default=uuid.uuid1)
+    id = db.Column(db.String(50), primary_key=True)
     name = db.Column(db.String(100), nullable=False, unique=False)
     resource = db.Column(db.String(500), nullable=False, unique=True)
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
@@ -187,15 +187,20 @@ class Permission(db.Model):
 class Role(db.Model):
     __tablename__ = 'role'
 
-    id = db.Column(db.String(50), primary_key=True, default=uuid.uuid1)
+    id = db.Column(db.String(50), primary_key=True)
     name = db.Column(db.String(100), nullable=False, unique=True)
     description = db.Column(db.String(255))
     creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
+    role_permissions = relationship('RolePermission', primaryjoin='Role.id == RolePermission.role_id')
 
     @classmethod
     def get_role_by_id(cls, _id):
         return cls.query.get(_id)
+
+    @property
+    def permissions(self):
+        return [obj.permission for obj in self.role_permissions]
 
     @classmethod
     def check_role_exists(cls, keyword: str, role_id: str = None):
@@ -207,7 +212,7 @@ class Role(db.Model):
 class RolePermission(db.Model):
     __tablename__ = 'role_permission'
 
-    id = db.Column(db.String(50), primary_key=True, default=uuid.uuid1)
+    id = db.Column(db.String(50), primary_key=True)
     role_id = db.Column(ForeignKey('role.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
     permission_id = db.Column(ForeignKey('permission.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
                               index=True)
@@ -216,20 +221,20 @@ class RolePermission(db.Model):
     creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
 
     permission = relationship('Permission', primaryjoin='RolePermission.permission_id == Permission.id')
-    role = relationship('Role', primaryjoin='RolePermission.role_id == Role.id')
+    # role = relationship('Role', primaryjoin='RolePermission.role_id == Role.id')
 
 
 class GroupRole(db.Model):
     __tablename__ = 'group_role'
 
-    id = db.Column(db.String(50), primary_key=True, default=uuid.uuid1)
+    id = db.Column(db.String(50), primary_key=True)
     role_id = db.Column(ForeignKey('role.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
     group_id = db.Column(ForeignKey('group.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
     creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
 
-    group = relationship('Group', primaryjoin='GroupRole.group_id == Group.id')
+    # group = relationship('Group', primaryjoin='GroupRole.group_id == Group.id')
     role = relationship('Role', primaryjoin='GroupRole.role_id == Role.id')
 
     @classmethod
@@ -240,12 +245,21 @@ class GroupRole(db.Model):
 class Group(db.Model):
     __tablename__ = 'group'
 
-    id = db.Column(db.String(50), primary_key=True, default=uuid.uuid1)
+    id = db.Column(db.String(50), primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(255))
     creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
+    group_roles = relationship('GroupRole', primaryjoin='Group.id == GroupRole.group_id')
+
+    @property
+    def creator(self):
+        return User.get_user_by_id(self.creator_id)
+
+    @property
+    def roles(self):
+        return [obj.role for obj in self.group_roles]
 
     @classmethod
     def get_group_by_id(cls, _id):
@@ -263,7 +277,7 @@ class Group(db.Model):
 class TopicQuestion(db.Model):
     __tablename__ = 'topic_question'
 
-    id = db.Column(db.String(50), primary_key=True, default=uuid.uuid1)
+    id = db.Column(db.String(50), primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(255))
     creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
@@ -274,7 +288,7 @@ class TopicQuestion(db.Model):
 class Question(db.Model):
     __tablename__ = 'question'
 
-    id = db.Column(db.String(50), primary_key=True, default=uuid.uuid1)
+    id = db.Column(db.String(50), primary_key=True)
     description = db.Column(db.String(255))
     content = db.Column(db.String(255))
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
@@ -290,7 +304,7 @@ class Question(db.Model):
 class History(db.Model):
     __tablename__ = 'history'
 
-    id = db.Column(db.String(50), primary_key=True, default=uuid.uuid1)
+    id = db.Column(db.String(50), primary_key=True)
     content = db.Column(db.String(255))
     status_question = db.Column(db.SmallInteger, default=0)  # 0 - Đang xử lý, 1 - Xử lý xong
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
@@ -308,7 +322,7 @@ class History(db.Model):
 class UserDetail(db.Model):
     __tablename__ = 'user_detail'
 
-    id = db.Column(db.String(50), primary_key=True, default=uuid.uuid1)
+    id = db.Column(db.String(50), primary_key=True)
     name = db.Column(db.String(50))
     student_code = db.Column(db.String(50))
     birth_day = db.Column(INTEGER(unsigned=True), default=0)
