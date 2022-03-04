@@ -216,6 +216,7 @@ class RolePermission(db.Model):
     role_id = db.Column(ForeignKey('role.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
     permission_id = db.Column(ForeignKey('permission.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
                               index=True)
+    role_accessibility = db.Column(db.SmallInteger, default=0)
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
     creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
