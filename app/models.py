@@ -152,6 +152,7 @@ class User(db.Model):
     id = db.Column(db.String(50), primary_key=True)
     email = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(255))
+    password_hash = db.Column(db.String(255))
     first_name = db.Column(db.String(100))
     last_name = db.Column(db.String(100))
     username = db.Column(db.String(100), unique=True)

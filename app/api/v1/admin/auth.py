@@ -1,16 +1,17 @@
 from datetime import timedelta
 from flask import Blueprint, request
-from app.extensions import jwt, logger
+from werkzeug.security import generate_password_hash, check_password_hash
+
+from app.extensions import jwt, logger, db
 from app.api.helper import send_error, send_result, get_permissions
 from flask_jwt_extended import (
     jwt_required, create_access_token,
     jwt_refresh_token_required, get_jwt_identity,
     create_refresh_token, get_raw_jwt)
 from app.models import User, Token
-from app.schema_validator import LoginValidation
-from sqlalchemy import or_, and_
+from app.schema_validator import LoginValidation, ChangePasswordValidator, UserSchema
+from sqlalchemy import or_
 from app.enums import SUCCESS, FAIL, LOGIN_WRONG_USERNAME, LOGIN_WRONG_PASSWORD
-from app.utils import password_encode
 
 ACCESS_EXPIRES = timedelta(days=30)
 REFRESH_EXPIRES = timedelta(days=90)
@@ -44,7 +45,7 @@ def login():
     user = User.query.filter(or_(User.username == username, User.email == username)).first()
     if user is None:
         return send_error(message_id=LOGIN_WRONG_USERNAME)
-    if password_encode(password) != user.password:
+    if check_password_hash(generate_password_hash(password), user.password) is False:
         return send_error(message_id=LOGIN_WRONG_PASSWORD)
     # get info user
     user_id = user.id
@@ -84,6 +85,44 @@ def login():
         last_name=last_name,
     )
     return send_result(data=data, message_id=SUCCESS)
+
+
+@api.route('password/change', methods=['POST'])
+@jwt_required
+def change_password():
+    """ Change password
+
+     Requests Body:
+            email: string, require
+    EX:
+        {
+            "old_password": "abc123"
+            "new_password": "Admin@1234"
+        }
+    :return:
+    """
+
+    try:
+        json_body = request.get_json()
+        current_user_id = get_jwt_identity()
+        jti = get_raw_jwt()['jti']
+    except Exception as ex:
+        return send_error(message="Request Body incorrect json format: " + str(ex), code=442)
+    # validate request body
+    validator_input = ChangePasswordValidator()
+    is_not_validate = validator_input.validate(json_body)
+    if is_not_validate:
+        return send_error(data=is_not_validate, message_id=FAIL)
+    # create user
+    user = User.get_user_by_id(current_user_id)
+    if generate_password_hash(json_body["old_password"]) == user.password_hash:
+        return send_error(message_id=FAIL)
+    user.password = json_body["new_password"]
+    user.password_hash = generate_password_hash(json_body["new_password"])
+    db.session.add(user)
+    db.session.commit()
+    Token.revoke_token(jti)
+    return send_result(message_id=SUCCESS, data=UserSchema().dump(user))
 
 
 @api.route('token/refresh', methods=['POST'])

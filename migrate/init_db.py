@@ -3,11 +3,11 @@ import json
 import uuid
 
 from flask import Flask
+from werkzeug.security import generate_password_hash
 
 from app.extensions import db
 from app.models import User, Message, Group, Role, GroupRole, Permission, RolePermission
 from app.settings import ProdConfig, DevConfig
-from app.utils import password_encode
 
 
 class Worker:
@@ -101,7 +101,8 @@ class Worker:
             instance = User()
             for key in item.keys():
                 instance.__setattr__(key, item[key])
-            instance.password = password_encode(instance.password)
+
+            instance.password_hash = generate_password_hash(instance.password)
             db.session.add(instance)
         db.session.commit()
 
@@ -111,7 +112,7 @@ class Worker:
             instance = User()
             for key in item.keys():
                 instance.__setattr__(key, item[key])
-            instance.password = password_encode(instance.password)
+            instance.password_hash = generate_password_hash(instance.password)
             db.session.add(instance)
         db.session.commit()
 

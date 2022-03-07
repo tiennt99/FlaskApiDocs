@@ -6,6 +6,8 @@ from flask_jwt_extended import get_jwt_identity
 from marshmallow import ValidationError
 from sqlalchemy import or_, asc, desc, and_
 from sqlalchemy_pagination import paginate
+from werkzeug.security import generate_password_hash
+
 from app.api.helper import send_error, send_result
 from app.enums import FAIL, SUCCESS
 from app.extensions import db
@@ -106,6 +108,7 @@ def create_user():
     user = User()
     for key in json_body.keys():
         user.__setattr__(key, json_body[key])
+    user.password_hash = generate_password_hash(user.password)
     user.id = user_id
     user.creator_id = current_user_id
     db.session.add(user)

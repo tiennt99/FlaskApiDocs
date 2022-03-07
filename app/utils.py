@@ -1,12 +1,6 @@
-import base64
-import hashlib
-import random
 import re
-import string
 import datetime
 from pytz import timezone
-from app.extensions import parser
-from marshmallow import fields, validate as validate_
 
 # Regex validate
 RE_ONLY_NUMBERS = r'^(\d+)$'
@@ -52,15 +46,6 @@ def get_timestamp_now() -> int:
     """
     time_zon_sg = timezone('Asia/Ho_Chi_Minh')
     return int(datetime.datetime.now(time_zon_sg).timestamp())
-
-
-def password_encode(password):
-    """
-    :param password:
-    :return:
-    """
-    hash_password = hashlib.md5(password.encode())
-    return hash_password.hexdigest()
 
 
 def check_format_email(email):

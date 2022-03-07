@@ -77,12 +77,18 @@ class UpdateUserValidation(Schema):
             raise ValidationError('Email đã tồn tại')
 
 
+class ChangePasswordValidator(Schema):
+    old_password = fields.String(required=True, validate=validate.Length(min=1, max=50))
+    new_password = fields.String(required=True, validate=validate.Length(min=1, max=50))
+
+
 class UserSchema(Schema):
     """
     Validator
     """
     id = fields.String()
     password = fields.String()
+    password_hash = fields.String()
     first_name = fields.String()
     last_name = fields.String()
     email = fields.String()
