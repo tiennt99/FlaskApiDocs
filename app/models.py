@@ -299,6 +299,7 @@ class Question(db.Model):
     user_id = db.Column(ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
     topic_id = db.Column(ForeignKey('topic_question.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
                          index=True)
+    status = db.Column(db.SmallInteger, default=0)  # 0 - Đang xử lý, 1 - Xử lý xong
     topic = relationship('TopicQuestion', primaryjoin='Question.topic_id == TopicQuestion.id')
     user = relationship('User', primaryjoin='Question.user_id == User.id')
 
@@ -308,7 +309,6 @@ class History(db.Model):
 
     id = db.Column(db.String(50), primary_key=True)
     content = db.Column(db.String(255))
-    status_question = db.Column(db.SmallInteger, default=0)  # 0 - Đang xử lý, 1 - Xử lý xong
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
     person_in_change_id = db.Column(ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
