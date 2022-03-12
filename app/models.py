@@ -291,6 +291,8 @@ class Question(db.Model):
     __tablename__ = 'question'
 
     id = db.Column(db.String(50), primary_key=True)
+    start_time = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
+    end_time = db.Column(INTEGER(unsigned=True), default=get_timestamp_now() + 1800)  # Default + 30 phút
     description = db.Column(db.String(255))
     content = db.Column(db.String(255))
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
@@ -299,7 +301,6 @@ class Question(db.Model):
     user_id = db.Column(ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
     topic_id = db.Column(ForeignKey('topic_question.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
                          index=True)
-    status = db.Column(db.SmallInteger, default=0)  # 0 - Đang xử lý, 1 - Xử lý xong
     topic = relationship('TopicQuestion', primaryjoin='Question.topic_id == TopicQuestion.id')
     user = relationship('User', primaryjoin='Question.user_id == User.id')
 
@@ -308,19 +309,21 @@ class History(db.Model):
     __tablename__ = 'history'
 
     id = db.Column(db.String(50), primary_key=True)
-    content = db.Column(db.String(255))
+    status = db.Column(db.SmallInteger, default=0)  # 1 - Đang xử lý, 2 - Chờ xử lý , 3- Xử lý xong
+    note = db.Column(db.String(255))
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
-    person_in_change_id = db.Column(ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
-                                    index=True)
+    user_id = db.Column(ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
+                        index=True)
     question_id = db.Column(ForeignKey('question.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
                             index=True)
     question = relationship('Question', primaryjoin='History.question_id == Question.id')
-    user = relationship('User', primaryjoin='History.person_in_change_id == User.id')
+    user = relationship('User', primaryjoin='History.user_id == User.id')
 
 
 # End quản lý tiếp đón
 # Start Quan Tri sinh vien giao vien
+# TODO: Cập nhập đầy đủ sau
 class UserDetail(db.Model):
     __tablename__ = 'user_detail'
 
@@ -340,4 +343,61 @@ class UserDetail(db.Model):
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
 
+
 # End Quan Tri sinh vien giao vien
+
+# Start chat message
+class ChatMessage(db.Model):
+    __tablename__ = 'chat_message'
+
+    id = db.Column(db.String(50), primary_key=True)
+    message = db.Column(db.TEXT)
+    sender_id = db.Column(ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
+                          index=True)
+    receiver_id = db.Column(ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
+                            index=True)
+    created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
+
+
+# End chat message
+
+# Start Frequently asked questions
+class FrequentQuestion(db.Model):
+    __tablename__ = 'frequent_question'
+
+    id = db.Column(db.String(50), primary_key=True)
+    question = db.Column(db.TEXT)
+    answer = db.Column(db.TEXT)
+    created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
+    modified_date = db.Column(INTEGER(unsigned=True), default=0)
+
+
+# End Frequently asked questions
+# Start Subject score
+class Subject(db.Model):
+    __tablename__ = 'subject'
+
+    id = db.Column(db.String(50), primary_key=True)
+    code = db.Column(db.String(10))
+    name = db.Column(db.String(50))
+    number_of_credit = db.Column(db.SmallInteger)
+
+    created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
+    modified_date = db.Column(INTEGER(unsigned=True), default=0)
+
+
+class UserSubject(db.Model):
+    __tablename__ = 'user_subject'
+
+    id = db.Column(db.String(50), primary_key=True)
+    attendance = db.Column(db.Float)
+    regular_dictionary = db.Column(db.Float)
+    final_exam_score = db.Column(db.Float)
+    final_grade = db.Column(db.Float)
+    user_id = db.Column(ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
+                        index=True)
+    subject_id = db.Column(ForeignKey('subject.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
+                           index=True)
+    created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
+    modified_date = db.Column(INTEGER(unsigned=True), default=0)
+# End Subject score
