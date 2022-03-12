@@ -5,7 +5,7 @@ from flask import Flask, request, jsonify
 from app.extensions import jwt
 from app.api import v1 as api_v1
 from app.extensions import logger, parser, db
-from .enums import TIME_FORMAT_LOG
+from .enums import TIME_FORMAT_LOG, FAIL
 from .settings import ProdConfig
 from app.api.helper import send_error, send_result
 from flask_cors import CORS
@@ -104,7 +104,6 @@ def register_monitor(app):
             # Filter out rules we can't navigate to in a browser
             # and rules that require parameters
             # if has_no_empty_params(rule):
-
             # url = url_for(rule.endpoint, **(rule.defaults or {}))
             request_method = ""
             if "GET" in rule.methods:
