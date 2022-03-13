@@ -389,7 +389,7 @@ class FrequentQuestion(db.Model):
     answer = db.Column(db.TEXT)
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
-
+    creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
 
 # End Frequently asked questions
 # Start Subject score
@@ -409,8 +409,8 @@ class UserSubject(db.Model):
     __tablename__ = 'user_subject'
 
     id = db.Column(db.String(50), primary_key=True)
-    attendance = db.Column(db.Float)
-    regular_dictionary = db.Column(db.Float)
+    attendance_score = db.Column(db.Float)
+    regular_score = db.Column(db.Float)
     final_exam_score = db.Column(db.Float)
     final_grade = db.Column(db.Float)
     user_id = db.Column(ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
