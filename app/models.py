@@ -338,7 +338,6 @@ class UserDetail(db.Model):
     phone = db.Column(db.String(50))
     file_number = db.Column(db.String(50))
     sex = db.Column(db.String(50))
-
     status_question = db.Column(db.SmallInteger, default=0)  # 0 - Đang xử lý, 1 - Xử lý xong
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
