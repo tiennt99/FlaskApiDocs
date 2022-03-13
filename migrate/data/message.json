@@ -30,5 +30,13 @@
     "duration": 5,
     "status": "error",
     "message": "Sai thông tin pasword"
+  },
+  {
+    "id": "4",
+    "show": 1,
+    "description": "Bạn khồn có quyền truy cập",
+    "duration": 5,
+    "status": "error",
+    "message": "Bạn khồn có quyền truy cập"
   }
 ]
