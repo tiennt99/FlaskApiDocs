@@ -347,6 +347,26 @@ class UserDetail(db.Model):
 # End Quan Tri sinh vien giao vien
 
 # Start chat message
+class GroupChat(db.Model):
+    __tablename__ = 'group_chat'
+
+    id = db.Column(db.String(50), primary_key=True)
+    name = db.Column(db.String(50))
+    avatar = db.Column(db.String(500))
+    created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
+
+
+class GroupChatUser(db.Model):
+    __tablename__ = 'group_chat_user'
+
+    id = db.Column(db.String(50), primary_key=True)
+    user_id = db.Column(ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
+                        index=True)
+    group_chat_id = db.Column(ForeignKey('group_chat.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
+                              index=True)
+    created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
+
+
 class ChatMessage(db.Model):
     __tablename__ = 'chat_message'
 
@@ -354,8 +374,8 @@ class ChatMessage(db.Model):
     message = db.Column(db.TEXT)
     sender_id = db.Column(ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
                           index=True)
-    receiver_id = db.Column(ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
-                            index=True)
+    group_chat_id = db.Column(ForeignKey('group_chat.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
+                              index=True)
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
 
 
