@@ -4,4 +4,5 @@
 [user table](https://www.mockaroo.com/schemas/371785)
 
 ## Diagram
-![Mô tả dữ liệu](/diagram.png)
+
+![Mô hình quan hệ](/diagram.png "Diagram")
