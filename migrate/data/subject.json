@@ -1,0 +1,146 @@
+[
+  {
+    "id": "2eb7c48f-3be3-4a01-a9b4-d7ce5f480065",
+    "code": "12565151",
+    "name": "Khai phá dữ liệu",
+    "number_of_credit": 3
+  },
+  {
+    "id": "d9c01853-dc76-4296-977c-a4f4f3358b68",
+    "code": "13103151",
+    "name": " Tiếng Anh B11",
+    "number_of_credit": 3
+  },
+  {
+    "id": "dc21b6f5-4221-476b-bc46-c6ca2767c3f2",
+    "code": "12264151",
+    "name": "Công nghệ XML và WEB ngữ nghĩa",
+    "number_of_credit": 3
+  },
+  {
+    "id": "5c0537fe-8389-4210-b3a4-81238f90b859",
+    "code": "12375151",
+    "name": "Nhập môn cơ sở dữ liệu lớn",
+    "number_of_credit": 3
+  },
+  {
+    "id": "43ae2fe6-1cf9-43c8-934b-5e28b8b64d25",
+    "code": "12558151",
+    "name": "Công nghệ Client/Server",
+    "number_of_credit": 3
+  },
+  {
+    "id": "506b08f2-19be-4fde-a04f-64e57fd34e99",
+    "code": "12468151",
+    "name": "Thực tập công nghệ thông tin",
+    "number_of_credit": 3
+  },
+  {
+    "id": "07e7fe18-b283-4d2b-9cb6-5a894055af63",
+    "code": "12269151",
+    "name": "Thực tập công nghiệp",
+    "number_of_credit": 6
+  },
+  {
+    "id": "ceff8ef0-a7c0-43e7-b3c6-8f02f134ae8e",
+    "code": "12523151",
+    "name": "Phương pháp nghiên cứu IT",
+    "number_of_credit": 2
+  },
+  {
+    "id": "87bf06d1-79e5-4c74-b248-8cd0b08d81d1",
+    "code": "12556151",
+    "name": "Lập trình nâng cao",
+    "number_of_credit": 3
+  },
+  {
+    "id": "c391af5b-e94c-4d72-89be-51b723ea3302",
+    "code": "12227151",
+    "name": "Trí tuệ nhân tạo",
+    "number_of_credit": 3
+  },
+  {
+    "id": "c490585c-9f7a-4468-8dd0-674d8472e19c",
+    "code": "12361151",
+    "name": "Phân tích và thiết kế hệ thống",
+    "number_of_credit": 3
+  },
+  {
+    "id": "0026f27a-8b11-4c6f-9841-f5da116dd113",
+    "code": "12359151",
+    "name": "Cơ sở dữ liệu nâng cao",
+    "number_of_credit": 3
+  },
+  {
+    "id": "cd6f42b5-2b4a-44b4-a776-1bf822bfac88",
+    "code": "12423151",
+    "name": "Công nghệ lập trình tích hợp",
+    "number_of_credit": 3
+  },
+  {
+    "id": "773bb129-acec-4ad0-b1b4-a77c89fefeaf",
+    "code": "12371151",
+    "name": "Thực tập cơ sở dữ liệu",
+    "number_of_credit": 3
+  },
+  {
+    "id": "1b00330c-7fa4-4c5d-baf7-fbe6256a21d6",
+    "code": "12521151",
+    "name": "Công nghệ phần mềm",
+    "number_of_credit": 3
+  },
+  {
+    "id": "4c6c4702-fa7d-4077-ac04-5d0de4f3dbe3",
+    "code": "12568151",
+    "name": "Thực tập nhóm",
+    "number_of_credit": 3
+  },
+  {
+    "id": "4d2dd750-800d-4a8f-ac0a-06cf421590df",
+    "code": "12323151",
+    "name": "Công nghệ web",
+    "number_of_credit": 2
+  },
+  {
+    "id": "25811215-2f54-452a-ad14-38bdcdb99ff5",
+    "code": "12324151",
+    "name": "Tương tác người máy",
+    "number_of_credit": 2
+  },
+  {
+    "id": "e06388d3-3351-457b-bf54-696d06d0f4bf",
+    "code": "12422151",
+    "name": "Xây dựng, quản trị và bảo trì hệ thống",
+    "number_of_credit": 2
+  },
+  {
+    "id": "f69e6c14-39a7-4367-bc9d-4e354c957f63",
+    "code": "12226151",
+    "name": "Lý thuyết hệ điều hành",
+    "number_of_credit": 3
+  },
+  {
+    "id": "e7ba4295-b408-44d5-9bcd-f4929eb1f9f9",
+    "code": "12526151",
+    "name": "Ngôn ngữ lập trình 2",
+    "number_of_credit": 2
+  },
+  {
+    "id": "3890a3a9-3d94-4a43-b956-c389743b756b",
+    "code": "12321151",
+    "name": "Cơ sở dữ liệu",
+    "number_of_credit": 4
+  },
+  {
+    "id": "3f20e985-bb37-4a86-b534-a0462eaa17bc",
+    "code": "12322151",
+    "name": "Đảm bảo và an toàn thông tin",
+    "number_of_credit": 3
+  },
+  {
+    "id": "f4f8f6e3-96c7-4517-9522-27a7ca1ec17f",
+    "code": "12325151",
+    "name": "Phân tích và thiết kế giải thuật",
+    "number_of_credit": 3
+  }
+]

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "f9a444f8-af4c-44e7-a369-011f2bc7ef8e",
+    "name": "Khảo thí điểm",
+    "description": "Khảo thí điểm các môn học"
+  },
+  {
+    "id": "cd828c11-aeb2-421c-b71c-2f43c5668bd4",
+    "name": "Học phí",
+    "description": "Kiểm tra thông tin đóng học phí"
+  },
+  {
+    "id": "bd83e0c9-42a1-463b-9734-e5969926068f",
+    "name": "Bảng điểm",
+    "description": "Xin bảng điểm từ hệ thống"
+  },
+  {
+    "id": "a5f0549d-9fab-4104-9d29-ab37db2bd686",
+    "name": "Thông tin cá nhân",
+    "description": "Thay đổi thông tin cá nhân"
+  },
+  {
+    "id": "c2676954-9b0f-4f27-bc9d-e5b9f6ea41c3",
+    "name": "Lên lịch nhập điểm",
+    "description": "Giáo viên lên lịch nhập điểm"
+  },
+  {
+    "id": "0b6d42b1-0da5-40c2-af64-368deb36be2c",
+    "name": "Đăng ký tín chỉ ",
+    "description": "Sinh viên hỏi về thông tin đăng kí môn học"
+  }
+]

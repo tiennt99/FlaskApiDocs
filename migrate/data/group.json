@@ -4,8 +4,6 @@
     "name": "Quản trị viên",
     "description": "Người thuộc phòng đào tạo",
     "role_ids": [
-      "3c0e7ac2-648a-11ec-90d6-0242ac120003",
-      "a55332a2-9998-4b92-9dc1-be000f4e1e45"
     ]
   },
   {
@@ -13,8 +11,6 @@
     "name": "Giáo viên",
     "description": "Nhập điểm cho sinh viên",
     "role_ids": [
-      "3c0e7ac2-648a-11ec-90d6-0242ac120003",
-      "a55332a2-9998-4b92-9dc1-be000f4e1e45"
     ]
   },
   {
@@ -22,8 +18,13 @@
     "name": "Sinh viên",
     "description": "Người là sinh viên trong trường",
     "role_ids": [
-      "3c0e7ac2-648a-11ec-90d6-0242ac120003",
-      "a55332a2-9998-4b92-9dc1-be000f4e1e45"
+    ]
+  },
+  {
+    "id": "c7f2fa9b-805b-413d-9d68-7eb555cb0481",
+    "name": "Quản lý tiếp đón",
+    "description": "Người tiếp đón sinh viên",
+    "role_ids": [
     ]
   }
 ]

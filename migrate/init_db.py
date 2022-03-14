@@ -6,7 +6,8 @@ from flask import Flask
 from werkzeug.security import generate_password_hash
 
 from app.extensions import db
-from app.models import User, Message, Group, Role, GroupRole, Permission, RolePermission
+from app.models import User, Message, Group, Role, GroupRole, Permission, RolePermission, TopicQuestion, \
+    FrequentQuestion, Subject
 from app.settings import ProdConfig, DevConfig
 
 
@@ -31,8 +32,6 @@ class Worker:
         db.create_all()  # create a new schema
         with open('data/group.json', encoding='utf-8') as file:
             self.default_group = json.load(file)
-        with open('data/group_role.json', encoding='utf-8') as file:
-            self.default_group_role = json.load(file)
         with open('data/role.json', encoding='utf-8') as file:
             self.default_role = json.load(file)
         with open('data/permission.json', encoding='utf-8') as file:
@@ -43,6 +42,13 @@ class Worker:
             self.default_user_example = json.load(file)
         with open('data/message.json', encoding='utf-8') as file:
             self.default_message = json.load(file)
+
+        with open('data/topic_question.json', encoding='utf-8') as file:
+            self.topic_question = json.load(file)
+        with open('data/frequent_question.json', encoding='utf-8') as file:
+            self.frequent_question = json.load(file)
+        with open('data/subject.json', encoding='utf-8') as file:
+            self.subject = json.load(file)
 
     def create_default_group(self):
         groups = self.default_group
@@ -86,15 +92,6 @@ class Worker:
             db.session.add(instance)
         db.session.commit()
 
-    def create_default_group_role(self):
-        group_roles = self.default_group_role
-        for item in group_roles:
-            instance = GroupRole()
-            for key in item.keys():
-                instance.__setattr__(key, item[key])
-            db.session.add(instance)
-        db.session.commit()
-
     def create_default_user(self):
         users = self.default_user
         for item in users:
@@ -125,6 +122,33 @@ class Worker:
             db.session.add(instance)
         db.session.commit()
 
+    def create_default_topic_question(self):
+        topic_questions = self.topic_question
+        for item in topic_questions:
+            instance = TopicQuestion()
+            for key in item.keys():
+                instance.__setattr__(key, item[key])
+            db.session.add(instance)
+        db.session.commit()
+
+    def create_default_frequent_question(self):
+        frequent_questions = self.frequent_question
+        for item in frequent_questions:
+            instance = FrequentQuestion()
+            for key in item.keys():
+                instance.__setattr__(key, item[key])
+            db.session.add(instance)
+        db.session.commit()
+
+    def create_default_subject(self):
+        subjects = self.subject
+        for item in subjects:
+            instance = Subject()
+            for key in item.keys():
+                instance.__setattr__(key, item[key])
+            db.session.add(instance)
+        db.session.commit()
+
 
 if __name__ == '__main__':
     worker = Worker()
@@ -139,5 +163,11 @@ if __name__ == '__main__':
     # User default
     worker.create_default_user()
     worker.create_default_user_example()
+    # Topic question default
+    worker.create_default_topic_question()
+    # Frequent question default
+    worker.create_default_frequent_question()
+    # Subject default
+    worker.create_default_subject()
 
     print("=" * 50, "Database Migrate Completed", "=" * 50)
