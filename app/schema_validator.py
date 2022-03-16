@@ -4,7 +4,7 @@ from builtins import float
 from marshmallow import Schema, fields, validate, pre_load, validates, ValidationError, validates_schema
 
 from app.enums import LIST_GROUP
-from app.models import User, Role, Group
+from app.models import User, Role, Group, TopicQuestion
 from app.utils import REGEX_EMAIL
 
 """
@@ -216,6 +216,26 @@ class CreateGroupValidation(Schema):
         return data
 
 
+class CreateTopicValidation(Schema):
+    """
+    Validator
+    """
+    name = fields.String(required=True)
+    description = fields.String(required=False)
+
+    @validates("name")
+    def validate_name(self, value):
+        if TopicQuestion.check_group_exists(value):
+            raise ValidationError("Topic đã tồn tại")
+
+    # Clean up data
+    @pre_load
+    def process_input(self, data, **kwargs):
+        data["name"] = data["name"].lower().strip()
+        data["description"] = data["description"].lower().strip() if data["description"] else None
+        return data
+
+
 class UpdateGroupValidation(Schema):
     """
     Validator
@@ -223,7 +243,6 @@ class UpdateGroupValidation(Schema):
     id = fields.String(required=False)
     name = fields.String(required=True)
     description = fields.String(required=False)
-    creator_id = fields.String(required=False)
     role_ids = fields.List(fields.String(required=False))
 
     # Clean up data
@@ -239,6 +258,27 @@ class UpdateGroupValidation(Schema):
             raise ValidationError('Group đã tồn tại')
 
 
+class UpdateTopicValidation(Schema):
+    """
+    Validator
+    """
+    id = fields.String(required=False)
+    name = fields.String(required=True)
+    description = fields.String(required=False)
+
+    # Clean up data
+    @pre_load
+    def process_input(self, data, **kwargs):
+        data["name"] = data["name"].strip()
+        data["description"] = data["description"].strip() if data["description"] else None
+        return data
+
+    @validates_schema
+    def validate_name(self, data, **kwargs):
+        if TopicQuestion.check_group_exists(data["name"], data["id"]):
+            raise ValidationError('Topic đã tồn tại')
+
+
 class GroupSchema(Schema):
     """
     Validator
@@ -249,6 +289,32 @@ class GroupSchema(Schema):
     creator_id = fields.String(required=False)
     creator = fields.Nested(UserSchema(only=['id', 'email']))
     roles = fields.List(fields.Nested(RoleSchema(only=['id', 'name'])))
+
+
+class TopicSchema(Schema):
+    """
+    Validator
+    """
+    id = fields.String()
+    name = fields.String()
+    description = fields.String()
+    creator_id = fields.String(required=False)
+    creator = fields.Nested(UserSchema(only=['id', 'email']))
+
+
+class GetTopicValidation(Schema):
+    """
+    """
+    page = fields.Integer(required=False)
+    page_size = fields.Integer(required=False)
+    from_date = fields.Integer(required=False)
+    to_date = fields.Integer(required=False)
+    search_name = fields.String(required=False)
+
+    sort_by = fields.String(required=False,
+                            validate=validate.OneOf(
+                                ["name", "created_date", "modified_date"]))
+    order_by = fields.String(required=False, validate=validate.OneOf(["asc", "desc"]))
 
 
 class GetGroupValidation(Schema):

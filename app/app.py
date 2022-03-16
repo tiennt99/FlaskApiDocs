@@ -127,3 +127,4 @@ def register_blueprints(app):
     app.register_blueprint(api_v1.user.api, url_prefix='/api/v1/admin/users')
     app.register_blueprint(api_v1.role.api, url_prefix='/api/v1/admin/roles')
     app.register_blueprint(api_v1.group.api, url_prefix='/api/v1/admin/groups')
+    app.register_blueprint(api_v1.topic_question.api, url_prefix='/api/v1/admin/topics')

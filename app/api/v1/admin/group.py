@@ -10,7 +10,7 @@ from app.api.helper import send_error, send_result
 from app.enums import FAIL, SUCCESS
 from app.extensions import db
 from app.gateway import authorization_require
-from app.schema_validator import GetGroupValidation, CreateGroupValidation, GroupSchema, UpdateGroupValidation
+from app.schema_validator import CreateGroupValidation, GroupSchema, UpdateGroupValidation, GetGroupValidation
 from app.models import User, Group, GroupRole, Role
 
 from app.utils import escape_wildcard, get_timestamp_now

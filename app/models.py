@@ -286,6 +286,16 @@ class TopicQuestion(db.Model):
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
 
+    @classmethod
+    def get_topic_by_id(cls, _id):
+        return cls.query.get(_id)
+
+    @classmethod
+    def check_group_exists(cls, name: str, topic_id: str = None):
+        if topic_id:
+            return cls.query.filter(and_(cls.id != topic_id, cls.name == name)).first()
+        return cls.query.filter(cls.name == name).first()
+
 
 class Question(db.Model):
     __tablename__ = 'question'
@@ -390,6 +400,7 @@ class FrequentQuestion(db.Model):
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
     creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
+
 
 # End Frequently asked questions
 # Start Subject score
