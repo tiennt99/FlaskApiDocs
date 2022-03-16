@@ -4,7 +4,7 @@ from builtins import float
 from marshmallow import Schema, fields, validate, pre_load, validates, ValidationError, validates_schema
 
 from app.enums import LIST_GROUP
-from app.models import User, Role, Group, TopicQuestion
+from app.models import User, Role, Group, TopicQuestion, Subject
 from app.utils import REGEX_EMAIL
 
 """
@@ -225,7 +225,7 @@ class CreateTopicValidation(Schema):
 
     @validates("name")
     def validate_name(self, value):
-        if TopicQuestion.check_group_exists(value):
+        if TopicQuestion.check_topic_exists(value):
             raise ValidationError("Topic đã tồn tại")
 
     # Clean up data
@@ -233,6 +233,32 @@ class CreateTopicValidation(Schema):
     def process_input(self, data, **kwargs):
         data["name"] = data["name"].lower().strip()
         data["description"] = data["description"].lower().strip() if data["description"] else None
+        return data
+
+
+class CreateSubjectValidation(Schema):
+    """
+    Validator
+    """
+    name = fields.String(required=True)
+    code = fields.String(required=False)
+    number_of_credit = fields.Integer(required=False)
+
+    @validates("name")
+    def validate_name(self, value):
+        if Subject.check_subject_name_exists(value):
+            raise ValidationError("Name đã tồn tại")
+
+    @validates("code")
+    def validate_code(self, value):
+        if Subject.check_subject_code_exists(value):
+            raise ValidationError("Code đã tồn tại")
+
+    # Clean up data
+    @pre_load
+    def process_input(self, data, **kwargs):
+        data["name"] = data["name"].lower().strip()
+        data["code"] = data["code"].lower().strip() if data["code"] else None
         return data
 
 
@@ -275,8 +301,32 @@ class UpdateTopicValidation(Schema):
 
     @validates_schema
     def validate_name(self, data, **kwargs):
-        if TopicQuestion.check_group_exists(data["name"], data["id"]):
+        if TopicQuestion.check_topic_exists(data["name"], data["id"]):
             raise ValidationError('Topic đã tồn tại')
+
+
+class UpdateSubjectValidation(Schema):
+    """
+    Validator
+    """
+    id = fields.String(required=False)
+    name = fields.String(required=True)
+    code = fields.String(required=False)
+    number_of_credit = fields.Integer(required=False)
+
+    # Clean up data
+    @pre_load
+    def process_input(self, data, **kwargs):
+        data["name"] = data["name"].strip()
+        data["code"] = data["code"].strip() if data["code"] else None
+        return data
+
+    @validates_schema
+    def validate_name(self, data, **kwargs):
+        if Subject.check_subject_name_exists(data["name"], data["id"]):
+            raise ValidationError('Name đã tồn tại')
+        if Subject.check_subject_code_exists(data["code"], data["id"]):
+            raise ValidationError('Code đã tồn tại')
 
 
 class GroupSchema(Schema):
@@ -291,6 +341,18 @@ class GroupSchema(Schema):
     roles = fields.List(fields.Nested(RoleSchema(only=['id', 'name'])))
 
 
+class SubjectSchema(Schema):
+    """
+    Validator
+    """
+    id = fields.String()
+    name = fields.String()
+    code = fields.String()
+    number_of_credit = fields.Integer()
+    creator_id = fields.String(required=False)
+    creator = fields.Nested(UserSchema(only=['id', 'email']))
+
+
 class TopicSchema(Schema):
     """
     Validator
@@ -303,6 +365,21 @@ class TopicSchema(Schema):
 
 
 class GetTopicValidation(Schema):
+    """
+    """
+    page = fields.Integer(required=False)
+    page_size = fields.Integer(required=False)
+    from_date = fields.Integer(required=False)
+    to_date = fields.Integer(required=False)
+    search_name = fields.String(required=False)
+
+    sort_by = fields.String(required=False,
+                            validate=validate.OneOf(
+                                ["name", "created_date", "modified_date"]))
+    order_by = fields.String(required=False, validate=validate.OneOf(["asc", "desc"]))
+
+
+class GetSubjectValidation(Schema):
     """
     """
     page = fields.Integer(required=False)

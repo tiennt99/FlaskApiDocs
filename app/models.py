@@ -291,7 +291,7 @@ class TopicQuestion(db.Model):
         return cls.query.get(_id)
 
     @classmethod
-    def check_group_exists(cls, name: str, topic_id: str = None):
+    def check_topic_exists(cls, name: str, topic_id: str = None):
         if topic_id:
             return cls.query.filter(and_(cls.id != topic_id, cls.name == name)).first()
         return cls.query.filter(cls.name == name).first()
@@ -414,6 +414,22 @@ class Subject(db.Model):
 
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
+
+    @classmethod
+    def get_subject_by_id(cls, _id):
+        return cls.query.get(_id)
+
+    @classmethod
+    def check_subject_name_exists(cls, name: str, subject_id: str = None):
+        if subject_id:
+            return cls.query.filter(and_(cls.id != subject_id, cls.name == name)).first()
+        return cls.query.filter(cls.name == name).first()
+
+    @classmethod
+    def check_subject_code_exists(cls, code: str, subject_id: str = None):
+        if subject_id:
+            return cls.query.filter(and_(cls.id != subject_id, cls.code == code)).first()
+        return cls.query.filter(cls.code == code).first()
 
 
 class UserSubject(db.Model):
