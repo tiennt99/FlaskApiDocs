@@ -401,6 +401,16 @@ class FrequentQuestion(db.Model):
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
     creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
 
+    @classmethod
+    def check_frequent_question_exists(cls, question: str, frequent_question_id: str = None):
+        if frequent_question_id:
+            return cls.query.filter(and_(cls.id != frequent_question_id, cls.question == question)).first()
+        return cls.query.filter(cls.question == question).first()
+
+    @classmethod
+    def get_frequent_question_by_id(cls, _id):
+        return cls.query.get(_id)
+
 
 # End Frequently asked questions
 # Start Subject score

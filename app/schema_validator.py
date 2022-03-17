@@ -4,7 +4,7 @@ from builtins import float
 from marshmallow import Schema, fields, validate, pre_load, validates, ValidationError, validates_schema
 
 from app.enums import LIST_GROUP
-from app.models import User, Role, Group, TopicQuestion, Subject
+from app.models import User, Role, Group, TopicQuestion, Subject, FrequentQuestion
 from app.utils import REGEX_EMAIL
 
 """
@@ -236,6 +236,26 @@ class CreateTopicValidation(Schema):
         return data
 
 
+class CreateFrequentQuestionValidation(Schema):
+    """
+    Validator
+    """
+    question = fields.String(required=True)
+    answer = fields.String(required=True)
+
+    @validates("question")
+    def validate_question(self, question):
+        if FrequentQuestion.check_frequent_question_exists(question):
+            raise ValidationError("Frequent question đã tồn tại")
+
+    # Clean up data
+    @pre_load
+    def process_input(self, data, **kwargs):
+        data["question"] = data["question"].lower().strip()
+        data["answer"] = data["answer"].lower().strip()
+        return data
+
+
 class CreateSubjectValidation(Schema):
     """
     Validator
@@ -305,6 +325,27 @@ class UpdateTopicValidation(Schema):
             raise ValidationError('Topic đã tồn tại')
 
 
+class UpdateFrequentQuestionValidation(Schema):
+    """
+    Validator
+    """
+    id = fields.String(required=False)
+    question = fields.String(required=True)
+    answer = fields.String(required=True)
+
+    # Clean up data
+    @pre_load
+    def process_input(self, data, **kwargs):
+        data["question"] = data["question"].strip()
+        data["answer"] = data["answer"].strip() if data["answer"] else None
+        return data
+
+    @validates_schema
+    def validate_question(self, data, **kwargs):
+        if FrequentQuestion.check_frequent_question_exists(data["question"], data["id"]):
+            raise ValidationError('Frequent question đã tồn tại')
+
+
 class UpdateSubjectValidation(Schema):
     """
     Validator
@@ -341,6 +382,17 @@ class GroupSchema(Schema):
     roles = fields.List(fields.Nested(RoleSchema(only=['id', 'name'])))
 
 
+class FrequentQuestionSchema(Schema):
+    """
+    Validator
+    """
+    id = fields.String()
+    question = fields.String()
+    answer = fields.String()
+    creator_id = fields.String(required=False)
+    creator = fields.Nested(UserSchema(only=['id', 'email']))
+
+
 class SubjectSchema(Schema):
     """
     Validator
@@ -365,6 +417,21 @@ class TopicSchema(Schema):
 
 
 class GetTopicValidation(Schema):
+    """
+    """
+    page = fields.Integer(required=False)
+    page_size = fields.Integer(required=False)
+    from_date = fields.Integer(required=False)
+    to_date = fields.Integer(required=False)
+    search_name = fields.String(required=False)
+
+    sort_by = fields.String(required=False,
+                            validate=validate.OneOf(
+                                ["name", "created_date", "modified_date"]))
+    order_by = fields.String(required=False, validate=validate.OneOf(["asc", "desc"]))
+
+
+class GetFrequentQuestionValidation(Schema):
     """
     """
     page = fields.Integer(required=False)
