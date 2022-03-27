@@ -174,6 +174,7 @@ class RoleSchema(Schema):
     """
     id = fields.String()
     name = fields.String()
+    module = fields.String()
     description = fields.String()
     creator_id = fields.String(required=False)
     permissions = fields.List(fields.Nested(PermissionSchema(only=["id", "name"])))
