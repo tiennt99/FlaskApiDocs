@@ -1,38 +1,194 @@
 [
   {
-    "id": "a55332a2-9998-4b92-9dc1-be000f4e1e45",
-    "name": "Người dùng mới ",
-    "description": "Người dùng mới",
+    "id": "c9a68356-6495-11ec-90d6-0242ac120033",
+    "name": "Tất cả các quyền truy cập",
+    "module": "all",
+    "description": "Tất cả api của dự án",
+    "permission_ids": [
+      "11dc2502-86dc-4ef4-8411-a509e068194d",
+      "15d481ee-468d-4198-a6df-983711ad5c97",
+      "169fb3a1-326c-47aa-9c44-6f54c6203404",
+      "1d6e71b6-a2be-4298-bb16-bff54d0060ae",
+      "22ec23de-65f1-4f0f-8c7e-6b9122939444",
+      "2a15e718-30ed-488b-bad2-817309fe689d",
+      "31c284a8-552b-4f4f-a8c2-22ff998de895",
+      "35aa4762-9fa8-4fdc-ad93-f061e21f27d0",
+      "5834be55-6013-4bc7-bfe7-3686d9410898",
+      "5d777fbb-ca13-4f12-94f8-f25e6114d5d7",
+      "62cacc9a-7682-45ea-932b-c6380626499c",
+      "62dc4058-27cb-4b55-9a34-8614243f48be",
+      "68b2035e-d506-4a58-b076-b2263fea6e3f",
+      "694ec702-8691-4263-8f97-31d2347ebb2c",
+      "6c3b18ca-74cd-436e-ab3f-f3b52e1d5d15",
+      "7302e997-fc4b-45b8-ba0c-c1a00276de06",
+      "7350da7f-8dc8-4e21-962e-11468ff9bbde",
+      "73f581e7-a6d7-4b4c-9996-d4b6c9011e5c",
+      "7812a875-caf2-4a1f-8ec2-fc1377a1be4b",
+      "7d9dca98-1c3e-4195-adcb-8a7f58c9f27a",
+      "868a9195-d298-4b6f-a3a6-43f041c89e06",
+      "8b197748-2de3-4306-9551-1c8f288b900e",
+      "8c256c9d-2d8b-4d8f-83c6-4268f33f6dd3",
+      "8cde4b01-2a40-4239-8976-a3a2808e98c3",
+      "8ec0b394-4983-473d-98b7-b65e25d8bb42",
+      "976e2e3e-71ce-41d4-be68-53910a7c6a00",
+      "9dd7f5ef-d546-4412-afdd-cc4d1f3cf0ba",
+      "a0dde44a-4c2d-48c5-b57c-ea2dc8deeff4",
+      "aea5824e-b433-4a92-a519-184b113e22f2",
+      "af54784e-caa4-4958-af91-93d5bd95590a",
+      "b505a6eb-7f4a-46ca-aaad-2248db91d42e",
+      "b652f6bc-2ee4-4cd3-a633-f36ed95de211",
+      "badd7385-6f38-4d0a-9bae-7af4de0681ab",
+      "bd3f0ad9-a4fe-4814-bc10-fca79a30776b",
+      "cc0b4981-9691-4a54-975b-2671e636acaa",
+      "d8442dd7-467f-4b50-a96f-a0258873e157",
+      "ef08328a-082a-481f-881d-f5f3917c301a",
+      "f5283ddd-b13e-4dd4-8b89-7f93c5b92f48",
+      "fab3e569-f3f7-41fd-910a-dfb039aea99d",
+      "fb0dbc8b-ef7a-495c-8945-dcc7797e6ab7",
+      "fbbabf19-67ce-4a99-96d8-88d80b295961"
+    ]
+  },
+  {
+    "id": "c9a68356-6495-11ec-90d6-0242ac130033",
+    "name": "Quyền cơ bản",
+    "description": "Các quyền cơ bản của hệ thống",
     "permission_ids": [
       "22ec23de-65f1-4f0f-8c7e-6b9122939444",
-      "31c284a8-552b-4f4f-a8c2-22ff998de895"
+      "bd3f0ad9-a4fe-4814-bc10-fca79a30776b",
+      "5834be55-6013-4bc7-bfe7-3686d9410898"
+    ]
+  },
+  {
+    "id": "a55332a2-9998-4b92-9dc1-be000f4e1e45",
+    "name": "Thống kê",
+    "module": "dashboard",
+    "description": "Tất cả api thống kê",
+    "permission_ids": [
+      "fab3e569-f3f7-41fd-910a-dfb039aea99d"
+    ]
+  },
+  {
+    "id": "3c0e7ac2-648a-11ec-90d6-0242ac290003",
+    "name": "Quản lý sinh viên",
+    "module": "student",
+    "description": "Tất cả api quản lý sinh viên",
+    "permission_ids": [
+      "31c284a8-552b-4f4f-a8c2-22ff998de895",
+      "8c256c9d-2d8b-4d8f-83c6-4268f33f6dd3",
+      "868a9195-d298-4b6f-a3a6-43f041c89e06",
+      "8cde4b01-2a40-4239-8976-a3a2808e98c3",
+      "976e2e3e-71ce-41d4-be68-53910a7c6a00",
+      "68b2035e-d506-4a58-b076-b2263fea6e3f",
+      "fbbabf19-67ce-4a99-96d8-88d80b295961",
+      "1d6e71b6-a2be-4298-bb16-bff54d0060ae"
     ]
   },
   {
     "id": "3c0e7ac2-648a-11ec-90d6-0242ac120003",
-    "name": "Xem danh sách người dùng",
-    "description": "Xem danh sách người dùng",
+    "name": "Quản lý thông tin sinh viên",
+    "module": "studentInfo",
+    "description": "Tất cả api quản lý thông tin sinh viên",
     "permission_ids": [
-      "22ec23de-65f1-4f0f-8c7e-6b9122939444",
-      "31c284a8-552b-4f4f-a8c2-22ff998de895"
+      "31c284a8-552b-4f4f-a8c2-22ff998de895",
+      "8c256c9d-2d8b-4d8f-83c6-4268f33f6dd3",
+      "868a9195-d298-4b6f-a3a6-43f041c89e06",
+      "8cde4b01-2a40-4239-8976-a3a2808e98c3"
+    ]
+  },
+  {
+    "id": "3c0e7ac2-648a-11ec-90d6-0242ac120103",
+    "name": "Quản lý điểm  sinh viên",
+    "module": "studentScore",
+    "description": "Tất cả api quản lý điểm sinh viên",
+    "permission_ids": [
+      "976e2e3e-71ce-41d4-be68-53910a7c6a00",
+      "68b2035e-d506-4a58-b076-b2263fea6e3f",
+      "fbbabf19-67ce-4a99-96d8-88d80b295961",
+      "1d6e71b6-a2be-4298-bb16-bff54d0060ae"
     ]
   },
   {
     "id": "aedffa3e-6495-11ec-90d6-0242ac120003",
-    "name": "Quản trị người dùng",
-    "description": "Thêm sửa xóa người dùng",
+    "name": "Quản lý chủ đề câu hỏi",
+    "module": "topicRequest",
+    "description": "Tất cả api quản lý chủ đề câu hỏi",
     "permission_ids": [
-      "22ec23de-65f1-4f0f-8c7e-6b9122939444",
-      "31c284a8-552b-4f4f-a8c2-22ff998de895"
+      "73f581e7-a6d7-4b4c-9996-d4b6c9011e5c",
+      "6c3b18ca-74cd-436e-ab3f-f3b52e1d5d15",
+      "d8442dd7-467f-4b50-a96f-a0258873e157",
+      "af54784e-caa4-4958-af91-93d5bd95590a"
+    ]
+  },
+  {
+    "id": "c9a68356-6495-11ec-90d6-0242ac121003",
+    "name": "Quản lý tiếp đón",
+    "module": "request",
+    "description": "Tất cả api quản lý tiếp đón",
+    "permission_ids": [
+      "cc0b4981-9691-4a54-975b-2671e636acaa",
+      "7812a875-caf2-4a1f-8ec2-fc1377a1be4b",
+      "7302e997-fc4b-45b8-ba0c-c1a00276de06",
+      "8ec0b394-4983-473d-98b7-b65e25d8bb42",
+      "694ec702-8691-4263-8f97-31d2347ebb2c",
+      "62cacc9a-7682-45ea-932b-c6380626499c",
+      "fb0dbc8b-ef7a-495c-8945-dcc7797e6ab7",
+      "f5283ddd-b13e-4dd4-8b89-7f93c5b92f48"
     ]
   },
   {
     "id": "c9a68356-6495-11ec-90d6-0242ac120003",
-    "name": "Nhập điểm",
-    "description": "nhập điểm cho sinh viên",
+    "name": "Quản lý tiếp đón giáo viên",
+    "module": "requestTeacher",
+    "description": "Tất cả api quản lý tiếp đón giáo viên",
     "permission_ids": [
-      "22ec23de-65f1-4f0f-8c7e-6b9122939444",
-      "31c284a8-552b-4f4f-a8c2-22ff998de895"
+      "cc0b4981-9691-4a54-975b-2671e636acaa",
+      "7812a875-caf2-4a1f-8ec2-fc1377a1be4b",
+      "7302e997-fc4b-45b8-ba0c-c1a00276de06",
+      "8ec0b394-4983-473d-98b7-b65e25d8bb42"
+    ]
+  },
+  {
+    "id": "c9a68356-6495-11ec-90d6-0242ac121103",
+    "name": "Quản lý tiếp đón sinh viên",
+    "module": "requestStudent",
+    "description": "Tất cả api quản lý tiếp đón sinh viên",
+    "permission_ids": [
+      "694ec702-8691-4263-8f97-31d2347ebb2c",
+      "62cacc9a-7682-45ea-932b-c6380626499c",
+      "fb0dbc8b-ef7a-495c-8945-dcc7797e6ab7",
+      "f5283ddd-b13e-4dd4-8b89-7f93c5b92f48"
+    ]
+  },
+  {
+    "id": "c9a68356-6495-11ec-90d6-0242ac120013",
+    "name": "Quản lý các câu hỏi thường gặp",
+    "module": "frequentQuestion",
+    "description": "Tất cả api quản lý câu hỏi thường gặp",
+    "permission_ids": [
+      "b652f6bc-2ee4-4cd3-a633-f36ed95de211",
+      "2a15e718-30ed-488b-bad2-817309fe689d",
+      "9dd7f5ef-d546-4412-afdd-cc4d1f3cf0ba",
+      "7d9dca98-1c3e-4195-adcb-8a7f58c9f27a"
+    ]
+  },
+  {
+    "id": "c9a68356-6495-11ec-90d6-0242ac120023",
+    "name": "Quản lý quyền",
+    "module": "roles",
+    "description": "Tất cả api quản lý quyền",
+    "permission_ids": [
+      "11dc2502-86dc-4ef4-8411-a509e068194d",
+      "169fb3a1-326c-47aa-9c44-6f54c6203404",
+      "b505a6eb-7f4a-46ca-aaad-2248db91d42e",
+      "badd7385-6f38-4d0a-9bae-7af4de0681ab",
+      "15d481ee-468d-4198-a6df-983711ad5c97",
+      "62dc4058-27cb-4b55-9a34-8614243f48be",
+      "a0dde44a-4c2d-48c5-b57c-ea2dc8deeff4",
+      "5d777fbb-ca13-4f12-94f8-f25e6114d5d7",
+      "aea5824e-b433-4a92-a519-184b113e22f2",
+      "ef08328a-082a-481f-881d-f5f3917c301a",
+      "8b197748-2de3-4306-9551-1c8f288b900e",
+      "35aa4762-9fa8-4fdc-ad93-f061e21f27d0"
     ]
   }
 ]

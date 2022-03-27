@@ -382,6 +382,13 @@ class GroupSchema(Schema):
     roles = fields.List(fields.Nested(RoleSchema(only=['id', 'name'])))
 
 
+class PermissionSchema(Schema):
+    """
+    Validator
+    """
+    id = fields.String()
+
+
 class FrequentQuestionSchema(Schema):
     """
     Validator

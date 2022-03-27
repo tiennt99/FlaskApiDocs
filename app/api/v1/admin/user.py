@@ -12,8 +12,8 @@ from app.api.helper import send_error, send_result
 from app.enums import FAIL, SUCCESS
 from app.extensions import db
 from app.gateway import authorization_require
-from app.schema_validator import CreateUserValidation, UpdateUserValidation, UserSchema, GetUserValidation
-from app.models import User
+from app.schema_validator import CreateUserValidation, UpdateUserValidation, UserSchema, GetUserValidation, RoleSchema
+from app.models import User, Role
 
 from app.utils import escape_wildcard, get_timestamp_now
 
@@ -169,3 +169,19 @@ def delete_user(user_id: str):
     db.session.delete(user)
     db.session.commit()
     return send_result(message_id=SUCCESS)
+
+
+@api.route('/roles', methods=['GET'])
+@authorization_require()
+def get_role_permission():
+    try:
+        current_user_id = get_jwt_identity()
+    except Exception as ex:
+        return send_error(message="Request Body incorrect json format: " + str(ex), code=442)
+    user = User.get_user_by_id(current_user_id)
+    user_roles = user.group.roles
+    roles = RoleSchema(many=True).dump(user_roles)
+    response_data = dict(
+        roles=roles
+    )
+    return send_result(data=response_data)

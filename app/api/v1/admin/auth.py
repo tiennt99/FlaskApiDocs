@@ -1,4 +1,7 @@
+import json
 from datetime import timedelta
+
+import requests as requests
 from flask import Blueprint, request
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -12,7 +15,7 @@ from app.models import User, Token
 from app.schema_validator import LoginValidation, ChangePasswordValidator, UserSchema
 from sqlalchemy import or_
 from app.enums import SUCCESS, FAIL, LOGIN_WRONG_USERNAME, LOGIN_WRONG_PASSWORD
-
+import requests
 ACCESS_EXPIRES = timedelta(days=30)
 REFRESH_EXPIRES = timedelta(days=90)
 api = Blueprint('auth', __name__)
@@ -51,36 +54,10 @@ def login():
     user_id = user.id
     first_name = user.first_name
     last_name = user.last_name
+    site_map = requests.get("http://localhost:5000/api/v1/helper/site-map")
+    data = json.loads(site_map.content.decode("UTF-8")).get("data")
     # list_permission = get_permissions(user)
-    list_permission = ["delete@/api/v1/admin/auth/logout",
-                       "post@/api/v1/admin/auth/login",
-                       "post@/api/v1/admin/auth/token/refresh",
-                       "post@/api/v1/admin/users",
-                       "get@/api/v1/admin/users",
-                       "put@/api/v1/admin/users/<user_id>",
-                       "delete@/api/v1/admin/users/<user_id>",
-                       "post@/api/v1/admin/topics",
-                       "get@/api/v1/admin/topics",
-                       "put@/api/v1/admin/topics/<topic_id>",
-                       "delete@/api/v1/admin/topics/<topic_id>",
-                       "post@/api/v1/admin/frequent_questions",
-                       "get@/api/v1/admin/frequent_questions",
-                       "put@/api/v1/admin/frequent_questions/<frequent_question_id>",
-                       "delete@/api/v1/admin/frequent_questions/<frequent_question_id>",
-                       "post@/api/v1/admin/subjects",
-                       "get@/api/v1/admin/subjects",
-                       "put@/api/v1/admin/subjects/<subject_id>",
-                       "delete@/api/v1/admin/subjects/<subject_id>",
-                       "post@/api/v1/admin/roles",
-                       "get@/api/v1/admin/roles",
-                       "put@/api/v1/admin/roles/<role_id>",
-                       "delete@/api/v1/admin/roles/<role_id>",
-                       "post@/api/v1/admin/groups",
-                       "get@/api/v1/admin/groups",
-                       "put@/api/v1/admin/groups/<group_id>",
-                       "delete@/api/v1/admin/groups/<group_id>",
-                       "get@/api/v1/helper/site-map",
-                       "get@/static/<path:filename>"]
+    list_permission = json.loads(site_map.content.decode("UTF-8")).get("data")
     access_token = create_access_token(identity=str(user.id), expires_delta=ACCESS_EXPIRES,
                                        user_claims={"list_permission": list_permission})
     refresh_token = create_refresh_token(identity=str(user.id), expires_delta=REFRESH_EXPIRES,
