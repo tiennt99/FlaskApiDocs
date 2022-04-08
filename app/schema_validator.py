@@ -1,6 +1,3 @@
-import uuid
-from builtins import float
-
 from marshmallow import Schema, fields, validate, pre_load, validates, ValidationError, validates_schema
 
 from app.enums import LIST_GROUP
@@ -383,13 +380,6 @@ class GroupSchema(Schema):
     roles = fields.List(fields.Nested(RoleSchema(only=['id', 'name'])))
 
 
-class PermissionSchema(Schema):
-    """
-    Validator
-    """
-    id = fields.String()
-
-
 class FrequentQuestionSchema(Schema):
     """
     Validator
@@ -492,3 +482,18 @@ class LoginValidation(Schema):
     """
     password = fields.String(required=True, validate=validate.Length(min=1, max=50))
     username = fields.String(required=True, validate=validate.Length(min=1, max=50))
+
+
+# Upload file
+
+class UploadValidation(Schema):
+    """
+    Validator
+    Ex:
+    {
+        "file_name": "default_avatars.png",
+        "prefix": "avatars"
+    }
+    """
+    file_name = fields.String(required=False, validate=validate.Length(min=1, max=50))
+    prefix = fields.String(required=True, validate=validate.OneOf(choices=["forms", "avatars"]))

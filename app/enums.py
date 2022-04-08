@@ -1,4 +1,6 @@
 # Token type
+URL_SERVER = "/files/"
+FILE_PATH = "app/files/"
 ACCESS_TOKEN = 'access_token'
 REFRESH_TOKEN = 'refresh_token'
 THRESHOLD = 0.8

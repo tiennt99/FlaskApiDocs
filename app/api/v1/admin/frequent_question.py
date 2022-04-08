@@ -4,7 +4,7 @@ import uuid
 from flask import Blueprint, request
 from flask_jwt_extended import get_jwt_identity
 from marshmallow import ValidationError
-from sqlalchemy import or_, asc, desc, and_
+from sqlalchemy import asc, desc, and_
 from sqlalchemy_pagination import paginate
 from app.api.helper import send_error, send_result
 from app.enums import FAIL, SUCCESS
@@ -49,7 +49,7 @@ def get_frequent_questions():
     if len(search_name):
         query = query.filter(FrequentQuestion.question.like("%{}%".format(search_name)))
     query = query.filter(and_(FrequentQuestion.created_date > from_date, FrequentQuestion.created_date < to_date))
-    # 4. Sort by collum
+    # 4. Sort by column
     if sort_by:
         column_sorted = getattr(User, sort_by)
         if order_by == 'asc':

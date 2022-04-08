@@ -277,6 +277,7 @@ class Group(db.Model):
 
 # End phân quyền
 # Start quản lý tiếp đón
+
 class TopicQuestion(db.Model):
     __tablename__ = 'topic_question'
 
@@ -296,6 +297,17 @@ class TopicQuestion(db.Model):
         if topic_id:
             return cls.query.filter(and_(cls.id != topic_id, cls.name == name)).first()
         return cls.query.filter(cls.name == name).first()
+
+
+class Form(db.Model):
+    __tablename__ = 'form'
+    id = db.Column(db.String(50), primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(255))
+    link = db.Column(db.String(255), nullable=True)
+    creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
+    created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
+    modified_date = db.Column(INTEGER(unsigned=True), default=0)
 
 
 class Question(db.Model):
