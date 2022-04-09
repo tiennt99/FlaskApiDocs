@@ -19,7 +19,7 @@ def create_app(config_object=ProdConfig):
         You can run export FLASK_DEBUG=1 in order to run in application dev mode.
         You can see config_object in the settings.py file
     """
-    app = Flask(__name__)
+    app = Flask(__name__, static_url_path="/files", static_folder="./files")
     app.config.from_object(config_object)
     register_extensions(app, config_object)
     register_blueprints(app)
@@ -131,3 +131,4 @@ def register_blueprints(app):
     app.register_blueprint(api_v1.topic_question.api, url_prefix='/api/v1/admin/topics')
     app.register_blueprint(api_v1.subject.api, url_prefix='/api/v1/admin/subjects')
     app.register_blueprint(api_v1.frequent_question.api, url_prefix='/api/v1/admin/frequent_questions')
+    app.register_blueprint(api_v1.upload_file.api, url_prefix='/api/v1/admin/upload')
