@@ -1,7 +1,7 @@
 from marshmallow import Schema, fields, validate, pre_load, validates, ValidationError, validates_schema
 
 from app.enums import LIST_GROUP
-from app.models import User, Role, Group, TopicQuestion, Subject, FrequentQuestion
+from app.models import User, Role, Group, TopicQuestion, Subject, FrequentQuestion, Form
 from app.utils import REGEX_EMAIL
 
 """
@@ -234,6 +234,27 @@ class CreateTopicValidation(Schema):
         return data
 
 
+class CreateFormValidation(Schema):
+    """
+    Validator
+    """
+    name = fields.String(required=True)
+    description = fields.String(required=False)
+    link = fields.String(required=True)
+
+    @validates("name")
+    def validate_name(self, value):
+        if Form.check_form_exists(value):
+            raise ValidationError("Form đã tồn tại")
+
+    # Clean up data
+    @pre_load
+    def process_input(self, data, **kwargs):
+        data["name"] = data["name"].lower().strip()
+        data["description"] = data["description"].lower().strip() if data["description"] else None
+        return data
+
+
 class CreateFrequentQuestionValidation(Schema):
     """
     Validator
@@ -320,6 +341,28 @@ class UpdateTopicValidation(Schema):
     @validates_schema
     def validate_name(self, data, **kwargs):
         if TopicQuestion.check_topic_exists(data["name"], data["id"]):
+            raise ValidationError('Topic đã tồn tại')
+
+
+class UpdateFormValidation(Schema):
+    """
+    Validator
+    """
+    id = fields.String(required=False)
+    name = fields.String(required=True)
+    description = fields.String(required=False)
+    link = fields.String(required=True)
+
+    # Clean up data
+    @pre_load
+    def process_input(self, data, **kwargs):
+        data["name"] = data["name"].strip()
+        data["description"] = data["description"].strip() if data["description"] else None
+        return data
+
+    @validates_schema
+    def validate_name(self, data, **kwargs):
+        if Form.check_form_exists(data["name"], data["id"]):
             raise ValidationError('Topic đã tồn tại')
 
 
@@ -414,6 +457,17 @@ class TopicSchema(Schema):
     creator = fields.Nested(UserSchema(only=['id', 'email']))
 
 
+class FormSchema(Schema):
+    """
+    Validator
+    """
+    id = fields.String()
+    name = fields.String()
+    description = fields.String()
+    creator_id = fields.String(required=False)
+    creator = fields.Nested(UserSchema(only=['id', 'email']))
+
+
 class GetTopicValidation(Schema):
     """
     """
@@ -421,6 +475,19 @@ class GetTopicValidation(Schema):
     page_size = fields.Integer(required=False)
     from_date = fields.Integer(required=False)
     to_date = fields.Integer(required=False)
+    search_name = fields.String(required=False)
+
+    sort_by = fields.String(required=False,
+                            validate=validate.OneOf(
+                                ["name", "created_date", "modified_date"]))
+    order_by = fields.String(required=False, validate=validate.OneOf(["asc", "desc"]))
+
+
+class GetFormValidation(Schema):
+    """
+    """
+    page = fields.Integer(required=False)
+    page_size = fields.Integer(required=False)
     search_name = fields.String(required=False)
 
     sort_by = fields.String(required=False,

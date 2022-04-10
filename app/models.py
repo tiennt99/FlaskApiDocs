@@ -165,6 +165,10 @@ class User(db.Model):
 
     group = relationship('Group', primaryjoin='User.group_id == Group.id')
 
+    @property
+    def creator(self):
+        return User.get_user_by_id(self.creator_id)
+
     @classmethod
     def get_user_by_id(cls, _id):
         return cls.query.get(_id)
@@ -196,6 +200,10 @@ class Role(db.Model):
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     role_permissions = relationship('RolePermission', primaryjoin='Role.id == RolePermission.role_id')
 
+    @property
+    def creator(self):
+        return User.get_user_by_id(self.creator_id)
+
     @classmethod
     def get_role_by_id(cls, _id):
         return cls.query.get(_id)
@@ -224,7 +232,11 @@ class RolePermission(db.Model):
     creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
 
     permission = relationship('Permission', primaryjoin='RolePermission.permission_id == Permission.id')
+
     # role = relationship('Role', primaryjoin='RolePermission.role_id == Role.id')
+    @property
+    def creator(self):
+        return User.get_user_by_id(self.creator_id)
 
 
 class GroupRole(db.Model):
@@ -239,6 +251,10 @@ class GroupRole(db.Model):
 
     # group = relationship('Group', primaryjoin='GroupRole.group_id == Group.id')
     role = relationship('Role', primaryjoin='GroupRole.role_id == Role.id')
+
+    @property
+    def creator(self):
+        return User.get_user_by_id(self.creator_id)
 
     @classmethod
     def get_by_id(cls, _id):
@@ -288,6 +304,10 @@ class TopicQuestion(db.Model):
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
 
+    @property
+    def creator(self):
+        return User.get_user_by_id(self.creator_id)
+
     @classmethod
     def get_topic_by_id(cls, _id):
         return cls.query.get(_id)
@@ -309,6 +329,20 @@ class Form(db.Model):
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
 
+    @property
+    def creator(self):
+        return User.get_user_by_id(self.creator_id)
+
+    @classmethod
+    def get_form_by_id(cls, _id):
+        return cls.query.get(_id)
+
+    @classmethod
+    def check_form_exists(cls, name: str, form_id: str = None):
+        if form_id:
+            return cls.query.filter(and_(cls.id != form_id, cls.name == name)).first()
+        return cls.query.filter(cls.name == name).first()
+
 
 class Question(db.Model):
     __tablename__ = 'question'
@@ -327,6 +361,10 @@ class Question(db.Model):
                          index=True)
     topic = relationship('TopicQuestion', primaryjoin='Question.topic_id == TopicQuestion.id')
     user = relationship('User', primaryjoin='Question.user_id == User.id')
+
+    @property
+    def creator(self):
+        return User.get_user_by_id(self.creator_id)
 
 
 class History(db.Model):
@@ -414,6 +452,10 @@ class FrequentQuestion(db.Model):
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
     creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
+
+    @property
+    def creator(self):
+        return User.get_user_by_id(self.creator_id)
 
     @classmethod
     def check_frequent_question_exists(cls, question: str, frequent_question_id: str = None):
