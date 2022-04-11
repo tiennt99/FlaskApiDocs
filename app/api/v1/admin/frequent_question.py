@@ -135,7 +135,7 @@ def update_frequent_question(frequent_question_id: str):
         return send_error(data=is_not_validate, message_id=FAIL)
 
     # create frequent_question
-    frequent_question = FrequentQuestion.get_frequent_question_by_id(frequent_question_id)
+    frequent_question = FrequentQuestion.get_by_id(frequent_question_id)
     for key in json_body.keys():
         frequent_question.__setattr__(key, json_body[key])
     frequent_question.creator_id = current_user_id
@@ -152,9 +152,19 @@ def delete_frequent_question(frequent_question_id: str):
     :type frequent_question_id: string
     Returns: SUCCESS/False
     """
-    frequent_question = FrequentQuestion.get_frequent_question_by_id(frequent_question_id)
+    frequent_question = FrequentQuestion.get_by_id(frequent_question_id)
     if not frequent_question:
         return send_error(message_id=FAIL)
     db.session.delete(frequent_question)
     db.session.commit()
     return send_result(message_id=SUCCESS)
+
+
+@api.route('/<frequent_question_id>', methods=['GET'])
+@authorization_require()
+def get_by_id(frequent_question_id: str):
+    frequent_question: FrequentQuestion = FrequentQuestion.get_by_id(frequent_question_id)
+    if frequent_question is None:
+        return send_error(message_id=FAIL)
+    data_result = FrequentQuestionSchema().dump(frequent_question)
+    return send_result(data=data_result)

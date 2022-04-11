@@ -146,7 +146,7 @@ def update_user(user_id: str):
     if is_not_validate:
         return send_error(data=is_not_validate, message_id=FAIL)
     # create user
-    user = User.get_user_by_id(user_id)
+    user = User.get_by_id(user_id)
     for key in json_body.keys():
         user.__setattr__(key, json_body[key])
     user.creator_id = current_user_id
@@ -163,7 +163,7 @@ def delete_user(user_id: str):
     :type user_id: string
     Returns: SUCCESS/False
     """
-    user = User.get_user_by_id(user_id)
+    user = User.get_by_id(user_id)
     if not user:
         return send_error(message_id=FAIL)
     db.session.delete(user)
@@ -178,10 +178,20 @@ def get_role_permission():
         current_user_id = get_jwt_identity()
     except Exception as ex:
         return send_error(message="Request Body incorrect json format: " + str(ex), code=442)
-    user = User.get_user_by_id(current_user_id)
+    user = User.get_by_id(current_user_id)
     user_roles = user.group.roles
     roles = RoleSchema(many=True).dump(user_roles)
     response_data = dict(
         roles=roles
     )
     return send_result(data=response_data)
+
+
+@api.route('/<user_id>', methods=['GET'])
+@authorization_require()
+def get_by_id(user_id: str):
+    user: User = User.get_by_id(user_id)
+    if user is None:
+        return send_error(message_id=FAIL)
+    data_result = UserSchema().dump(user)
+    return send_result(data=data_result)

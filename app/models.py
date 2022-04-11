@@ -167,10 +167,10 @@ class User(db.Model):
 
     @property
     def creator(self):
-        return User.get_user_by_id(self.creator_id)
+        return User.get_by_id(self.creator_id)
 
     @classmethod
-    def get_user_by_id(cls, _id):
+    def get_by_id(cls, _id):
         return cls.query.get(_id)
 
     @classmethod
@@ -202,10 +202,10 @@ class Role(db.Model):
 
     @property
     def creator(self):
-        return User.get_user_by_id(self.creator_id)
+        return User.get_by_id(self.creator_id)
 
     @classmethod
-    def get_role_by_id(cls, _id):
+    def get_by_id(cls, _id):
         return cls.query.get(_id)
 
     @property
@@ -236,7 +236,7 @@ class RolePermission(db.Model):
     # role = relationship('Role', primaryjoin='RolePermission.role_id == Role.id')
     @property
     def creator(self):
-        return User.get_user_by_id(self.creator_id)
+        return User.get_by_id(self.creator_id)
 
 
 class GroupRole(db.Model):
@@ -254,7 +254,7 @@ class GroupRole(db.Model):
 
     @property
     def creator(self):
-        return User.get_user_by_id(self.creator_id)
+        return User.get_by_id(self.creator_id)
 
     @classmethod
     def get_by_id(cls, _id):
@@ -274,14 +274,14 @@ class Group(db.Model):
 
     @property
     def creator(self):
-        return User.get_user_by_id(self.creator_id)
+        return User.get_by_id(self.creator_id)
 
     @property
     def roles(self):
         return [obj.role for obj in self.group_roles]
 
     @classmethod
-    def get_group_by_id(cls, _id):
+    def get_by_id(cls, _id):
         return cls.query.get(_id)
 
     @classmethod
@@ -306,10 +306,10 @@ class TopicQuestion(db.Model):
 
     @property
     def creator(self):
-        return User.get_user_by_id(self.creator_id)
+        return User.get_by_id(self.creator_id)
 
     @classmethod
-    def get_topic_by_id(cls, _id):
+    def get_by_id(cls, _id):
         return cls.query.get(_id)
 
     @classmethod
@@ -331,10 +331,10 @@ class Form(db.Model):
 
     @property
     def creator(self):
-        return User.get_user_by_id(self.creator_id)
+        return User.get_by_id(self.creator_id)
 
     @classmethod
-    def get_form_by_id(cls, _id):
+    def get_by_id(cls, _id):
         return cls.query.get(_id)
 
     @classmethod
@@ -354,7 +354,7 @@ class Question(db.Model):
     content = db.Column(db.String(255))
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
-    attached_file = db.Column(db.String(255))
+    attached_file_url = db.Column(db.String(255))
     creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
     user_id = db.Column(ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
     topic_id = db.Column(ForeignKey('topic_question.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
@@ -362,9 +362,20 @@ class Question(db.Model):
     topic = relationship('TopicQuestion', primaryjoin='Question.topic_id == TopicQuestion.id')
     user = relationship('User', primaryjoin='Question.user_id == User.id')
 
+    @classmethod
+    def get_by_id(cls, _id):
+        return cls.query.get(_id)
+
+    @classmethod
+    def check_question_exists(cls, content: str, question_id: str = None):
+        if question_id:
+            return cls.query.filter(and_(cls.id != question_id,
+                                         cls.content == content)).first()
+        return cls.query.filter(cls.content == content).first()
+
     @property
     def creator(self):
-        return User.get_user_by_id(self.creator_id)
+        return User.get_by_id(self.creator_id)
 
 
 class History(db.Model):
@@ -455,7 +466,7 @@ class FrequentQuestion(db.Model):
 
     @property
     def creator(self):
-        return User.get_user_by_id(self.creator_id)
+        return User.get_by_id(self.creator_id)
 
     @classmethod
     def check_frequent_question_exists(cls, question: str, frequent_question_id: str = None):
@@ -464,7 +475,7 @@ class FrequentQuestion(db.Model):
         return cls.query.filter(cls.question == question).first()
 
     @classmethod
-    def get_frequent_question_by_id(cls, _id):
+    def get_by_id(cls, _id):
         return cls.query.get(_id)
 
 
@@ -482,7 +493,7 @@ class Subject(db.Model):
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
 
     @classmethod
-    def get_subject_by_id(cls, _id):
+    def get_by_id(cls, _id):
         return cls.query.get(_id)
 
     @classmethod

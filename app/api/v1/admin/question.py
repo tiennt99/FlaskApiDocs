@@ -10,26 +10,26 @@ from app.api.helper import send_error, send_result
 from app.enums import FAIL, SUCCESS
 from app.extensions import db
 from app.gateway import authorization_require
-from app.schema_validator import GroupSchema, TopicSchema, UpdateTopicValidation, \
-    CreateTopicValidation, GetTopicValidation
-from app.models import User, Group, TopicQuestion
+from app.schema_validator import GroupSchema, QuestionSchema, UpdateTopicValidation, \
+    CreateQuestionValidation, GetQuestionValidation
+from app.models import User, Group, Question
 
 from app.utils import escape_wildcard, get_timestamp_now
 
-api = Blueprint('topics', __name__)
+api = Blueprint('questions', __name__)
 
 
 @api.route('', methods=['GET'])
 @authorization_require()
-def get_topics():
+def get_questions():
     """ This is api get all topic by filter
 
-    Returns: list topic
+    Returns: list question
     """
     # 1. validate request parameters
     try:
         params = request.args
-        params = GetTopicValidation().load(params) if params else dict()
+        params = GetQuestionValidation().load(params) if params else dict()
     except ValidationError as err:
         return send_error(message_id=FAIL, data=err.messages)
 
@@ -45,12 +45,12 @@ def get_topics():
     order_by = params.get('order_by', 'desc')
 
     # 3. Query
-    query = TopicQuestion.query
+    query = Question.query
     if len(search_name):
         query = query.filter(
-            or_(TopicQuestion.name.like("%{}%".format(search_name)),
-                TopicQuestion.description.like("%{}%".format(search_name))))
-    query = query.filter(and_(TopicQuestion.created_date > from_date, TopicQuestion.created_date < to_date))
+            or_(Question.content.like("%{}%".format(search_name)),
+                Question.description.like("%{}%".format(search_name))))
+    query = query.filter(and_(Question.created_date > from_date, Question.created_date < to_date))
     # 4. Sort by collum
     if sort_by:
         column_sorted = getattr(User, sort_by)
@@ -60,14 +60,14 @@ def get_topics():
             query = query.order_by(desc(column_sorted))
     # Default: sort by created date
     else:
-        query = query.order_by(TopicQuestion.created_date.desc())
+        query = query.order_by(Question.created_date.desc())
 
     # 5. Paginator
     paginator = paginate(query, page_number, page_size)
     # 6. Dump data
-    topics = TopicSchema(many=True).dump(paginator.items)
+    questions = QuestionSchema(many=True).dump(paginator.items)
     response_data = dict(
-        topics=topics,
+        questions=questions,
         total_pages=paginator.pages,
         total=paginator.total
     )
@@ -76,8 +76,8 @@ def get_topics():
 
 @api.route('', methods=['POST'])
 @authorization_require()
-def create_topic():
-    """ This is api create topic
+def create_question():
+    """ This is api create question
 
     Body: {
             "name": "Giảng viên",
@@ -91,28 +91,28 @@ def create_topic():
     except Exception as ex:
         return send_error(message="Request Body incorrect json format: " + str(ex), code=442)
     # validate request body
-    validator_input = CreateTopicValidation()
+    validator_input = CreateQuestionValidation()
     is_not_validate = validator_input.validate(json_body)
     if is_not_validate:
         return send_error(data=is_not_validate, message_id=FAIL)
     # create user
-    topic_id = str(uuid.uuid4())
-    topic = TopicQuestion()
+    question_id = str(uuid.uuid4())
+    question = Question()
     for key in json_body.keys():
-        topic.__setattr__(key, json_body[key])
-    topic.id = topic_id
-    topic.creator_id = current_user_id
-    db.session.add(topic)
+        question.__setattr__(key, json_body[key])
+    question.id = question_id
+    question.creator_id = current_user_id
+    db.session.add(question)
     db.session.commit()
-    return send_result(message_id=SUCCESS, data=TopicSchema().dump(topic))
+    return send_result(message_id=SUCCESS, data=QuestionSchema().dump(question))
 
 
-@api.route('/<topic_id>', methods=['PUT'])
+@api.route('/<question_id>', methods=['PUT'])
 @authorization_require()
-def update_topic(topic_id: str):
-    """ This is api update topic
+def update_question(question_id: str):
+    """ This is api update question
 
-    :type topic_id: string
+    :type question_id: string
     Body:   {
                 "name": "Giảng viên",
                 "description": "Nhập điểm",
@@ -127,7 +127,7 @@ def update_topic(topic_id: str):
     try:
         json_body = request.get_json()
         current_user_id = get_jwt_identity()
-        json_body["id"] = topic_id
+        json_body["id"] = question_id
     except Exception as ex:
         return send_error(message="Request Body incorrect json format: " + str(ex), code=442)
     # validate request body
@@ -136,37 +136,37 @@ def update_topic(topic_id: str):
     if is_not_validate:
         return send_error(data=is_not_validate, message_id=FAIL)
 
-    # create topic
-    topic = TopicQuestion.get_by_id(topic_id)
+    # create question
+    question = Question.get_by_id(question_id)
     for key in json_body.keys():
-        topic.__setattr__(key, json_body[key])
-    topic.creator_id = current_user_id
-    db.session.add(topic)
+        question.__setattr__(key, json_body[key])
+    question.creator_id = current_user_id
+    db.session.add(question)
     db.session.commit()
-    return send_result(data=TopicSchema().dump(topic), message_id=SUCCESS)
+    return send_result(data=QuestionSchema().dump(question), message_id=SUCCESS)
 
 
-@api.route('/<topic_id>', methods=['DELETE'])
+@api.route('/<question_id>', methods=['DELETE'])
 @authorization_require()
-def delete_topic(topic_id: str):
-    """ This is api delete topic
+def delete_question(question_id: str):
+    """ This is api delete question
 
-    :type topic_id: string
+    :type question_id: string
     Returns: SUCCESS/False
     """
-    topic = TopicQuestion.get_by_id(topic_id)
-    if not topic:
+    question = Question.get_by_id(question_id)
+    if not question:
         return send_error(message_id=FAIL)
-    db.session.delete(topic)
+    db.session.delete(question)
     db.session.commit()
     return send_result(message_id=SUCCESS)
 
 
-@api.route('/<topic_id>', methods=['GET'])
+@api.route('/<question_id>', methods=['GET'])
 @authorization_require()
-def get_by_id(topic_id: str):
-    topic: TopicQuestion = TopicQuestion.get_by_id(topic_id)
-    if topic is None:
+def get_by_id(question_id: str):
+    question: Question = Question.get_by_id(question_id)
+    if question is None:
         return send_error(message_id=FAIL)
-    data_result = TopicSchema().dump(topic)
+    data_result = QuestionSchema().dump(question)
     return send_result(data=data_result)

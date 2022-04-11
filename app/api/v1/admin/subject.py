@@ -136,7 +136,7 @@ def update_subject(subject_id: str):
         return send_error(data=is_not_validate, message_id=FAIL)
 
     # create subject
-    subject = Subject.get_subject_by_id(subject_id)
+    subject = Subject.get_by_id(subject_id)
     for key in json_body.keys():
         subject.__setattr__(key, json_body[key])
     subject.creator_id = current_user_id
@@ -153,9 +153,19 @@ def delete_subject(subject_id: str):
     :type subject_id: string
     Returns: SUCCESS/False
     """
-    subject = Subject.get_subject_by_id(subject_id)
+    subject = Subject.get_by_id(subject_id)
     if not subject:
         return send_error(message_id=FAIL)
     db.session.delete(subject)
     db.session.commit()
     return send_result(message_id=SUCCESS)
+
+
+@api.route('/<subject_id>', methods=['GET'])
+@authorization_require()
+def get_by_id(subject_id: str):
+    subject: Subject = Subject.get_by_id(subject_id)
+    if subject is None:
+        return send_error(message_id=FAIL)
+    data_result = SubjectSchema().dump(subject)
+    return send_result(data=data_result)

@@ -1,7 +1,7 @@
 from marshmallow import Schema, fields, validate, pre_load, validates, ValidationError, validates_schema
 
 from app.enums import LIST_GROUP
-from app.models import User, Role, Group, TopicQuestion, Subject, FrequentQuestion, Form
+from app.models import User, Role, Group, TopicQuestion, Subject, FrequentQuestion, Form, Question
 from app.utils import REGEX_EMAIL
 
 """
@@ -234,6 +234,29 @@ class CreateTopicValidation(Schema):
         return data
 
 
+class CreateQuestionValidation(Schema):
+    """
+    Validator
+    """
+    description = fields.String(required=False)
+    content = fields.String(required=False)
+    attached_file_url = fields.String(required=False)
+    topic_id = fields.String(required=False)
+    user_id = fields.String(required=False)
+
+    @validates("content")
+    def validate_name(self, value):
+        if Question.check_question_exists(value):
+            raise ValidationError("Question đã tồn tại")
+
+    # Clean up data
+    @pre_load
+    def process_input(self, data, **kwargs):
+        data["content"] = data["content"].lower().strip() if data["content"] else None
+        data["description"] = data["description"].lower().strip() if data["description"] else None
+        return data
+
+
 class CreateFormValidation(Schema):
     """
     Validator
@@ -328,20 +351,23 @@ class UpdateTopicValidation(Schema):
     Validator
     """
     id = fields.String(required=False)
-    name = fields.String(required=True)
     description = fields.String(required=False)
+    content = fields.String(required=False)
+    attached_file_url = fields.String(required=False)
+    topic_id = fields.String(required=False)
+    user_id = fields.String(required=False)
 
     # Clean up data
     @pre_load
     def process_input(self, data, **kwargs):
-        data["name"] = data["name"].strip()
+        data["content"] = data["content"].strip() if data["content"] else None
         data["description"] = data["description"].strip() if data["description"] else None
         return data
 
     @validates_schema
     def validate_name(self, data, **kwargs):
-        if TopicQuestion.check_topic_exists(data["name"], data["id"]):
-            raise ValidationError('Topic đã tồn tại')
+        if Question.check_question_exists(data["content"], data["id"]):
+            raise ValidationError('Question đã tồn tại')
 
 
 class UpdateFormValidation(Schema):
@@ -457,6 +483,20 @@ class TopicSchema(Schema):
     creator = fields.Nested(UserSchema(only=['id', 'email']))
 
 
+class QuestionSchema(Schema):
+    """
+    Validator
+    """
+    id = fields.String()
+    description = fields.String()
+    content = fields.String()
+    attached_file_url = fields.String()
+    topic_id = fields.String()
+    user_id = fields.String()
+    creator_id = fields.String(required=False)
+    creator = fields.Nested(UserSchema(only=['id', 'email']))
+
+
 class FormSchema(Schema):
     """
     Validator
@@ -464,6 +504,7 @@ class FormSchema(Schema):
     id = fields.String()
     name = fields.String()
     description = fields.String()
+    link = fields.String()
     creator_id = fields.String(required=False)
     creator = fields.Nested(UserSchema(only=['id', 'email']))
 
@@ -480,6 +521,21 @@ class GetTopicValidation(Schema):
     sort_by = fields.String(required=False,
                             validate=validate.OneOf(
                                 ["name", "created_date", "modified_date"]))
+    order_by = fields.String(required=False, validate=validate.OneOf(["asc", "desc"]))
+
+
+class GetQuestionValidation(Schema):
+    """
+    """
+    page = fields.Integer(required=False)
+    page_size = fields.Integer(required=False)
+    from_date = fields.Integer(required=False)
+    to_date = fields.Integer(required=False)
+    search_name = fields.String(required=False)
+
+    sort_by = fields.String(required=False,
+                            validate=validate.OneOf(
+                                ["content", "created_date", "modified_date"]))
     order_by = fields.String(required=False, validate=validate.OneOf(["asc", "desc"]))
 
 

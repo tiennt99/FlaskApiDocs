@@ -155,7 +155,7 @@ def update_role(role_id: str):
     if number_permission != len(permission_ids):
         return send_error(message="permission_ids không chính xác ")
     # create role
-    role = Role.get_role_by_id(role_id)
+    role = Role.get_by_id(role_id)
     for key in json_body.keys():
         role.__setattr__(key, json_body[key])
     role.creator_id = current_user_id
@@ -188,9 +188,19 @@ def delete_role(role_id: str):
     :type role_id: string
     Returns: SUCCESS/False
     """
-    role = Role.get_role_by_id(role_id)
+    role = Role.get_by_id(role_id)
     if not role:
         return send_error(message_id=FAIL)
     db.session.delete(role)
     db.session.commit()
     return send_result(message_id=SUCCESS)
+
+
+@api.route('/<role_id>', methods=['GET'])
+@authorization_require()
+def get_by_id(role_id: str):
+    role: Role = Role.get_by_id(role_id)
+    if role is None:
+        return send_error(message_id=FAIL)
+    data_result = RoleSchema().dump(role)
+    return send_result(data=data_result)

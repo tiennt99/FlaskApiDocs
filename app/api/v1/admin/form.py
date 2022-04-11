@@ -134,7 +134,7 @@ def update_form(form_id: str):
         return send_error(data=is_not_validate, message_id=FAIL)
 
     # create form
-    form = Form.get_form_by_id(form_id)
+    form = Form.get_by_id(form_id)
     for key in json_body.keys():
         form.__setattr__(key, json_body[key])
     form.creator_id = current_user_id
@@ -151,9 +151,19 @@ def delete_form(form_id: str):
     :type form_id: string
     Returns: SUCCESS/False
     """
-    form = Form.get_form_by_id(form_id)
+    form = Form.get_by_id(form_id)
     if not form:
         return send_error(message_id=FAIL)
     db.session.delete(form)
     db.session.commit()
     return send_result(message_id=SUCCESS)
+
+
+@api.route('/<form_id>', methods=['GET'])
+@authorization_require()
+def get_by_id(form_id: str):
+    form: Form = Form.get_by_id(form_id)
+    if form is None:
+        return send_error(message_id=FAIL)
+    data_result = FormSchema().dump(form)
+    return send_result(data=data_result)

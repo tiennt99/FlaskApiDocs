@@ -156,7 +156,7 @@ def update_group(group_id: str):
     if number_role != len(role_ids):
         return send_error(message="role_ids không chính xác ")
     # create group
-    group = Group.get_group_by_id(group_id)
+    group = Group.get_by_id(group_id)
     for key in json_body.keys():
         group.__setattr__(key, json_body[key])
     group.creator_id = current_user_id
@@ -186,9 +186,19 @@ def delete_group(group_id: str):
     :type group_id: string
     Returns: SUCCESS/False
     """
-    group = Group.get_group_by_id(group_id)
+    group = Group.get_by_id(group_id)
     if not group:
         return send_error(message_id=FAIL)
     db.session.delete(group)
     db.session.commit()
     return send_result(message_id=SUCCESS)
+
+
+@api.route('/<group_id>', methods=['GET'])
+@authorization_require()
+def get_by_id(group_id: str):
+    group: Group = Group.get_by_id(group_id)
+    if group is None:
+        return send_error(message_id=FAIL)
+    data_result = GroupSchema().dump(group)
+    return send_result(data=data_result)

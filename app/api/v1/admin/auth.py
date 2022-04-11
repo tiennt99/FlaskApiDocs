@@ -103,7 +103,7 @@ def change_password():
     if is_not_validate:
         return send_error(data=is_not_validate, message_id=FAIL)
     # create user
-    user = User.get_user_by_id(current_user_id)
+    user = User.get_by_id(current_user_id)
     if generate_password_hash(json_body["old_password"]) == user.password_hash:
         return send_error(message_id=FAIL)
     user.password = json_body["new_password"]

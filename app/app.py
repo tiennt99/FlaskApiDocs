@@ -133,3 +133,4 @@ def register_blueprints(app):
     app.register_blueprint(api_v1.frequent_question.api, url_prefix='/api/v1/admin/frequent_questions')
     app.register_blueprint(api_v1.upload_file.api, url_prefix='/api/v1/admin/upload')
     app.register_blueprint(api_v1.form.api, url_prefix='/api/v1/admin/forms')
+    app.register_blueprint(api_v1.question.api, url_prefix='/api/v1/admin/questions')

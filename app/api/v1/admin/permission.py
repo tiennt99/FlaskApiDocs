@@ -30,3 +30,4 @@ def get_permissions():
     permissions = PermissionSchema(many=True).dump(permissions)
     list_id = [item.get("id") for item in permissions]
     return send_result(data=list_id)
+
