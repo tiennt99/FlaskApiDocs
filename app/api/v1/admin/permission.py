@@ -16,7 +16,7 @@ from app.models import User, Group, GroupRole, Role, Permission
 
 from app.utils import escape_wildcard, get_timestamp_now
 
-api = Blueprint('permissions', __name__)
+api = Blueprint('admin/permissions', __name__)
 
 
 @api.route('', methods=['GET'])

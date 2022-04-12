@@ -16,7 +16,7 @@ from app.models import User, Group, Form
 
 from app.utils import escape_wildcard, get_timestamp_now
 
-api = Blueprint('forms', __name__)
+api = Blueprint('admin/forms', __name__)
 
 
 @api.route('', methods=['GET'])

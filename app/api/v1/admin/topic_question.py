@@ -16,7 +16,7 @@ from app.models import User, Group, TopicQuestion
 
 from app.utils import escape_wildcard, get_timestamp_now
 
-api = Blueprint('topics', __name__)
+api = Blueprint('admin/topics', __name__)
 
 
 @api.route('', methods=['GET'])

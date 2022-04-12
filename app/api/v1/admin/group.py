@@ -15,7 +15,7 @@ from app.models import User, Group, GroupRole, Role
 
 from app.utils import escape_wildcard, get_timestamp_now
 
-api = Blueprint('groups', __name__)
+api = Blueprint('admin/groups', __name__)
 
 
 @api.route('', methods=['GET'])

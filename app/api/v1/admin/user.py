@@ -17,7 +17,7 @@ from app.models import User, Role
 
 from app.utils import escape_wildcard, get_timestamp_now
 
-api = Blueprint('users', __name__)
+api = Blueprint('admin/users', __name__)
 
 
 @api.route('', methods=['GET'])

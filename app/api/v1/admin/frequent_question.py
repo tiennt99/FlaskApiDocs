@@ -16,7 +16,7 @@ from app.models import User, FrequentQuestion
 
 from app.utils import escape_wildcard, get_timestamp_now
 
-api = Blueprint('frequent_questions', __name__)
+api = Blueprint('admin/frequent_questions', __name__)
 
 
 @api.route('', methods=['GET'])

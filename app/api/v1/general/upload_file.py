@@ -9,7 +9,7 @@ from app.enums import FILE_PATH, URL_SERVER
 from app.utils import get_timestamp_now
 from app.schema_validator import UploadValidation
 
-api = Blueprint('upload', __name__)
+api = Blueprint('general/upload', __name__)
 
 
 @api.route('', methods=['POST'])

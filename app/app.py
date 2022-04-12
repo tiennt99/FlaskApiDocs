@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-import traceback
 from time import strftime
-from flask import Flask, request, jsonify
+from flask import Flask, request
 from app.extensions import jwt
 from app.api import v1 as api_v1
 from app.extensions import logger, parser, db
@@ -123,14 +122,17 @@ def register_blueprints(app):
     """Init blueprint for api url
     :param app: Flask application
     """
-    app.register_blueprint(api_v1.auth.api, url_prefix='/api/v1/admin/auth')
-    app.register_blueprint(api_v1.user.api, url_prefix='/api/v1/admin/users')
-    app.register_blueprint(api_v1.role.api, url_prefix='/api/v1/admin/roles')
-    app.register_blueprint(api_v1.permission.api, url_prefix='/api/v1/admin/permissions')
-    app.register_blueprint(api_v1.group.api, url_prefix='/api/v1/admin/groups')
-    app.register_blueprint(api_v1.topic_question.api, url_prefix='/api/v1/admin/topics')
-    app.register_blueprint(api_v1.subject.api, url_prefix='/api/v1/admin/subjects')
-    app.register_blueprint(api_v1.frequent_question.api, url_prefix='/api/v1/admin/frequent_questions')
-    app.register_blueprint(api_v1.upload_file.api, url_prefix='/api/v1/admin/upload')
-    app.register_blueprint(api_v1.form.api, url_prefix='/api/v1/admin/forms')
-    app.register_blueprint(api_v1.question.api, url_prefix='/api/v1/admin/questions')
+    app.register_blueprint(api_v1.admin.auth.api, url_prefix='/api/v1/admin/auth')
+    app.register_blueprint(api_v1.admin.user.api, url_prefix='/api/v1/admin/users')
+    app.register_blueprint(api_v1.admin.role.api, url_prefix='/api/v1/admin/roles')
+    app.register_blueprint(api_v1.admin.permission.api, url_prefix='/api/v1/admin/permissions')
+    app.register_blueprint(api_v1.admin.group.api, url_prefix='/api/v1/admin/groups')
+    app.register_blueprint(api_v1.admin.topic_question.api, url_prefix='/api/v1/admin/topics')
+    app.register_blueprint(api_v1.admin.subject.api, url_prefix='/api/v1/admin/subjects')
+    app.register_blueprint(api_v1.admin.frequent_question.api, url_prefix='/api/v1/admin/frequent_questions')
+    app.register_blueprint(api_v1.admin.form.api, url_prefix='/api/v1/admin/forms')
+    app.register_blueprint(api_v1.admin.question.api, url_prefix='/api/v1/admin/questions')
+
+    app.register_blueprint(api_v1.user.question.api, url_prefix='/api/v1/questions')
+
+    app.register_blueprint(api_v1.general.upload_file.api, url_prefix='/api/v1/admin/upload')

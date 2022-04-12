@@ -18,7 +18,7 @@ from app.enums import SUCCESS, FAIL, LOGIN_WRONG_USERNAME, LOGIN_WRONG_PASSWORD
 import requests
 ACCESS_EXPIRES = timedelta(days=30)
 REFRESH_EXPIRES = timedelta(days=90)
-api = Blueprint('auth', __name__)
+api = Blueprint('admin/auth', __name__)
 
 
 @api.route('/login', methods=['POST'])
