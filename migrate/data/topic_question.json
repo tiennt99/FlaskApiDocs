@@ -25,8 +25,13 @@
     "description": "Giáo viên lên lịch nhập điểm"
   },
   {
-    "id": "0b6d42b1-0da5-40c2-af64-368deb36be2c",
+    "id": "31f5869f-a632-4910-916e-81cf7f7e1fdd",
     "name": "Đăng ký tín chỉ ",
     "description": "Sinh viên hỏi về thông tin đăng kí môn học"
+  },
+  {
+    "id": "0b6d42b1-0da5-40c2-af64-368deb36be2c",
+    "name": "Xét tốt nghiệp",
+    "description": "Sinh viên hỏi về thông tin xét tốt nghiệp"
   }
 ]

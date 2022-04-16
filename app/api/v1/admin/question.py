@@ -11,8 +11,8 @@ from app.enums import FAIL, SUCCESS
 from app.extensions import db
 from app.gateway import authorization_require
 from app.schema_validator import GroupSchema, QuestionSchema, UpdateTopicValidation, \
-    CreateQuestionValidation, GetQuestionValidation
-from app.models import User, Group, Question
+    CreateQuestionValidation, GetQuestionValidation, CreateCommentValidation, GetQuestionDetailValidation, CommentSchema
+from app.models import User, Group, Question, Comment
 
 from app.utils import escape_wildcard, get_timestamp_now
 
@@ -170,3 +170,76 @@ def get_by_id(question_id: str):
         return send_error(message_id=FAIL)
     data_result = QuestionSchema().dump(question)
     return send_result(data=data_result)
+
+
+@api.route('/<question_id>/comments', methods=['GET'])
+@authorization_require()
+def get_detail_question(question_id: str):
+    """ This is api create comment
+
+    Body: {
+            "name": "Giảng viên",
+            "description": "Nhập điểm"
+        }
+    Returns: SUCCESS/FAIL
+    """
+    # 1. validate request parameters
+    try:
+        params = request.args
+        params = GetQuestionDetailValidation().load(params) if params else dict()
+    except ValidationError as err:
+        return send_error(message_id=FAIL, data=err.messages)
+
+    # 2. Process input
+    page_number = params.get('page', 1)
+    page_size = params.get('page_size', 15)
+
+    # 3. Query
+    query = Comment.query.filter(Comment.question_id == question_id)
+    # Default: sort by created date
+    query = query.order_by(Comment.created_date.desc())
+
+    # 5. Paginator
+    paginator = paginate(query, page_number, page_size)
+    # 6. Dump data
+    comments = CommentSchema(many=True).dump(paginator.items)
+    response_data = dict(
+        comments=comments,
+        total_pages=paginator.pages,
+        total=paginator.total
+    )
+    return send_result(data=response_data)
+
+
+@api.route('/<question_id>/comments', methods=['POST'])
+@authorization_require()
+def create_comment(question_id: str):
+    """ This is api create comment
+
+    Body: {
+            "name": "Giảng viên",
+            "description": "Nhập điểm"
+        }
+    Returns: SUCCESS/FAIL
+    """
+    try:
+        json_body = request.get_json()
+        current_user_id = get_jwt_identity()
+    except Exception as ex:
+        return send_error(message="Request Body incorrect json format: " + str(ex), code=442)
+    # validate request body
+    json_body["question_id"] = question_id
+    json_body["sender_id"] = current_user_id
+    validator_input = CreateCommentValidation()
+    is_not_validate = validator_input.validate(json_body)
+    if is_not_validate:
+        return send_error(data=is_not_validate, message_id=FAIL)
+    # create user
+    comment_id = str(uuid.uuid4())
+    comment = Comment()
+    for key in json_body.keys():
+        comment.__setattr__(key, json_body[key])
+    comment.id = comment_id
+    db.session.add(comment)
+    db.session.commit()
+    return send_result(message_id=SUCCESS, data=CommentSchema().dump(comment))

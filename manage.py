@@ -1,5 +1,6 @@
 from app.app import create_app
 from app.settings import DevConfig, ProdConfig, os
+from app.extensions import sio
 
 # call config service
 CONFIG = DevConfig if os.environ.get('FLASK_DEBUG') == '1' else ProdConfig
@@ -10,4 +11,4 @@ if __name__ == '__main__':
     """Main Application
     python manage.py
     """
-    app.run(host='0.0.0.0', port=5000, threaded=True, use_reloader=True)
+    sio.run(app, host='0.0.0.0', port=5000)

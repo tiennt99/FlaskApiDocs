@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash
 
 from app.extensions import db
 from app.models import User, Message, Group, Role, GroupRole, Permission, RolePermission, TopicQuestion, \
-    FrequentQuestion, Subject
+    FrequentQuestion, Subject, Question, Form, Comment
 from app.settings import ProdConfig, DevConfig
 
 
@@ -49,6 +49,12 @@ class Worker:
             self.frequent_question = json.load(file)
         with open('data/subject.json', encoding='utf-8') as file:
             self.subject = json.load(file)
+        with open('data/form.json', encoding='utf-8') as file:
+            self.form = json.load(file)
+        with open('data/question.json', encoding='utf-8') as file:
+            self.question = json.load(file)
+        with open('data/comment.json', encoding='utf-8') as file:
+            self.comment = json.load(file)
 
     def create_default_group(self):
         groups = self.default_group
@@ -149,6 +155,33 @@ class Worker:
             db.session.add(instance)
         db.session.commit()
 
+    def create_default_question(self):
+        questions = self.question
+        for item in questions:
+            instance = Question()
+            for key in item.keys():
+                instance.__setattr__(key, item[key])
+            db.session.add(instance)
+        db.session.commit()
+
+    def create_default_form(self):
+        forms = self.form
+        for item in forms:
+            instance = Form()
+            for key in item.keys():
+                instance.__setattr__(key, item[key])
+            db.session.add(instance)
+        db.session.commit()
+
+    def create_default_comment(self):
+        comments = self.comment
+        for item in comments:
+            instance = Comment()
+            for key in item.keys():
+                instance.__setattr__(key, item[key])
+            db.session.add(instance)
+        db.session.commit()
+
 
 if __name__ == '__main__':
     worker = Worker()
@@ -170,4 +203,10 @@ if __name__ == '__main__':
     # Subject default
     worker.create_default_subject()
 
+    # form default
+    worker.create_default_form()
+    # question default
+    worker.create_default_question()
+    # comment default
+    worker.create_default_comment()
     print("=" * 50, "Database Migrate Completed", "=" * 50)

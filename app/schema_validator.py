@@ -79,6 +79,11 @@ class ChangePasswordValidator(Schema):
     new_password = fields.String(required=True, validate=validate.Length(min=1, max=50))
 
 
+class UserSchemaTMP(Schema):
+    id = fields.String()
+    email = fields.String()
+
+
 class UserSchema(Schema):
     """
     Validator
@@ -92,6 +97,7 @@ class UserSchema(Schema):
     username = fields.String()
     status = fields.String()
     creator_id = fields.String()
+    creator = fields.Nested(UserSchemaTMP(only=['id', 'email']))
     group_id = fields.String(required=True, validate=validate.OneOf(LIST_GROUP))
 
 
@@ -174,6 +180,7 @@ class RoleSchema(Schema):
     module = fields.String()
     description = fields.String()
     creator_id = fields.String(required=False)
+    creator = fields.Nested(UserSchema(only=['id', 'email']))
     permissions = fields.List(fields.Nested(PermissionSchema(only=["id", "name"])))
 
 
@@ -232,6 +239,16 @@ class CreateTopicValidation(Schema):
         data["name"] = data["name"].lower().strip()
         data["description"] = data["description"].lower().strip() if data["description"] else None
         return data
+
+
+class CreateCommentValidation(Schema):
+    """
+    Validator
+    """
+    message = fields.String(required=True)
+    attached_file_url = fields.String(required=False)
+    sender_id = fields.String(required=True)
+    question_id = fields.String(required=True)
 
 
 class CreateQuestionValidation(Schema):
@@ -497,6 +514,18 @@ class QuestionSchema(Schema):
     creator = fields.Nested(UserSchema(only=['id', 'email']))
 
 
+class CommentSchema(Schema):
+    """
+    Validator
+    """
+    id = fields.String()
+    message = fields.String()
+    attached_file_url = fields.String()
+    sender_id = fields.String()
+    question_id = fields.String()
+    sender = fields.Nested(UserSchema())
+
+
 class FormSchema(Schema):
     """
     Validator
@@ -537,6 +566,13 @@ class GetQuestionValidation(Schema):
                             validate=validate.OneOf(
                                 ["content", "created_date", "modified_date"]))
     order_by = fields.String(required=False, validate=validate.OneOf(["asc", "desc"]))
+
+
+class GetQuestionDetailValidation(Schema):
+    """
+    """
+    page = fields.Integer(required=False)
+    page_size = fields.Integer(required=False)
 
 
 class GetFormValidation(Schema):

@@ -1,0 +1,40 @@
+[
+  {
+    "id": "855e16f7-5364-4abd-a976-c041a7a0e586",
+    "message": "Thầy xem cho em chế độ giảm học phí của em ạ",
+    "attached_file_url": "/files/forms/1650086490on_xin_miem_giam_hoc_phi.doc",
+    "sender_id": "cad2ea2a-6496-11ec-90d6-0242ac120004",
+    "question_id": "8e38cc3b-0ca3-4d15-b94f-713883cee9be",
+    "created_date": "1650086790"
+  },
+  {
+    "id": "1d042329-3a53-4102-875a-de92801ce984",
+    "message": "Trên hệ thống hiện tại chưa được cập nhật thông về miễn giảm học phí, em cần gửi thông tin về sổ hộ nghèo",
+    "sender_id": "8dbd546c-6497-11ec-90d6-0242ac120003",
+    "question_id": "8e38cc3b-0ca3-4d15-b94f-713883cee9be",
+    "created_date": "1650086791"
+  },
+  {
+    "id": "e1a64c64-a2c2-4c30-8dee-bdfba9772849",
+    "message": "Vâng ạ, em gửi thầy thông tin sổ hộ nghèo",
+    "attached_file_url": "/files/forms/1650086490on_xin_miem_giam_hoc_phi.doc",
+    "sender_id": "cad2ea2a-6496-11ec-90d6-0242ac120004",
+    "question_id": "8e38cc3b-0ca3-4d15-b94f-713883cee9be",
+    "created_date": "1650086792"
+  },
+  {
+    "id": "2c77e618-d2c4-4045-a63f-1dd2f74edadc",
+    "message": "Hồ sơ của em đã được duyệt",
+    "attached_file_url": "/files/forms/1650086490on_xin_miem_giam_hoc_phi.doc",
+    "sender_id": "8dbd546c-6497-11ec-90d6-0242ac120003",
+    "question_id": "8eb54226-3212-4a1b-a216-18e14ab639cb",
+    "created_date": "1650086793"
+  },
+  {
+    "id": "855e98c6-e67b-4bca-8564-5ade7c17aaa0",
+    "message": "Emc cảm ơn thầy",
+    "sender_id": "cad2ea2a-6496-11ec-90d6-0242ac120004",
+    "question_id": "8eb54226-3212-4a1b-a216-18e14ab639cb",
+    "created_date": "1650086793"
+  }
+]

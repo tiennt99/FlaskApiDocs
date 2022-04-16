@@ -351,7 +351,7 @@ class Question(db.Model):
     start_time = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     end_time = db.Column(INTEGER(unsigned=True), default=get_timestamp_now() + 1800)  # Default + 30 phút
     description = db.Column(db.String(255))
-    content = db.Column(db.String(255))
+    title = db.Column(db.String(255))
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
     attached_file_url = db.Column(db.String(255))
@@ -523,4 +523,24 @@ class UserSubject(db.Model):
                            index=True)
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
+
+
 # End Subject score
+# start comment
+class Comment(db.Model):
+    __tablename__ = 'comment'
+
+    id = db.Column(db.String(50), primary_key=True)
+    message = db.Column(db.TEXT)
+    sender_id = db.Column(ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
+                          index=True)
+    question_id = db.Column(ForeignKey('question.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
+                            index=True)
+    attached_file_url = db.Column(db.String(255))
+    created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
+
+    @property
+    def sender(self):
+        return User.get_by_id(self.sender_id)
+
+# end conmment
