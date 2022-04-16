@@ -23,7 +23,7 @@ class ProdConfig(Config):
     JWT_BLACKLIST_ENABLED = True
     JWT_BLACKLIST_TOKEN_CHECKS = ['access', 'refresh']
     # SQL Lite
-    SQLALCHEMY_DATABASE_URI = 'mysql://{}:{}@{}:{}/{}'.format("root", "123456", "localhost", "3306", "db")
+    SQLALCHEMY_DATABASE_URI = 'mysql://{}:{}@{}:{}/{}'.format("root", "123456", "localhost", "3306", "doan")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
@@ -45,7 +45,7 @@ class DevConfig(Config):
     JWT_BLACKLIST_TOKEN_CHECKS = ['access', 'refresh']
 
     # SQL Lite
-    SQLALCHEMY_DATABASE_URI = 'mysql://{}:{}@{}:{}/{}'.format("root", "123456", "localhost", "3306", "db")
+    SQLALCHEMY_DATABASE_URI = 'mysql://{}:{}@{}:{}/{}'.format("root", "123456", "localhost", "3306", "doan")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
@@ -60,5 +60,5 @@ class StgConfig(Config):
     # version
     VERSION = "0.0.1"
     # SQL Lite
-    SQLALCHEMY_DATABASE_URI = 'mysql://{}:{}@{}:{}/{}'.format("root", "123456", "localhost", "3306", "db")
+    SQLALCHEMY_DATABASE_URI = 'mysql://{}:{}@{}:{}/{}'.format("root", "123456", "localhost", "3306", "doan")
     SQLALCHEMY_TRACK_MODIFICATIONS = False

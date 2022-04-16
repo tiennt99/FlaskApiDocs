@@ -22,6 +22,12 @@
 
 ### Khởi tạo database ứng với db trong settings.py
 
+Tạo database *doan* trong mysql
+
+  ```sh
+CREATE DATABASE IF NOT EXISTS doan CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+  ```
+
 Trong thư mục migrate
 
   ```sh
