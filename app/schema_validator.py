@@ -500,6 +500,14 @@ class TopicSchema(Schema):
     creator = fields.Nested(UserSchema(only=['id', 'email']))
 
 
+class StatisticTopicSchema(Schema):
+    """
+    Validator
+    """
+    name = fields.String()
+    number_of_questions = fields.Integer()
+
+
 class QuestionSchema(Schema):
     """
     Validator
@@ -507,6 +515,7 @@ class QuestionSchema(Schema):
     id = fields.String()
     description = fields.String()
     content = fields.String()
+    created_date = fields.Integer()
     attached_file_url = fields.String()
     topic_id = fields.String()
     user_id = fields.String()
@@ -521,6 +530,7 @@ class CommentSchema(Schema):
     id = fields.String()
     message = fields.String()
     attached_file_url = fields.String()
+    created_date = fields.Integer()
     sender_id = fields.String()
     question_id = fields.String()
     sender = fields.Nested(UserSchema())
@@ -601,6 +611,11 @@ class GetFrequentQuestionValidation(Schema):
                             validate=validate.OneOf(
                                 ["name", "created_date", "modified_date"]))
     order_by = fields.String(required=False, validate=validate.OneOf(["asc", "desc"]))
+
+
+class GetStatisticQuestionValidation(Schema):
+    from_date = fields.String(required=False)
+    to_date = fields.String(required=False)
 
 
 class GetSubjectValidation(Schema):

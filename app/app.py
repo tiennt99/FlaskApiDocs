@@ -142,6 +142,7 @@ def register_blueprints(app):
     app.register_blueprint(api_v1.admin.form.api, url_prefix='/api/v1/admin/forms')
     app.register_blueprint(api_v1.admin.question.api, url_prefix='/api/v1/admin/questions')
 
-    app.register_blueprint(api_v1.user.question.api, url_prefix='/api/v1/questions')
+    app.register_blueprint(api_v1.admin.my_question.api, url_prefix='/api/v1/admin/my_questions')
+    app.register_blueprint(api_v1.admin.statistic.api, url_prefix='/api/v1/admin/statistics')
 
     app.register_blueprint(api_v1.general.upload_file.api, url_prefix='/api/v1/admin/upload')
