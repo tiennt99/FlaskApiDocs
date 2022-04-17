@@ -53,7 +53,7 @@ def get_questions():
     query = query.filter(and_(Question.created_date > from_date, Question.created_date < to_date))
     # 4. Sort by collum
     if sort_by:
-        column_sorted = getattr(User, sort_by)
+        column_sorted = getattr(Question, sort_by)
         if order_by == 'asc':
             query = query.order_by(asc(column_sorted))
         else:

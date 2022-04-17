@@ -51,7 +51,7 @@ def get_frequent_questions():
     query = query.filter(and_(FrequentQuestion.created_date > from_date, FrequentQuestion.created_date < to_date))
     # 4. Sort by column
     if sort_by:
-        column_sorted = getattr(User, sort_by)
+        column_sorted = getattr(FrequentQuestion, sort_by)
         if order_by == 'asc':
             query = query.order_by(asc(column_sorted))
         else:

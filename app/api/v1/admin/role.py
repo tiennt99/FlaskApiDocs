@@ -52,7 +52,7 @@ def get_roles():
     query = query.filter(and_(Role.created_date > from_date, Role.created_date < to_date))
     # 4. Sort by collum
     if sort_by:
-        column_sorted = getattr(User, sort_by)
+        column_sorted = getattr(Role, sort_by)
         if order_by == 'asc':
             query = query.order_by(asc(column_sorted))
         else:

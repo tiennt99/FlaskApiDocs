@@ -574,7 +574,7 @@ class GetQuestionValidation(Schema):
 
     sort_by = fields.String(required=False,
                             validate=validate.OneOf(
-                                ["content", "created_date", "modified_date"]))
+                                ["title", "created_date", "modified_date"]))
     order_by = fields.String(required=False, validate=validate.OneOf(["asc", "desc"]))
 
 
@@ -609,7 +609,7 @@ class GetFrequentQuestionValidation(Schema):
 
     sort_by = fields.String(required=False,
                             validate=validate.OneOf(
-                                ["name", "created_date", "modified_date"]))
+                                ["question", "answer", "created_date", "modified_date"]))
     order_by = fields.String(required=False, validate=validate.OneOf(["asc", "desc"]))
 
 

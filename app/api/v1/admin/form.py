@@ -50,7 +50,7 @@ def get_forms():
                 Form.description.like("%{}%".format(search_name))))
     # 4. Sort by collum
     if sort_by:
-        column_sorted = getattr(User, sort_by)
+        column_sorted = getattr(Form, sort_by)
         if order_by == 'asc':
             query = query.order_by(asc(column_sorted))
         else:
