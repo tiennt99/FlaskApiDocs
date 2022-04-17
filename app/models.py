@@ -303,6 +303,11 @@ class TopicQuestion(db.Model):
     creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
+    questions = relationship('Question', primaryjoin='TopicQuestion.id == Question.topic_id')
+
+    @property
+    def number_of_questions(self):
+        return len(self.questions)
 
     @property
     def creator(self):

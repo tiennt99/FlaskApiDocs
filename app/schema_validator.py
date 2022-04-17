@@ -498,6 +498,7 @@ class TopicSchema(Schema):
     description = fields.String()
     creator_id = fields.String(required=False)
     creator = fields.Nested(UserSchema(only=['id', 'email']))
+    number_of_questions = fields.Integer()
 
 
 class StatisticTopicSchema(Schema):

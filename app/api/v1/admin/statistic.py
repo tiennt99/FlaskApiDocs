@@ -78,9 +78,8 @@ def get_topics():
                func.date_format(Article.crawl_datetime, "%Y-%m-%d") < to_date). \
         group_by(func.date_format(Article.crawl_datetime, search_mapping.get(search_by, '%Y-%m-%d'))).all()
     """
-    topics = db.session.query(func.count(Question.id).label("number_of_questions"), TopicQuestion.name). \
-        join(Question, Question.topic_id == TopicQuestion.id, isouter=True).group_by(TopicQuestion.name).all()
-    statistic_topics = StatisticTopicSchema(many=True).dump(topics)
+    topics = TopicQuestion.query.all()
+    statistic_topics = TopicSchema(many=True).dump(topics)
 
     response_data = dict(
         statistic_topics=statistic_topics
