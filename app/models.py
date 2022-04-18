@@ -151,6 +151,7 @@ class User(db.Model):
 
     id = db.Column(db.String(50), primary_key=True)
     email = db.Column(db.String(50), unique=True)
+    avatar_url = db.Column(db.String(255), default="/files/avatars/default.jpg")
     password = db.Column(db.String(255))
     password_hash = db.Column(db.String(255))
     first_name = db.Column(db.String(100))
@@ -303,7 +304,7 @@ class TopicQuestion(db.Model):
     creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
-    questions = relationship('Question', primaryjoin='TopicQuestion.id == Question.topic_id')
+    questions = relationship('Question', primaryjoin='TopicQuestion.id == Question.topic_id', viewonly=True)
 
     @property
     def number_of_questions(self):
@@ -360,6 +361,7 @@ class Question(db.Model):
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
     attached_file_url = db.Column(db.String(255))
+    assignee_user_id = db.Column(db.String(50))
     creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
     user_id = db.Column(ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
     topic_id = db.Column(ForeignKey('topic_question.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
@@ -382,21 +384,32 @@ class Question(db.Model):
     def creator(self):
         return User.get_by_id(self.creator_id)
 
+    @property
+    def assignee_user(self):
+        return User.get_by_id(self.assignee_user_id)
+
 
 class History(db.Model):
     __tablename__ = 'history'
 
     id = db.Column(db.String(50), primary_key=True)
-    status = db.Column(db.SmallInteger, default=0)  # 1 - Đang xử lý, 2 - Chờ xử lý , 3- Xử lý xong
-    note = db.Column(db.String(255))
+    status = db.Column(db.SmallInteger, default=0)  # 2 - Đang xử lý, 0 - Khởi tạo , 3- Xử lý xong
+    content = db.Column(db.String(255))
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
-    user_id = db.Column(ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
-                        index=True)
+    assignee_user_id = db.Column(db.String(50))
+    creator_id = db.Column(db.String(50))
     question_id = db.Column(ForeignKey('question.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
                             index=True)
     question = relationship('Question', primaryjoin='History.question_id == Question.id')
-    user = relationship('User', primaryjoin='History.user_id == User.id')
+
+    @property
+    def creator(self):
+        return User.get_by_id(self.creator_id)
+
+    @property
+    def assignee_user(self):
+        return User.get_by_id(self.assignee_user_id)
 
 
 # End quản lý tiếp đón

@@ -11,8 +11,9 @@ from app.enums import FAIL, SUCCESS
 from app.extensions import db
 from app.gateway import authorization_require
 from app.schema_validator import GroupSchema, QuestionSchema, UpdateTopicValidation, \
-    CreateQuestionValidation, GetQuestionValidation, CreateCommentValidation, GetQuestionDetailValidation, CommentSchema
-from app.models import User, Group, Question, Comment
+    CreateQuestionValidation, GetQuestionValidation, CreateCommentValidation, GetQuestionDetailValidation, \
+    CommentSchema, HistorySchema
+from app.models import User, Group, Question, Comment, History
 
 from app.utils import escape_wildcard, get_timestamp_now
 
@@ -174,7 +175,7 @@ def get_by_id(question_id: str):
 
 @api.route('/<question_id>/comments', methods=['GET'])
 @authorization_require()
-def get_detail_question(question_id: str):
+def get_detail_comment_question(question_id: str):
     """ This is api create comment
 
     Body: {
@@ -205,6 +206,45 @@ def get_detail_question(question_id: str):
     comments = CommentSchema(many=True).dump(paginator.items)
     response_data = dict(
         comments=comments,
+        total_pages=paginator.pages,
+        total=paginator.total
+    )
+    return send_result(data=response_data)
+
+
+@api.route('/<question_id>/histories', methods=['GET'])
+@authorization_require()
+def get_detail_history_question(question_id: str):
+    """ This is api create comment
+
+    Body: {
+            "name": "Giảng viên",
+            "description": "Nhập điểm"
+        }
+    Returns: SUCCESS/FAIL
+    """
+    # 1. validate request parameters
+    try:
+        params = request.args
+        params = GetQuestionDetailValidation().load(params) if params else dict()
+    except ValidationError as err:
+        return send_error(message_id=FAIL, data=err.messages)
+
+    # 2. Process input
+    page_number = params.get('page', 1)
+    page_size = params.get('page_size', 15)
+
+    # 3. Query
+    query = History.query.filter(History.question_id == question_id)
+    # Default: sort by created date
+    query = query.order_by(History.created_date.desc())
+
+    # 5. Paginator
+    paginator = paginate(query, page_number, page_size)
+    # 6. Dump data
+    histories = HistorySchema(many=True).dump(paginator.items)
+    response_data = dict(
+        histories=histories,
         total_pages=paginator.pages,
         total=paginator.total
     )

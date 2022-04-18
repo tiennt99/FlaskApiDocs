@@ -47,10 +47,10 @@ def get_questions():
 
     # 3. Query
     query = Question.query
-    query = query.filter(Question.user_id == current_user_id)
+    query = query.filter(or_(Question.user_id == current_user_id, Question.assignee_user_id == current_user_id))
     if len(search_name):
         query = query.filter(
-            or_(Question.content.like("%{}%".format(search_name)),
+            or_(Question.title.like("%{}%".format(search_name)),
                 Question.description.like("%{}%".format(search_name))))
     query = query.filter(and_(Question.created_date > from_date, Question.created_date < to_date))
     # 4. Sort by collum

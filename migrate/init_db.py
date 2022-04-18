@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash
 
 from app.extensions import db
 from app.models import User, Message, Group, Role, GroupRole, Permission, RolePermission, TopicQuestion, \
-    FrequentQuestion, Subject, Question, Form, Comment
+    FrequentQuestion, Subject, Question, Form, Comment, History
 from app.settings import ProdConfig, DevConfig
 
 
@@ -55,6 +55,8 @@ class Worker:
             self.question = json.load(file)
         with open('data/comment.json', encoding='utf-8') as file:
             self.comment = json.load(file)
+        with open('data/history.json', encoding='utf-8') as file:
+            self.history = json.load(file)
 
     def create_default_group(self):
         groups = self.default_group
@@ -182,6 +184,15 @@ class Worker:
             db.session.add(instance)
         db.session.commit()
 
+    def create_default_history(self):
+        histories = self.history
+        for item in histories:
+            instance = History()
+            for key in item.keys():
+                instance.__setattr__(key, item[key])
+            db.session.add(instance)
+        db.session.commit()
+
 
 if __name__ == '__main__':
     worker = Worker()
@@ -209,4 +220,6 @@ if __name__ == '__main__':
     worker.create_default_question()
     # comment default
     worker.create_default_comment()
+    # history default
+    worker.create_default_history()
     print("=" * 50, "Database Migrate Completed", "=" * 50)

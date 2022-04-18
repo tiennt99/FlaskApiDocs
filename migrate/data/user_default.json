@@ -6,6 +6,7 @@
     "email": "tiennguyenhuu1999@gmail.com",
     "username": "tiennt99",
     "password": "123456",
+    "avatar_url": "/files/avatars/default.jpg",
     "group_id": "f256ff9a-d0d2-4472-a1e9-db6b4752ad91"
   },
   {
@@ -15,6 +16,7 @@
     "email": "manh.nguyen@gmail.com",
     "username": "manh.nguyen",
     "password": "123456",
+    "avatar_url": "/files/avatars/default.jpg",
     "group_id": "f256ff9a-d0d2-4472-a1e9-db6b4752ad91"
   },
   {
@@ -23,6 +25,7 @@
     "last_name": "Đỗ",
     "email": "huong.do@gmail.com",
     "username": "huong.do",
+    "avatar_url": "/files/avatars/default.jpg",
     "password": "123456",
     "group_id": "cd828c11-aeb2-421c-b71c-2f43c5668bd4"
   }

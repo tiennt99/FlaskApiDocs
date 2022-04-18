@@ -96,6 +96,7 @@ class UserSchema(Schema):
     email = fields.String()
     username = fields.String()
     status = fields.String()
+    avatar_url = fields.String()
     creator_id = fields.String()
     creator = fields.Nested(UserSchemaTMP(only=['id', 'email']))
     group_id = fields.String(required=True, validate=validate.OneOf(LIST_GROUP))
@@ -535,6 +536,20 @@ class CommentSchema(Schema):
     sender_id = fields.String()
     question_id = fields.String()
     sender = fields.Nested(UserSchema())
+
+
+class HistorySchema(Schema):
+    """
+    Validator
+    """
+    id = fields.String()
+    status = fields.Integer()
+    created_date = fields.Integer()
+    creator_id = fields.String()
+    assignee_user_id = fields.String()
+    question_id = fields.String()
+    creator = fields.Nested(UserSchema())
+    assignee_user = fields.Nested(UserSchema())
 
 
 class FormSchema(Schema):
