@@ -47,7 +47,7 @@ def get_questions():
 
     # 3. Query
     query = Question.query
-    query = query.filter(or_(Question.user_id == current_user_id, Question.assignee_user_id == current_user_id))
+    query = query.filter(Question.user_id == current_user_id)
     if len(search_name):
         query = query.filter(
             or_(Question.title.like("%{}%".format(search_name)),

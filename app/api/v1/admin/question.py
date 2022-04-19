@@ -31,6 +31,9 @@ def get_questions():
     try:
         params = request.args
         params = GetQuestionValidation().load(params) if params else dict()
+        current_user_id = get_jwt_identity()
+        user = User.get_by_id(current_user_id)
+        group_name = user.group.name
     except ValidationError as err:
         return send_error(message_id=FAIL, data=err.messages)
 
@@ -52,6 +55,8 @@ def get_questions():
             or_(Question.content.like("%{}%".format(search_name)),
                 Question.description.like("%{}%".format(search_name))))
     query = query.filter(and_(Question.created_date > from_date, Question.created_date < to_date))
+    if group_name != "Quản trị viên":
+        query = query.filter(Question.assignee_user_id == current_user_id)
     # 4. Sort by collum
     if sort_by:
         column_sorted = getattr(Question, sort_by)

@@ -516,13 +516,17 @@ class QuestionSchema(Schema):
     """
     id = fields.String()
     description = fields.String()
-    content = fields.String()
+    title = fields.String()
     created_date = fields.Integer()
     attached_file_url = fields.String()
     topic_id = fields.String()
     user_id = fields.String()
+    assignee_user_id = fields.String()
     creator_id = fields.String(required=False)
-    creator = fields.Nested(UserSchema(only=['id', 'email']))
+    creator = fields.Nested(UserSchema(only=['id', 'email', "first_name", "last_name", "avatar_url"]))
+    assignee_user = fields.Nested(UserSchema(only=['id', 'email', "first_name", "last_name", "avatar_url"]))
+    user = fields.Nested(UserSchema(only=['id', 'email', "first_name", "last_name", "avatar_url"]))
+    topic = fields.Nested(TopicSchema())
 
 
 class CommentSchema(Schema):
