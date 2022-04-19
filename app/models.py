@@ -358,6 +358,7 @@ class Question(db.Model):
     end_time = db.Column(INTEGER(unsigned=True), default=get_timestamp_now() + 1800)  # Default + 30 phút
     description = db.Column(db.String(255))
     title = db.Column(db.String(255))
+    status = db.Column(db.SmallInteger, default=0) # 0 Khởi tạo 1 đang xử lý 2 xong
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
     attached_file_url = db.Column(db.String(255))
@@ -374,11 +375,11 @@ class Question(db.Model):
         return cls.query.get(_id)
 
     @classmethod
-    def check_question_exists(cls, content: str, question_id: str = None):
+    def check_question_exists(cls, title: str, question_id: str = None):
         if question_id:
             return cls.query.filter(and_(cls.id != question_id,
-                                         cls.content == content)).first()
-        return cls.query.filter(cls.content == content).first()
+                                         cls.title == title)).first()
+        return cls.query.filter(cls.title == title).first()
 
     @property
     def creator(self):
@@ -393,7 +394,7 @@ class History(db.Model):
     __tablename__ = 'history'
 
     id = db.Column(db.String(50), primary_key=True)
-    status = db.Column(db.SmallInteger, default=0)  # 2 - Đang xử lý, 0 - Khởi tạo , 3- Xử lý xong
+    status = db.Column(db.SmallInteger, default=0)  # 1 - Đang xử lý, 0 - Khởi tạo , 2- Xử lý xong
     content = db.Column(db.String(255))
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)

@@ -10,9 +10,9 @@ from app.api.helper import send_error, send_result
 from app.enums import FAIL, SUCCESS
 from app.extensions import db
 from app.gateway import authorization_require
-from app.schema_validator import GroupSchema, QuestionSchema, UpdateTopicValidation, \
+from app.schema_validator import GroupSchema, QuestionSchema, UpdateQuestionValidation, \
     CreateQuestionValidation, GetQuestionValidation, GetQuestionDetailValidation, CommentSchema, CreateCommentValidation
-from app.models import User, Group, Question, Comment
+from app.models import User, Group, Question, Comment, History
 
 from app.utils import escape_wildcard, get_timestamp_now
 
@@ -47,7 +47,7 @@ def get_questions():
 
     # 3. Query
     query = Question.query
-    query = query.filter(Question.user_id == current_user_id)
+    query = query.filter(or_(Question.creator_id == current_user_id, Question.user_id == current_user_id))
     if len(search_name):
         query = query.filter(
             or_(Question.title.like("%{}%".format(search_name)),
@@ -103,8 +103,17 @@ def create_question():
     for key in json_body.keys():
         question.__setattr__(key, json_body[key])
     question.id = question_id
+    question.status = 0
     question.creator_id = current_user_id
     db.session.add(question)
+    # Add history
+    history = History()
+    history.id = uuid.uuid4()
+    history.question_id = question_id
+    history.creator_id = current_user_id
+    history.assignee_user_id = json_body["assignee_user_id"]
+    history.status = 0
+    db.session.add(history)
     db.session.commit()
     return send_result(message_id=SUCCESS, data=QuestionSchema().dump(question))
 
@@ -133,7 +142,7 @@ def update_question(question_id: str):
     except Exception as ex:
         return send_error(message="Request Body incorrect json format: " + str(ex), code=442)
     # validate request body
-    validator_input = UpdateTopicValidation()
+    validator_input = UpdateQuestionValidation()
     is_not_validate = validator_input.validate(json_body)
     if is_not_validate:
         return send_error(data=is_not_validate, message_id=FAIL)

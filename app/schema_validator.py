@@ -181,7 +181,7 @@ class RoleSchema(Schema):
     module = fields.String()
     description = fields.String()
     creator_id = fields.String(required=False)
-    creator = fields.Nested(UserSchema(only=['id', 'email']))
+    creator = fields.Nested(UserSchema(only=['id', 'email', "first_name", "last_name", "avatar_url"]))
     permissions = fields.List(fields.Nested(PermissionSchema(only=["id", "name"])))
 
 
@@ -257,12 +257,14 @@ class CreateQuestionValidation(Schema):
     Validator
     """
     description = fields.String(required=False)
-    content = fields.String(required=False)
+    title = fields.String(required=False)
     attached_file_url = fields.String(required=False)
     topic_id = fields.String(required=False)
-    user_id = fields.String(required=False)
+    user_id = fields.String(required=True)
+    assignee_user_id = fields.String(required=True)
+    status = fields.String(required=False)
 
-    @validates("content")
+    @validates("title")
     def validate_name(self, value):
         if Question.check_question_exists(value):
             raise ValidationError("Question đã tồn tại")
@@ -270,7 +272,7 @@ class CreateQuestionValidation(Schema):
     # Clean up data
     @pre_load
     def process_input(self, data, **kwargs):
-        data["content"] = data["content"].lower().strip() if data["content"] else None
+        data["title"] = data["title"].lower().strip() if data["title"] else None
         data["description"] = data["description"].lower().strip() if data["description"] else None
         return data
 
@@ -364,28 +366,55 @@ class UpdateGroupValidation(Schema):
             raise ValidationError('Group đã tồn tại')
 
 
-class UpdateTopicValidation(Schema):
-    """
-    Validator
-    """
+class UpdateStatusQuestionValidation(Schema):
+    status = fields.Integer(required=True)
+
+
+class UpdateAssigneeQuestionValidation(Schema):
+    assignee_user_id = fields.String(required=True)
+
+
+class UpdateQuestionValidation(Schema):
     id = fields.String(required=False)
     description = fields.String(required=False)
-    content = fields.String(required=False)
+    title = fields.String(required=False)
     attached_file_url = fields.String(required=False)
     topic_id = fields.String(required=False)
-    user_id = fields.String(required=False)
+    user_id = fields.String(required=True)
+    assignee_user_id = fields.String(required=True)
 
     # Clean up data
     @pre_load
     def process_input(self, data, **kwargs):
-        data["content"] = data["content"].strip() if data["content"] else None
+        data["title"] = data["title"].strip() if data["title"] else None
         data["description"] = data["description"].strip() if data["description"] else None
         return data
 
     @validates_schema
     def validate_name(self, data, **kwargs):
-        if Question.check_question_exists(data["content"], data["id"]):
+        if Question.check_question_exists(data["title"], data["id"]):
             raise ValidationError('Question đã tồn tại')
+
+
+class UpdateTopicValidation(Schema):
+    """
+    Validator
+    """
+    id = fields.String(required=False)
+    name = fields.String(required=True)
+    description = fields.String(required=False)
+
+    # Clean up data
+    @pre_load
+    def process_input(self, data, **kwargs):
+        data["name"] = data["name"].strip()
+        data["description"] = data["description"].strip() if data["description"] else None
+        return data
+
+    @validates_schema
+    def validate_name(self, data, **kwargs):
+        if TopicQuestion.check_topic_exists(data["name"], data["id"]):
+            raise ValidationError('Topic đã tồn tại')
 
 
 class UpdateFormValidation(Schema):
@@ -463,7 +492,7 @@ class GroupSchema(Schema):
     name = fields.String()
     description = fields.String()
     creator_id = fields.String(required=False)
-    creator = fields.Nested(UserSchema(only=['id', 'email']))
+    creator = fields.Nested(UserSchema(only=['id', 'email', "first_name", "last_name", "avatar_url"]))
     roles = fields.List(fields.Nested(RoleSchema(only=['id', 'name'])))
 
 
@@ -475,7 +504,7 @@ class FrequentQuestionSchema(Schema):
     question = fields.String()
     answer = fields.String()
     creator_id = fields.String(required=False)
-    creator = fields.Nested(UserSchema(only=['id', 'email']))
+    creator = fields.Nested(UserSchema(only=['id', 'email', "first_name", "last_name", "avatar_url"]))
 
 
 class SubjectSchema(Schema):
@@ -487,7 +516,7 @@ class SubjectSchema(Schema):
     code = fields.String()
     number_of_credit = fields.Integer()
     creator_id = fields.String(required=False)
-    creator = fields.Nested(UserSchema(only=['id', 'email']))
+    creator = fields.Nested(UserSchema(only=['id', 'email', "first_name", "last_name", "avatar_url"]))
 
 
 class TopicSchema(Schema):
@@ -498,7 +527,7 @@ class TopicSchema(Schema):
     name = fields.String()
     description = fields.String()
     creator_id = fields.String(required=False)
-    creator = fields.Nested(UserSchema(only=['id', 'email']))
+    creator = fields.Nested(UserSchema(only=['id', 'email', "first_name", "last_name", "avatar_url"]))
     number_of_questions = fields.Integer()
 
 
@@ -520,6 +549,7 @@ class QuestionSchema(Schema):
     created_date = fields.Integer()
     attached_file_url = fields.String()
     topic_id = fields.String()
+    status = fields.Integer()
     user_id = fields.String()
     assignee_user_id = fields.String()
     creator_id = fields.String(required=False)
@@ -552,8 +582,8 @@ class HistorySchema(Schema):
     creator_id = fields.String()
     assignee_user_id = fields.String()
     question_id = fields.String()
-    creator = fields.Nested(UserSchema())
-    assignee_user = fields.Nested(UserSchema())
+    creator = fields.Nested(UserSchema(only=['id', 'email', "first_name", "last_name", "avatar_url"]))
+    assignee_user = fields.Nested(UserSchema(only=['id', 'email', "first_name", "last_name", "avatar_url"]))
 
 
 class FormSchema(Schema):
@@ -565,7 +595,7 @@ class FormSchema(Schema):
     description = fields.String()
     link = fields.String()
     creator_id = fields.String(required=False)
-    creator = fields.Nested(UserSchema(only=['id', 'email']))
+    creator = fields.Nested(UserSchema(only=['id', 'email', "first_name", "last_name", "avatar_url"]))
 
 
 class GetTopicValidation(Schema):

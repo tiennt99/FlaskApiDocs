@@ -12,7 +12,8 @@ from app.extensions import db
 from app.gateway import authorization_require
 from app.schema_validator import GroupSchema, QuestionSchema, UpdateTopicValidation, \
     CreateQuestionValidation, GetQuestionValidation, CreateCommentValidation, GetQuestionDetailValidation, \
-    CommentSchema, HistorySchema
+    CommentSchema, HistorySchema, UpdateQuestionValidation, UpdateAssigneeQuestionValidation, \
+    UpdateStatusQuestionValidation
 from app.models import User, Group, Question, Comment, History
 
 from app.utils import escape_wildcard, get_timestamp_now
@@ -52,7 +53,7 @@ def get_questions():
     query = Question.query
     if len(search_name):
         query = query.filter(
-            or_(Question.content.like("%{}%".format(search_name)),
+            or_(Question.title.like("%{}%".format(search_name)),
                 Question.description.like("%{}%".format(search_name))))
     query = query.filter(and_(Question.created_date > from_date, Question.created_date < to_date))
     if group_name != "Quản trị viên":
@@ -150,6 +151,66 @@ def update_question(question_id: str):
     db.session.add(question)
     db.session.commit()
     return send_result(data=QuestionSchema().dump(question), message_id=SUCCESS)
+
+
+@api.route('/<question_id>/assignee', methods=['PUT'])
+@authorization_require()
+def assignee_question(question_id: str):
+    try:
+        json_body = request.get_json()
+        current_user_id = get_jwt_identity()
+    except Exception as ex:
+        return send_error(message="Request Body incorrect json format: " + str(ex), code=442)
+    # validate request body
+    validator_input = UpdateAssigneeQuestionValidation()
+    is_not_validate = validator_input.validate(json_body)
+    if is_not_validate:
+        return send_error(data=is_not_validate, message_id=FAIL)
+
+    # create question
+    question = Question.get_by_id(question_id)
+    question.assignee_user_id = json_body["assignee_user_id"]
+    db.session.add(question)
+    # Add history
+    history = History()
+    history.id = uuid.uuid4()
+    history.question_id = question_id
+    history.creator_id = current_user_id
+    history.assignee_user_id = json_body["assignee_user_id"]
+    history.status = 1
+    db.session.add(history)
+    db.session.commit()
+    return send_result(message_id=SUCCESS, data=QuestionSchema().dump(question))
+
+
+@api.route('/<question_id>/status', methods=['PUT'])
+@authorization_require()
+def status_question(question_id: str):
+    try:
+        json_body = request.get_json()
+        current_user_id = get_jwt_identity()
+    except Exception as ex:
+        return send_error(message="Request Body incorrect json format: " + str(ex), code=442)
+    # validate request body
+    validator_input = UpdateStatusQuestionValidation()
+    is_not_validate = validator_input.validate(json_body)
+    if is_not_validate:
+        return send_error(data=is_not_validate, message_id=FAIL)
+
+    # create question
+    question = Question.get_by_id(question_id)
+    question.status = json_body["status"]
+    db.session.add(question)
+    # Add history
+    history = History()
+    history.id = uuid.uuid4()
+    history.question_id = question_id
+    history.creator_id = current_user_id
+    history.assignee_user_id = current_user_id
+    history.status = json_body["status"]
+    db.session.add(history)
+    db.session.commit()
+    return send_result(message_id=SUCCESS, data=QuestionSchema().dump(question))
 
 
 @api.route('/<question_id>', methods=['DELETE'])
