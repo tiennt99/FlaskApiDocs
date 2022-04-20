@@ -720,4 +720,4 @@ class UploadValidation(Schema):
     }
     """
     file_name = fields.String(required=False, validate=validate.Length(min=1, max=50))
-    prefix = fields.String(required=True, validate=validate.OneOf(choices=["forms", "avatars"]))
+    prefix = fields.String(required=True)

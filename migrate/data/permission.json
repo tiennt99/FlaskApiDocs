@@ -203,5 +203,45 @@
     "id": "35aa4762-9fa8-4fdc-ad93-f061e21f27d0",
     "name": "Xóa resource",
     "resource": "delete@/api/v1/admin/resources/<resource_id>"
+  },
+  {
+    "id": "aea5824e-b433-4a92-a519-184b113e22f3",
+    "name": "Xem câu hỏi của tôi",
+    "resource": "get@/api/v1/admin/my_questions"
+  },
+  {
+    "id": "ef08328a-082a-481f-881d-f5f3917c301b",
+    "name": "Thêm câu hỏi của tôi",
+    "resource": "post@/api/v1/admin/my_questions"
+  },
+  {
+    "id": "8b197748-2de3-4306-9551-1c8f288b900d",
+    "name": "Sửa câu hỏi của tôi",
+    "resource": "put@/api/v1/admin/my_questions/<my_question_id>"
+  },
+  {
+    "id": "35aa4762-9fa8-4fdc-ad93-f061e21f27d1",
+    "name": "Xóa câu hỏi của tôi",
+    "resource": "delete@/api/v1/admin/my_questions/<my_question_id>"
+  },
+  {
+    "id": "aea5824e-b433-4a92-a519-184b113e22d3",
+    "name": "Xem biểu mẫu",
+    "resource": "get@/api/v1/admin/forms"
+  },
+  {
+    "id": "ef08328a-082a-481f-881d-f5f3917c30db",
+    "name": "Thêm biểu mẫu",
+    "resource": "post@/api/v1/admin/forms"
+  },
+  {
+    "id": "8b197748-2de3-4306-9551-1c8f288b90dd",
+    "name": "Sửa biểu mẫu",
+    "resource": "put@/api/v1/admin/forms/<form_id>"
+  },
+  {
+    "id": "35aa4762-9fa8-4fdc-ad93-f061e21f2dd1",
+    "name": "Xóa biểu mẫu",
+    "resource": "delete@/api/v1/admin/forms/<form_id>"
   }
 ]

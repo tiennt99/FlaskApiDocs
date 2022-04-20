@@ -190,5 +190,29 @@
       "8b197748-2de3-4306-9551-1c8f288b900e",
       "35aa4762-9fa8-4fdc-ad93-f061e21f27d0"
     ]
+  },
+  {
+    "id": "c9a68356-6495-11ec-90d6-0242ac120024",
+    "name": "Quản lý câu hỏi của tôi",
+    "module": "my_questions",
+    "description": "Tất cả api quản lý câu hỏi của tôi",
+    "permission_ids": [
+      "aea5824e-b433-4a92-a519-184b113e22f3",
+      "ef08328a-082a-481f-881d-f5f3917c301b",
+      "8b197748-2de3-4306-9551-1c8f288b900d",
+      "35aa4762-9fa8-4fdc-ad93-f061e21f27d1"
+    ]
+  },
+  {
+    "id": "c9a68356-6495-11ec-90d6-0242ac120223",
+    "name": "Quản lý biểu mẫu",
+    "module": "forms",
+    "description": "Tất cả api quản lý biểu mẫu",
+    "permission_ids": [
+      "aea5824e-b433-4a92-a519-184b113e22d3",
+      "ef08328a-082a-481f-881d-f5f3917c30db",
+      "8b197748-2de3-4306-9551-1c8f288b90dd",
+      "35aa4762-9fa8-4fdc-ad93-f061e21f2dd1"
+    ]
   }
 ]

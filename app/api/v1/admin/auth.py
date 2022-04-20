@@ -54,6 +54,8 @@ def login():
     user_id = user.id
     first_name = user.first_name
     last_name = user.last_name
+    email = user.email
+    username = user.username
     site_map = requests.get("http://localhost:5000/api/v1/helper/site-map")
     data = json.loads(site_map.content.decode("UTF-8")).get("data")
     # list_permission = get_permissions(user)
@@ -72,6 +74,8 @@ def login():
         user_id=user_id,
         first_name=first_name,
         last_name=last_name,
+        email=email,
+        username=username
     )
     return send_result(data=data, message_id=SUCCESS)
 
