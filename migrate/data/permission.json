@@ -41,28 +41,13 @@
   },
   {
     "id": "fab3e569-f3f7-41fd-910a-dfb039aea99d",
-    "name": "Xem thống kê",
-    "resource": "get@/api/v1/admin/statistics"
+    "name": "Xem thống kê câu hỏi",
+    "resource": "get@/api/v1/admin/statistics/questions"
   },
   {
-    "id": "976e2e3e-71ce-41d4-be68-53910a7c6a00",
-    "name": "Xem điểm sinh viên",
-    "resource": "get@/api/v1/admin/users/transcripts"
-  },
-  {
-    "id": "68b2035e-d506-4a58-b076-b2263fea6e3f",
-    "name": "Xóa điểm sinh viên",
-    "resource": "delete@/api/v1/admin/users/transcripts/<transcript_id>"
-  },
-  {
-    "id": "fbbabf19-67ce-4a99-96d8-88d80b295961",
-    "name": "Sửa điểm sinh viên",
-    "resource": "put@/api/v1/admin/users/transcripts/<transcript_id>"
-  },
-  {
-    "id": "1d6e71b6-a2be-4298-bb16-bff54d0060ae",
-    "name": "Thêm điểm sinh viên",
-    "resource": "post@/api/v1/admin/users/transcripts>"
+    "id": "fab3e569-f3f7-41fd-910a-dfb039aea98d",
+    "name": "Xem thống kê chủ đề câu hỏi",
+    "resource": "get@/api/v1/admin/statistics/topics"
   },
   {
     "id": "73f581e7-a6d7-4b4c-9996-d4b6c9011e5c",
@@ -85,83 +70,123 @@
     "resource": "delete@/api/v1/admin/users/topics/<topic_id>"
   },
   {
-    "id": "cc0b4981-9691-4a54-975b-2671e636acaa",
-    "name": "Thêm thông tin tiếp đón giáo viên",
-    "resource": "post@/api/v1/admin/receptions/teachers"
-  },
-  {
-    "id": "7812a875-caf2-4a1f-8ec2-fc1377a1be4b",
-    "name": "Xem thông tin tiếp đón giáo viên",
-    "resource": "get@/api/v1/admin/receptions/teachers"
-  },
-  {
-    "id": "7302e997-fc4b-45b8-ba0c-c1a00276de06",
-    "name": "Xóa thông tin tiếp đón giáo viên",
-    "resource": "delete@/api/v1/admin/receptions/teachers/<teacher_id>"
-  },
-  {
-    "id": "8ec0b394-4983-473d-98b7-b65e25d8bb42",
-    "name": "Sửa thông tin tiếp đón giáo viên",
-    "resource": "put@/api/v1/admin/receptions/teachers/<teacher_id>"
-  },
-  {
     "id": "694ec702-8691-4263-8f97-31d2347ebb2c",
-    "name": "Xem thông tin tiếp đón sinh viên",
-    "resource": "get@/api/v1/admin/receptions/students"
-  },
-  {
-    "id": "62cacc9a-7682-45ea-932b-c6380626499c",
-    "name": "Thêm thông tin tiếp đón sinh viên",
-    "resource": "post@/api/v1/admin/receptions/students"
+    "name": "Xem thông tin tiếp đón",
+    "resource": "get@/api/v1/admin/questions"
   },
   {
     "id": "fb0dbc8b-ef7a-495c-8945-dcc7797e6ab7",
-    "name": "Xóa thông tin tiếp đón sinh viên",
-    "resource": "delete@/api/v1/admin/receptions/students/<student_id>"
+    "name": "Xóa thông tin tiếp đón",
+    "resource": "delete@/api/v1/admin/questions/<question_id>"
   },
   {
     "id": "f5283ddd-b13e-4dd4-8b89-7f93c5b92f48",
-    "name": "Sửa thông tin tiếp đón sinh viên",
-    "resource": "put@/api/v1/admin/receptions/students"
+    "name": "Sửa thông tin tiếp đón",
+    "resource": "put@/api/v1/admin/questions/<question_id>"
+  },
+  {
+    "id": "f5283ddd-b13e-4dd4-8b89-7f83c5b92f48",
+    "name": "Cập nhật người phụ trách",
+    "resource": "put@/api/v1/admin/questions/<question_id>/assignee"
+  },
+  {
+    "id": "f5283ddd-b13e-4dd4-8c89-7f83c5b92f48",
+    "name": "Cập nhật trạng thái câu hỏi",
+    "resource": "put@/api/v1/admin/questions/<question_id>/status"
+  },
+  {
+    "id": "f5283ddd-b13e-4dd4-8c89-7d83c5b92f48",
+    "name": "Bình luận câu hỏi",
+    "resource": "post@/api/v1/admin/questions/<question_id>/comments"
+  },
+  {
+    "id": "f5283ddd-b13e-4dd4-8c89-7d83c5b91f46",
+    "name": "Xem bình luận câu hỏi",
+    "resource": "get@/api/v1/admin/questions/<question_id>/comments"
+  },
+  {
+    "id": "f5283ddd-b13e-4dd4-8c89-7d83c5b91f47",
+    "name": "Xem lịch sử câu hỏi",
+    "resource": "get@/api/v1/admin/questions/<question_id>/histories"
+  },
+  {
+    "id": "694ec702-8691-4263-8f97-31d2347ebb3c",
+    "name": "Xem câu hỏi của tôi",
+    "resource": "get@/api/v1/admin/my_questions"
+  },
+  {
+    "id": "fb0dbc8b-ef7a-495c-8945-dcc7797e62b7",
+    "name": "Xóa câu hỏi của tôi",
+    "resource": "delete@/api/v1/admin/my_questions/<question_id>"
+  },
+  {
+    "id": "f5283ddd-b13e-4dd4-8b89-7f93c5b92f40",
+    "name": "Sửa câu hỏi của tôi",
+    "resource": "put@/api/v1/admin/my_questions/<question_id>"
+  },
+  {
+    "id": "f5283ddd-b13e-4dd4-8b89-7f93c5b92d48",
+    "name": "Thêm câu hỏi của tôi",
+    "resource": "post@/api/v1/admin/my_questions"
   },
   {
     "id": "b652f6bc-2ee4-4cd3-a633-f36ed95de211",
     "name": "Xem câu hỏi thường gặp",
-    "resource": "get@/api/v1/admin/questions"
+    "resource": "get@/api/v1/admin/frequent_questions"
   },
   {
     "id": "2a15e718-30ed-488b-bad2-817309fe689d",
     "name": "Thêm câu hỏi thường gặp",
-    "resource": "post@/api/v1/admin/questions"
+    "resource": "post@/api/v1/admin/frequent_questions"
   },
   {
     "id": "9dd7f5ef-d546-4412-afdd-cc4d1f3cf0ba",
     "name": "Xóa câu hỏi thường gặp",
-    "resource": "delete@/api/v1/admin/questions/<question_id>"
+    "resource": "delete@/api/v1/admin/frequent_questions/<frequent_question_id>"
   },
   {
     "id": "7d9dca98-1c3e-4195-adcb-8a7f58c9f27a",
     "name": "Sửa câu hỏi thường gặp",
-    "resource": "put@/api/v1/admin/questions/<question_id>"
+    "resource": "put@/api/v1/admin/frequent_questions/<frequent_question_id>"
+  },
+  {
+    "id": "cc0b4981-9691-4a54-975b-2671e636acaa",
+    "name": "Thêm biểu mẫu",
+    "resource": "post@/api/v1/admin/forms"
+  },
+  {
+    "id": "7812a875-caf2-4a1f-8ec2-fc1377a1be4b",
+    "name": "Xem biểu mẫu",
+    "resource": "get@/api/v1/admin/forms"
+  },
+  {
+    "id": "7302e997-fc4b-45b8-ba0c-c1a00276de06",
+    "name": "Xóa biểu mẫu",
+    "resource": "delete@/api/v1/admin/forms/<form_id>"
+  },
+  {
+    "id": "8ec0b394-4983-473d-98b7-b65e25d8bb42",
+    "name": "Sửa biểu mẫu",
+    "resource": "put@/api/v1/admin/forms/<form_id>"
   },
   {
     "id": "11dc2502-86dc-4ef4-8411-a509e068194d",
-    "name": "Xem nhóm người dùng",
+    "name": "Xem nhóm quyền",
     "resource": "get@/api/v1/admin/groups"
   },
   {
     "id": "169fb3a1-326c-47aa-9c44-6f54c6203404",
-    "name": "Thêm nhóm người dùng",
+    "name": "Thêm nhóm quyền",
     "resource": "post@/api/v1/admin/groups"
   },
   {
     "id": "b505a6eb-7f4a-46ca-aaad-2248db91d42e",
-    "name": "Sửa nhóm người dùng",
+    "name": "Sửa nhóm quyền",
     "resource": "put@/api/v1/admin/groups/<group_id>"
   },
   {
     "id": "badd7385-6f38-4d0a-9bae-7af4de0681ab",
-    "name": "Xóa nhóm người dùng",
+    "name": "Xóa nhóm quyền",
     "resource": "delete@/api/v1/admin/groups/<group_id>"
   },
   {
@@ -181,67 +206,7 @@
   },
   {
     "id": "5d777fbb-ca13-4f12-94f8-f25e6114d5d7",
-    "name": "Xóa nhóm người dùng",
+    "name": "Xóa quyền người dùng",
     "resource": "delete@/api/v1/admin/roles/<role_id>"
-  },
-  {
-    "id": "aea5824e-b433-4a92-a519-184b113e22f2",
-    "name": "Xem resource",
-    "resource": "get@/api/v1/admin/resources"
-  },
-  {
-    "id": "ef08328a-082a-481f-881d-f5f3917c301a",
-    "name": "Thêm resource",
-    "resource": "post@/api/v1/admin/resources"
-  },
-  {
-    "id": "8b197748-2de3-4306-9551-1c8f288b900e",
-    "name": "Sửa resource",
-    "resource": "put@/api/v1/admin/resources/<resource_id>"
-  },
-  {
-    "id": "35aa4762-9fa8-4fdc-ad93-f061e21f27d0",
-    "name": "Xóa resource",
-    "resource": "delete@/api/v1/admin/resources/<resource_id>"
-  },
-  {
-    "id": "aea5824e-b433-4a92-a519-184b113e22f3",
-    "name": "Xem câu hỏi của tôi",
-    "resource": "get@/api/v1/admin/my_questions"
-  },
-  {
-    "id": "ef08328a-082a-481f-881d-f5f3917c301b",
-    "name": "Thêm câu hỏi của tôi",
-    "resource": "post@/api/v1/admin/my_questions"
-  },
-  {
-    "id": "8b197748-2de3-4306-9551-1c8f288b900d",
-    "name": "Sửa câu hỏi của tôi",
-    "resource": "put@/api/v1/admin/my_questions/<my_question_id>"
-  },
-  {
-    "id": "35aa4762-9fa8-4fdc-ad93-f061e21f27d1",
-    "name": "Xóa câu hỏi của tôi",
-    "resource": "delete@/api/v1/admin/my_questions/<my_question_id>"
-  },
-  {
-    "id": "aea5824e-b433-4a92-a519-184b113e22d3",
-    "name": "Xem biểu mẫu",
-    "resource": "get@/api/v1/admin/forms"
-  },
-  {
-    "id": "ef08328a-082a-481f-881d-f5f3917c30db",
-    "name": "Thêm biểu mẫu",
-    "resource": "post@/api/v1/admin/forms"
-  },
-  {
-    "id": "8b197748-2de3-4306-9551-1c8f288b90dd",
-    "name": "Sửa biểu mẫu",
-    "resource": "put@/api/v1/admin/forms/<form_id>"
-  },
-  {
-    "id": "35aa4762-9fa8-4fdc-ad93-f061e21f2dd1",
-    "name": "Xóa biểu mẫu",
-    "resource": "delete@/api/v1/admin/forms/<form_id>"
   }
 ]

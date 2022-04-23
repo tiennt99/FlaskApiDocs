@@ -16,6 +16,7 @@ from app.schema_validator import LoginValidation, ChangePasswordValidator, UserS
 from sqlalchemy import or_
 from app.enums import SUCCESS, FAIL, LOGIN_WRONG_USERNAME, LOGIN_WRONG_PASSWORD
 import requests
+
 ACCESS_EXPIRES = timedelta(days=30)
 REFRESH_EXPIRES = timedelta(days=90)
 api = Blueprint('admin/auth', __name__)
@@ -56,6 +57,7 @@ def login():
     last_name = user.last_name
     email = user.email
     username = user.username
+    group_id = user.group_id
     site_map = requests.get("http://localhost:5000/api/v1/helper/site-map")
     data = json.loads(site_map.content.decode("UTF-8")).get("data")
     # list_permission = get_permissions(user)
@@ -75,7 +77,8 @@ def login():
         first_name=first_name,
         last_name=last_name,
         email=email,
-        username=username
+        username=username,
+        group_id=group_id
     )
     return send_result(data=data, message_id=SUCCESS)
 
