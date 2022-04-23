@@ -203,3 +203,19 @@ def get_by_id(user_id: str):
         return send_error(message_id=FAIL)
     data_result = UserSchema().dump(user)
     return send_result(data=data_result)
+
+
+@api.route('/imports', methods=['POST'])
+@authorization_require()
+def import_users():
+    try:
+        current_user_id = get_jwt_identity()
+    except Exception as ex:
+        return send_error(message="Request Body incorrect json format: " + str(ex), code=442)
+    user = User.get_by_id(current_user_id)
+    user_roles = user.group.roles
+    roles = RoleSchema(many=True).dump(user_roles)
+    response_data = dict(
+        roles=roles
+    )
+    return send_result(data=response_data)

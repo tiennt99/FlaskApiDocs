@@ -182,7 +182,7 @@ class RoleSchema(Schema):
     description = fields.String()
     creator_id = fields.String(required=False)
     creator = fields.Nested(UserSchema(only=['id', 'email', "first_name", "last_name", "avatar_url"]))
-    permissions = fields.List(fields.Nested(PermissionSchema(only=["id", "name"])))
+    permissions = fields.List(fields.Nested(PermissionSchema()))
 
 
 class GetRoleValidation(Schema):

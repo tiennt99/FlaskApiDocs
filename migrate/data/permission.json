@@ -1,23 +1,28 @@
 [
   {
     "id": "31c284a8-552b-4f4f-a8c2-22ff998de895",
-    "name": "Xem thông tin sinh viên",
+    "name": "Xem thông tin người dùng",
     "resource": "get@/api/v1/admin/users"
   },
   {
     "id": "8c256c9d-2d8b-4d8f-83c6-4268f33f6dd3",
-    "name": "Thêm thông tin sinh viên",
+    "name": "Thêm thông tin người dùng",
     "resource": "post@/api/v1/admin/users"
   },
   {
     "id": "868a9195-d298-4b6f-a3a6-43f041c89e06",
-    "name": "Sửa thông tin sinh viên",
+    "name": "Sửa thông tin người dùng",
     "resource": "put@/api/v1/admin/users/<user_id>"
   },
   {
     "id": "8cde4b01-2a40-4239-8976-a3a2808e98c3",
-    "name": "Xóa thông tin sinh viên",
+    "name": "Xóa thông tin người dùng",
     "resource": "delete@/api/v1/admin/users/<user_id>"
+  },
+  {
+    "id": "8cde4b01-2a40-4239-8976-a3a2818e98c3",
+    "name": "Import thông tin người dùng",
+    "resource": "post@/api/v1/admin/users/imports"
   },
   {
     "id": "22ec23de-65f1-4f0f-8c7e-6b9122939444",

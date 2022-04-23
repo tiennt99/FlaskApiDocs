@@ -4,6 +4,9 @@
     "name": "Quyền xác thực",
     "description": "Các quyền cơ bản của hệ thống",
     "permission_ids": [
+      "22ec23de-65f1-4f0f-8c7e-6b9122939444",
+      "bd3f0ad9-a4fe-4814-bc10-fca79a30776b",
+      "5834be55-6013-4bc7-bfe7-3686d9410898"
     ]
   },
   {
@@ -118,6 +121,19 @@
       "62dc4058-27cb-4b55-9a34-8614243f48be",
       "a0dde44a-4c2d-48c5-b57c-ea2dc8deeff4",
       "5d777fbb-ca13-4f12-94f8-f25e6114d5d7"
+    ]
+  },
+  {
+    "id": "c9a68356-6495-11ec-90e6-0242ac120023",
+    "name": "Quản lý người dùng",
+    "module": "users",
+    "description": "Tất cả api quản lý người dùng",
+    "permission_ids": [
+      "31c284a8-552b-4f4f-a8c2-22ff998de895",
+      "8c256c9d-2d8b-4d8f-83c6-4268f33f6dd3",
+      "868a9195-d298-4b6f-a3a6-43f041c89e06",
+      "8cde4b01-2a40-4239-8976-a3a2808e98c3",
+      "8cde4b01-2a40-4239-8976-a3a2808e98c3"
     ]
   }
 ]
