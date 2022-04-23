@@ -19,6 +19,10 @@ from app.utils import escape_wildcard, get_timestamp_now
 
 api = Blueprint('admin/users', __name__)
 
+GROUP_USER_ID = "8dfd6c40-7e42-414c-ae16-bda38b4f9652"
+GROUP_TEACHER_ID = "cd828c11-aeb2-421c-b71c-2f43c5668bd4"
+GROUP_TD_ID = "c7f2fa9b-805b-413d-9d68-7eb555cb0481"
+
 
 @api.route('', methods=['GET'])
 @authorization_require()
@@ -31,6 +35,9 @@ def get_users():
     try:
         params = request.args
         params = GetUserValidation().load(params) if params else dict()
+        current_user_id = get_jwt_identity()
+        user = User.get_by_id(current_user_id)
+        group_id = user.group.id
     except ValidationError as err:
         return send_error(message_id=FAIL, data=err.messages)
 
@@ -54,6 +61,7 @@ def get_users():
                 User.first_name.like("%{}%".format(search_name)),
                 User.last_name.like("%{}%".format(search_name))))
     query = query.filter(and_(User.created_date > from_date, User.created_date < to_date))
+
     # 4. Sort by collum
     if sort_by:
         column_sorted = getattr(User, sort_by)

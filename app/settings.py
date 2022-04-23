@@ -15,6 +15,7 @@ class ProdConfig(Config):
     ENV = 'production'
     DEBUG = False
     DEBUG_TB_ENABLED = False  # Disable Debug toolbar
+    SECRET_KEY = 'secret!'
     HOST = '0.0.0.0'
     TEMPLATES_AUTO_RELOAD = False
     # version
@@ -33,6 +34,7 @@ class DevConfig(Config):
     ENV = 'development'
     DEBUG = True
     DEBUG_TB_ENABLED = True  # Disable Debug toolbar
+    SECRET_KEY = 'secret!'
     HOST = '0.0.0.0'
     TEMPLATES_AUTO_RELOAD = True
     # SQL Alchemy config
@@ -57,6 +59,7 @@ class StgConfig(Config):
     DEBUG_TB_ENABLED = False  # Disable Debug toolbar
     HOST = '0.0.0.0'
     TEMPLATES_AUTO_RELOAD = False
+    SECRET_KEY ='secret!'
     # version
     VERSION = "0.0.1"
     # SQL Lite

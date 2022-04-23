@@ -48,6 +48,7 @@ def get_questions():
     search_name = escape_wildcard(search_name)
     sort_by = params.get('sort_by', None)
     order_by = params.get('order_by', 'desc')
+    status = params.get('status', None)
 
     # 3. Query
     query = Question.query
@@ -58,6 +59,8 @@ def get_questions():
     query = query.filter(and_(Question.created_date > from_date, Question.created_date < to_date))
     if group_name != "Quản trị viên":
         query = query.filter(Question.assignee_user_id == current_user_id)
+    if status:
+        query = query.filter(Question.status == status)
     # 4. Sort by collum
     if sort_by:
         column_sorted = getattr(Question, sort_by)
@@ -177,7 +180,7 @@ def assignee_question(question_id: str):
     history.question_id = question_id
     history.creator_id = current_user_id
     history.assignee_user_id = json_body["assignee_user_id"]
-    history.status = 1
+    history.status = 0
     db.session.add(history)
     db.session.commit()
     return send_result(message_id=SUCCESS, data=QuestionSchema().dump(question))

@@ -1,13 +1,13 @@
 [
   {
     "id": "cad2ea2a-6496-11ec-90d6-0242ac120004",
-    "first_name": "Tien",
-    "last_name": "Nguyen Huu",
-    "email": "tiennguyenhuu1999@gmail.com",
-    "username": "tiennt99",
+    "first_name": "Nguyễn Hữu",
+    "last_name": "Tiến",
+    "email": "tien.nguyen@gmail.com",
+    "username": "tien.nguyen",
     "password": "123456",
     "avatar_url": "/files/avatars/default.jpg",
-    "group_id": "f256ff9a-d0d2-4472-a1e9-db6b4752ad91"
+    "group_id": "8dfd6c40-7e42-414c-ae16-bda38b4f9652"
   },
   {
     "id": "8dbd546c-6497-11ec-90d6-0242ac120003",
@@ -17,7 +17,7 @@
     "username": "manh.nguyen",
     "password": "123456",
     "avatar_url": "/files/avatars/default.jpg",
-    "group_id": "f256ff9a-d0d2-4472-a1e9-db6b4752ad91"
+    "group_id":  "f256ff9a-d0d2-4472-a1e9-db6b4752ad91"
   },
   {
     "id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
@@ -28,5 +28,25 @@
     "avatar_url": "/files/avatars/default.jpg",
     "password": "123456",
     "group_id": "cd828c11-aeb2-421c-b71c-2f43c5668bd4"
+  },
+  {
+    "id": "c7f2fa9b-805b-413d-9d68-7eb555cb0581",
+    "first_name": "Phòng Khảo",
+    "last_name": "Thí",
+    "email": "khao.thi@gmail.com",
+    "username": "khao.thi",
+    "avatar_url": "/files/avatars/default.jpg",
+    "password": "123456",
+    "group_id": "c7f2fa9b-805b-413d-9d68-7eb555cb0581"
+  },
+  {
+    "id": "c7f2fa9b-805b-413d-9d68-7eb555cb0582",
+    "first_name": "Người Tiếp",
+    "last_name": "Đón",
+    "email": "tiep.don@gmail.com",
+    "username": "tiep.don",
+    "avatar_url": "/files/avatars/default.jpg",
+    "password": "123456",
+    "group_id": "c7f2fa9b-805b-413d-9d68-7eb555cb0481"
   }
 ]

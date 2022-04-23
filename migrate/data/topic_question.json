@@ -20,11 +20,6 @@
     "description": "Thay đổi thông tin cá nhân"
   },
   {
-    "id": "c2676954-9b0f-4f27-bc9d-e5b9f6ea41c3",
-    "name": "Lên lịch nhập điểm",
-    "description": "Giáo viên lên lịch nhập điểm"
-  },
-  {
     "id": "31f5869f-a632-4910-916e-81cf7f7e1fdd",
     "name": "Đăng ký tín chỉ ",
     "description": "Sinh viên hỏi về thông tin đăng kí môn học"

@@ -205,7 +205,7 @@ if __name__ == '__main__':
     # Group admin, teacher, student
     worker.create_default_group()
     # User default
-    worker.create_default_user()
+    # worker.create_default_user()
     worker.create_default_user_example()
     # Topic question default
     worker.create_default_topic_question()

@@ -44,7 +44,7 @@ def get_questions():
     search_name = escape_wildcard(search_name)
     sort_by = params.get('sort_by', None)
     order_by = params.get('order_by', 'desc')
-
+    status = params.get('status', None)
     # 3. Query
     query = Question.query
     query = query.filter(or_(Question.creator_id == current_user_id, Question.user_id == current_user_id))
@@ -52,6 +52,8 @@ def get_questions():
         query = query.filter(
             or_(Question.title.like("%{}%".format(search_name)),
                 Question.description.like("%{}%".format(search_name))))
+    if status:
+        query = query.filter(Question.status == status)
     query = query.filter(and_(Question.created_date > from_date, Question.created_date < to_date))
     # 4. Sort by collum
     if sort_by:

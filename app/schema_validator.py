@@ -621,6 +621,7 @@ class GetQuestionValidation(Schema):
     from_date = fields.Integer(required=False)
     to_date = fields.Integer(required=False)
     search_name = fields.String(required=False)
+    status = fields.String(required=False)
 
     sort_by = fields.String(required=False,
                             validate=validate.OneOf(
