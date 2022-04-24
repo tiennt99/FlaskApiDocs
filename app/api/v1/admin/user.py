@@ -51,6 +51,7 @@ def get_users():
     search_name = escape_wildcard(search_name)
     sort_by = params.get('sort_by', None)
     order_by = params.get('order_by', 'desc')
+    group_id = params.get('group_id', None)
 
     # 3. Query
     query = User.query
@@ -61,7 +62,8 @@ def get_users():
                 User.first_name.like("%{}%".format(search_name)),
                 User.last_name.like("%{}%".format(search_name))))
     query = query.filter(and_(User.created_date > from_date, User.created_date < to_date))
-
+    if group_id:
+        query = query.filter(User.group_id == group_id)
     # 4. Sort by collum
     if sort_by:
         column_sorted = getattr(User, sort_by)
@@ -219,3 +221,4 @@ def import_users():
         roles=roles
     )
     return send_result(data=response_data)
+

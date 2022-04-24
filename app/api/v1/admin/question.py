@@ -173,6 +173,7 @@ def assignee_question(question_id: str):
     # create question
     question = Question.get_by_id(question_id)
     question.assignee_user_id = json_body["assignee_user_id"]
+    question.status = 0
     db.session.add(question)
     # Add history
     history = History()
@@ -181,6 +182,7 @@ def assignee_question(question_id: str):
     history.creator_id = current_user_id
     history.assignee_user_id = json_body["assignee_user_id"]
     history.status = 0
+    history.created_date = get_timestamp_now()
     db.session.add(history)
     db.session.commit()
     return send_result(message_id=SUCCESS, data=QuestionSchema().dump(question))
@@ -211,6 +213,7 @@ def status_question(question_id: str):
     history.creator_id = current_user_id
     history.assignee_user_id = current_user_id
     history.status = json_body["status"]
+    history.created_date = get_timestamp_now()
     db.session.add(history)
     db.session.commit()
     return send_result(message_id=SUCCESS, data=QuestionSchema().dump(question))
@@ -306,7 +309,7 @@ def get_detail_history_question(question_id: str):
     # 3. Query
     query = History.query.filter(History.question_id == question_id)
     # Default: sort by created date
-    query = query.order_by(History.created_date.desc())
+    query = query.order_by(History.created_date.asc())
 
     # 5. Paginator
     paginator = paginate(query, page_number, page_size)

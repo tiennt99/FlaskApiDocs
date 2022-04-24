@@ -73,6 +73,7 @@ def login():
     data = dict(
         access_token=access_token,
         refresh_token=refresh_token,
+        user=UserSchema().dump(user),
         user_id=user_id,
         first_name=first_name,
         last_name=last_name,

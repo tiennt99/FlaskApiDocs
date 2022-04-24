@@ -84,6 +84,14 @@ class UserSchemaTMP(Schema):
     email = fields.String()
 
 
+class GroupSchemaTMP(Schema):
+    """
+    Validator
+    """
+    id = fields.String()
+    name = fields.String()
+
+
 class UserSchema(Schema):
     """
     Validator
@@ -100,6 +108,7 @@ class UserSchema(Schema):
     creator_id = fields.String()
     creator = fields.Nested(UserSchemaTMP(only=['id', 'email']))
     group_id = fields.String(required=True, validate=validate.OneOf(LIST_GROUP))
+    group = fields.Nested(GroupSchemaTMP())
 
 
 class GetUserValidation(Schema):
@@ -110,6 +119,7 @@ class GetUserValidation(Schema):
     from_date = fields.Integer(required=False)
     to_date = fields.Integer(required=False)
     search_name = fields.String(required=False)
+    group_id = fields.String(required=False)
 
     sort_by = fields.String(required=False,
                             validate=validate.OneOf(

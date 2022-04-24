@@ -10,7 +10,7 @@
 
 ## Link APIs
 
-[Link postman](https://www.getpostman.com/collections/42e2eaac580593a9294a)
+[Link postman](https://www.getpostman.com/collections/0a8e6e5fbc2f856917e7)
 
 ## run project
 
