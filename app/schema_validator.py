@@ -588,6 +588,7 @@ class HistorySchema(Schema):
     """
     id = fields.String()
     status = fields.Integer()
+    type = fields.Integer()
     created_date = fields.Integer()
     creator_id = fields.String()
     assignee_user_id = fields.String()

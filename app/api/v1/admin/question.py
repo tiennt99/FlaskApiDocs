@@ -182,6 +182,7 @@ def assignee_question(question_id: str):
     history.creator_id = current_user_id
     history.assignee_user_id = json_body["assignee_user_id"]
     history.status = 0
+    history.type = 1
     history.created_date = get_timestamp_now()
     db.session.add(history)
     db.session.commit()
@@ -213,6 +214,7 @@ def status_question(question_id: str):
     history.creator_id = current_user_id
     history.assignee_user_id = current_user_id
     history.status = json_body["status"]
+    history.type = 0
     history.created_date = get_timestamp_now()
     db.session.add(history)
     db.session.commit()

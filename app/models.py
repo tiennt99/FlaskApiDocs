@@ -395,6 +395,7 @@ class History(db.Model):
 
     id = db.Column(db.String(50), primary_key=True)
     status = db.Column(db.SmallInteger, default=0)  # 1 - Đang xử lý, 0 - Khởi tạo , 2- Xử lý xong
+    type = db.Column(db.SmallInteger, default=0)  # 1 - assignee 0 status
     content = db.Column(db.String(255))
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
