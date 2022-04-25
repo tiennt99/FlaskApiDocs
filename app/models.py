@@ -362,6 +362,7 @@ class Question(db.Model):
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
     attached_file_url = db.Column(db.String(255))
+    attached_file_name = db.Column(db.String(255))
     assignee_user_id = db.Column(db.String(50))
     creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
     user_id = db.Column(ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False, index=True)
@@ -557,6 +558,7 @@ class Comment(db.Model):
     question_id = db.Column(ForeignKey('question.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
                             index=True)
     attached_file_url = db.Column(db.String(255))
+    attached_file_name = db.Column(db.String(255))
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
 
     @property

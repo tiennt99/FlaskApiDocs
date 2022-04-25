@@ -6,16 +6,16 @@ from flask_jwt_extended import get_jwt_identity
 from marshmallow import ValidationError
 from sqlalchemy import or_, asc, desc, and_
 from sqlalchemy_pagination import paginate
+
 from app.api.helper import send_error, send_result
-from app.enums import FAIL, SUCCESS
+from app.enums import FAIL, SUCCESS, GROUP_TD_ID, GROUP_QTV_ID, GROUP_USER_ID
 from app.extensions import db
 from app.gateway import authorization_require
-from app.schema_validator import GroupSchema, QuestionSchema, UpdateTopicValidation, \
+from app.models import User, Question, Comment, History
+from app.schema_validator import QuestionSchema, UpdateTopicValidation, \
     CreateQuestionValidation, GetQuestionValidation, CreateCommentValidation, GetQuestionDetailValidation, \
-    CommentSchema, HistorySchema, UpdateQuestionValidation, UpdateAssigneeQuestionValidation, \
-    UpdateStatusQuestionValidation
-from app.models import User, Group, Question, Comment, History
-
+    CommentSchema, HistorySchema, UpdateAssigneeQuestionValidation, \
+    UpdateStatusQuestionValidation, UpdateQuestionValidation
 from app.utils import escape_wildcard, get_timestamp_now
 
 api = Blueprint('admin/questions', __name__)
@@ -34,7 +34,7 @@ def get_questions():
         params = GetQuestionValidation().load(params) if params else dict()
         current_user_id = get_jwt_identity()
         user = User.get_by_id(current_user_id)
-        group_name = user.group.name
+        current_group_id = user.group.id
     except ValidationError as err:
         return send_error(message_id=FAIL, data=err.messages)
 
@@ -57,7 +57,7 @@ def get_questions():
             or_(Question.title.like("%{}%".format(search_name)),
                 Question.description.like("%{}%".format(search_name))))
     query = query.filter(and_(Question.created_date > from_date, Question.created_date < to_date))
-    if group_name != "Quản trị viên":
+    if current_group_id != GROUP_TD_ID and current_group_id != GROUP_QTV_ID:
         query = query.filter(Question.assignee_user_id == current_user_id)
     if status:
         query = query.filter(Question.status == status)
@@ -141,7 +141,7 @@ def update_question(question_id: str):
     except Exception as ex:
         return send_error(message="Request Body incorrect json format: " + str(ex), code=442)
     # validate request body
-    validator_input = UpdateTopicValidation()
+    validator_input = UpdateQuestionValidation()
     is_not_validate = validator_input.validate(json_body)
     if is_not_validate:
         return send_error(data=is_not_validate, message_id=FAIL)
@@ -171,9 +171,12 @@ def assignee_question(question_id: str):
         return send_error(data=is_not_validate, message_id=FAIL)
 
     # create question
+    assignee_user = User.get_by_id(json_body["assignee_user_id"])
+    assignee_user_group_id = assignee_user.group.id
     question = Question.get_by_id(question_id)
     question.assignee_user_id = json_body["assignee_user_id"]
-    question.status = 0
+    if assignee_user_group_id != GROUP_TD_ID and assignee_user_group_id != GROUP_USER_ID:
+        question.status = 0
     db.session.add(question)
     # Add history
     history = History()

@@ -19,10 +19,6 @@ from app.utils import escape_wildcard, get_timestamp_now
 
 api = Blueprint('admin/users', __name__)
 
-GROUP_USER_ID = "8dfd6c40-7e42-414c-ae16-bda38b4f9652"
-GROUP_TEACHER_ID = "cd828c11-aeb2-421c-b71c-2f43c5668bd4"
-GROUP_TD_ID = "c7f2fa9b-805b-413d-9d68-7eb555cb0481"
-
 
 @api.route('', methods=['GET'])
 @authorization_require()
@@ -221,4 +217,3 @@ def import_users():
         roles=roles
     )
     return send_result(data=response_data)
-

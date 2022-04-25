@@ -48,7 +48,8 @@ def upload_file():
     except Exception as ex:
         return send_error(message=str(ex))
     dt = {
-        "file_url": file_url
+        "file_url": file_url,
+        "file_name": file.filename
     }
 
     return send_result(data=dt, message="Ok")

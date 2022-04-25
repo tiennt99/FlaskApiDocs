@@ -258,6 +258,7 @@ class CreateCommentValidation(Schema):
     """
     message = fields.String(required=True)
     attached_file_url = fields.String(required=False)
+    attached_file_name = fields.String(required=False)
     sender_id = fields.String(required=True)
     question_id = fields.String(required=True)
 
@@ -269,6 +270,7 @@ class CreateQuestionValidation(Schema):
     description = fields.String(required=False)
     title = fields.String(required=False)
     attached_file_url = fields.String(required=False)
+    attached_file_name = fields.String(required=False)
     topic_id = fields.String(required=False)
     user_id = fields.String(required=True)
     assignee_user_id = fields.String(required=True)
@@ -558,6 +560,7 @@ class QuestionSchema(Schema):
     title = fields.String()
     created_date = fields.Integer()
     attached_file_url = fields.String()
+    attached_file_name = fields.String()
     topic_id = fields.String()
     status = fields.Integer()
     user_id = fields.String()
@@ -576,6 +579,7 @@ class CommentSchema(Schema):
     id = fields.String()
     message = fields.String()
     attached_file_url = fields.String()
+    attached_file_name = fields.String()
     created_date = fields.Integer()
     sender_id = fields.String()
     question_id = fields.String()
