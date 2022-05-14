@@ -1,0 +1,42 @@
+[
+  {
+    "id": "350e7cf1-d6bf-4144-83c3-ec588dc7b852",
+    "name": "Toán rời rạc"
+  },
+  {
+    "id": "731e54b0-83ec-4dad-bfac-7994f4cb8d92",
+    "name": "Giải tích 1"
+  },
+  {
+    "id": "80e9ef67-87ea-41dc-a373-09c1ea488681",
+    "name": "Khai phá dữ liệu"
+  },
+  {
+    "id": "f03b267c-8893-4d77-b8ea-5f3665e05c69",
+    "name": "Công nghệ Client/Server"
+  },
+  {
+    "id": "ca4e10bf-0c5f-4ca4-8194-1f0468dab0f2",
+    "name": "Phương pháp nghiên cứu IT"
+  },
+  {
+    "id": "c5d62d4a-64dd-40f9-94d1-1b2eac72b4f0",
+    "name": "Trí tuệ nhân tạo"
+  },
+  {
+    "id": "a2c44025-d45e-4252-9826-52cc853e7e19",
+    "name": "Phân tích và thiết kế hệ thống"
+  },
+  {
+    "id": "459a3645-0d0c-4019-853c-05b5d8a98fb0",
+    "name": "Công nghệ web"
+  },
+  {
+    "id": "fdf91cfb-a8c8-4587-bf56-577b61bd5c8f",
+    "name": "Cơ sở dữ liệu"
+  },
+  {
+    "id": "985deca1-c594-48a1-9725-403a5d225391",
+    "name": "Đảm bảo và an toàn thông tin"
+  }
+]

@@ -1,0 +1,152 @@
+[
+  {
+    "id": "ade16741-b01d-46d4-9684-8a0989d7eaba",
+    "teacher_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "user_id": "1c26340a-4eb7-43d1-8a33-49edebc8427f",
+    "rate": 5
+  },
+  {
+    "id": "5f9ac078-dd36-4e36-a2ad-5488680bdf37",
+    "teacher_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "user_id": "95c51ce5-a23d-4434-8065-55ca70b20bb8",
+    "rate": 4
+  },
+  {
+    "id": "b08d0db6-e7ed-4a8b-b9c9-11d28c9aca3e",
+    "teacher_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "user_id": "",
+    "rate": ""
+  },
+  {
+    "id": "0baf5823-08b4-4006-aaa7-b8e8c1cd5a54",
+    "teacher_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "user_id": "",
+    "rate": ""
+  },
+  {
+    "id": "f06215d2-4794-40fe-a18f-d8f77cd1e7eb",
+    "teacher_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "user_id": "",
+    "rate": ""
+  },
+  {
+    "id": "72cb9bbe-eda8-40c4-9bbd-0140d325e006",
+    "teacher_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "user_id": "",
+    "rate": ""
+  },
+  {
+    "id": "22142073-96e2-4fa1-9f2d-6d1e88b4039d",
+    "teacher_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "user_id": "",
+    "rate": ""
+  },
+  {
+    "id": "8b9aa9f6-472b-46d4-8904-1870539828f2",
+    "teacher_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "user_id": "",
+    "rate": ""
+  },
+  {
+    "id": "1ed0e117-a33a-4a15-845d-d4018cb2ac56",
+    "teacher_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "user_id": "",
+    "rate": ""
+  },
+  {
+    "id": "cba9daf7-7d50-42aa-bf9e-ccb46cd1add2",
+    "teacher_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "user_id": "",
+    "rate": ""
+  },
+  {
+    "id": "da9cf7b2-472b-42ff-8e23-43f3a7c2308b",
+    "teacher_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "user_id": "",
+    "rate": ""
+  },
+  {
+    "id": "bb9df2d9-8cc0-49ab-911f-a0f3f8b097bd",
+    "teacher_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "user_id": "",
+    "rate": ""
+  },
+  {
+    "id": "eba489f2-1d8d-417a-af28-6948cb3d1737",
+    "teacher_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "user_id": "",
+    "rate": ""
+  },
+  {
+    "id": "0ce6a36b-6075-4721-8d60-49975f13e0b2",
+    "teacher_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "user_id": "",
+    "rate": ""
+  },
+  {
+    "id": "a4feb071-fb6a-4b40-8c9d-a94688704c65",
+    "teacher_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "user_id": "",
+    "rate": ""
+  },
+  {
+    "id": "c74ad210-76e0-4dae-9977-9a57e3ca667d",
+    "teacher_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "user_id": "",
+    "rate": ""
+  },
+  {
+    "id": "6dff47f1-e84c-4c1c-9705-d2ac44b8c0bf",
+    "teacher_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "user_id": "",
+    "rate": ""
+  },
+  {
+    "id": "6e41e177-0bed-46cb-a2ed-57a3534385a4",
+    "teacher_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "user_id": "",
+    "rate": ""
+  },
+  {
+    "id": "afe1f5a8-1f9d-4fa9-8f24-3ae9d7e7114b",
+    "teacher_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "user_id": "",
+    "rate": ""
+  },
+  {
+    "id": "f61bb62d-8443-4ff6-befe-3e5a9096171f",
+    "teacher_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "user_id": "",
+    "rate": ""
+  },
+  {
+    "id": "12c00983-b3b7-481d-94e5-2fea4cf88e08",
+    "teacher_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "user_id": "",
+    "rate": ""
+  },
+  {
+    "id": "68403c2e-a00d-4391-8837-68e1733c976e",
+    "teacher_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "user_id": "",
+    "rate": ""
+  },
+  {
+    "id": "e99b9535-b6ac-40ad-905e-2201a7ef2377",
+    "teacher_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "user_id": "",
+    "rate": ""
+  },
+  {
+    "id": "0cf6249e-df21-4e9d-a5ce-50cd99ae2341",
+    "teacher_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "user_id": "",
+    "rate": ""
+  },
+  {
+    "id": "1a4c1351-eb5e-455f-9e22-4bc2ff8ab24d",
+    "teacher_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "user_id": "",
+    "rate": ""
+  }
+]

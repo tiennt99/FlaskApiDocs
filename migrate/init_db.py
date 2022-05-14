@@ -7,7 +7,7 @@ from werkzeug.security import generate_password_hash
 
 from app.extensions import db
 from app.models import User, Message, Group, Role, GroupRole, Permission, RolePermission, TopicQuestion, \
-    FrequentQuestion, Subject, Question, Form, Comment, History
+    FrequentQuestion, Subject, Question, Form, Comment, History, Class, ClassUser
 from app.settings import ProdConfig, DevConfig
 
 
@@ -57,6 +57,10 @@ class Worker:
             self.comment = json.load(file)
         with open('data/history.json', encoding='utf-8') as file:
             self.history = json.load(file)
+        with open('data/class.json', encoding='utf-8') as file:
+            self._class = json.load(file)
+        with open('data/class_user.json', encoding='utf-8') as file:
+            self._class_user = json.load(file)
 
     def create_default_group(self):
         groups = self.default_group
@@ -193,6 +197,24 @@ class Worker:
             db.session.add(instance)
         db.session.commit()
 
+    def create_default_class(self):
+        _classes = self._class
+        for item in _classes:
+            instance = Class()
+            for key in item.keys():
+                instance.__setattr__(key, item[key])
+            db.session.add(instance)
+        db.session.commit()
+
+    def create_default_class_user(self):
+        _class_user = self._class_user
+        for item in _class_user:
+            instance = ClassUser()
+            for key in item.keys():
+                instance.__setattr__(key, item[key])
+            db.session.add(instance)
+        db.session.commit()
+
 
 if __name__ == '__main__':
     worker = Worker()
@@ -205,7 +227,7 @@ if __name__ == '__main__':
     # Group admin, teacher, student
     worker.create_default_group()
     # User default
-    # worker.create_default_user()
+    worker.create_default_user()
     worker.create_default_user_example()
     # Topic question default
     worker.create_default_topic_question()
@@ -215,11 +237,14 @@ if __name__ == '__main__':
     worker.create_default_subject()
 
     # form default
-    worker.create_default_form()
+    # worker.create_default_form()
     # question default
     worker.create_default_question()
     # comment default
     worker.create_default_comment()
     # history default
     worker.create_default_history()
+    # class default
+    worker.create_default_class()
+    worker.create_default_class_user()
     print("=" * 50, "Database Migrate Completed", "=" * 50)

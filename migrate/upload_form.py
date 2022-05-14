@@ -29,7 +29,7 @@ class Worker:
         response = requests.post(
             self.url_sign_in,
             json={
-                "username": "tiennguyenhuu1999@gmail.com",
+                "username": "manh.nguyen@gmail.com",
                 "password": "123456"
             }
         )
@@ -39,16 +39,17 @@ class Worker:
         access_token = data['access_token']
 
     def upload_file(self, file_name):
-        file = {'file': open(file_name, 'rb')}
-        data_upload = requests.post(
-            self.url_upload_file,
-            headers={
-                'Authorization': 'Bearer {}'.format(access_token)},
-            files=file
-        )
-        response = json.loads(data_upload.content.decode())
-        file_url = response.get("data").get("file_url")
-        return file_url
+        with open(file_name, 'rb') as file:
+            data_upload = requests.post(
+                self.url_upload_file,
+                headers={
+                    'User-Agent': 'Mozilla/5.0',
+                    'Authorization': 'Bearer {}'.format(access_token)},
+                files={'file': file}
+            )
+            response = json.loads(data_upload.content.decode())
+            file_url = response.get("data").get("file_url")
+            return file_url
 
     def create_form(self, file_name):
         file_url = self.upload_file(file_name)

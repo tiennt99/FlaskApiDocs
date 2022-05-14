@@ -1,0 +1,62 @@
+[
+  {
+    "id": "350e7cf1-d6bf-4144-83c3-ec588dc7b851",
+    "class_id": "350e7cf1-d6bf-4144-83c3-ec588dc7b852",
+    "user_id": "cad2ea2a-6496-11ec-90d6-0242ac120003",
+    "is_teacher": true
+  },
+  {
+    "id": "731e54b0-83ec-4dad-bfac-7994f4cb8d91",
+    "class_id": "350e7cf1-d6bf-4144-83c3-ec588dc7b852",
+    "user_id": "9a31194a-6d24-4605-9451-e1616d9f57c5",
+    "is_teacher": false
+  },
+  {
+    "id": "80e9ef67-87ea-41dc-a373-09c1ea488680",
+    "class_id": "350e7cf1-d6bf-4144-83c3-ec588dc7b852",
+    "user_id": "cfbb1a04-1af0-47e9-84eb-ec6d03b2acaa",
+    "is_teacher": false
+  },
+  {
+    "id": "f03b267c-8893-4d77-b8ea-5f3665e05c68",
+    "class_id": "350e7cf1-d6bf-4144-83c3-ec588dc7b852",
+    "user_id": "79a69dc5-79e6-4789-9608-0df2aa16b0be",
+    "is_teacher": false
+  },
+  {
+    "id": "ca4e10bf-0c5f-4ca4-8194-1f0468dab0f1",
+    "class_id": "350e7cf1-d6bf-4144-83c3-ec588dc7b852",
+    "user_id": "01401889-c80d-4183-9e46-56504f145f67",
+    "is_teacher": false
+  },
+  {
+    "id": "c5d62d4a-64dd-40f9-94d1-1b2eac72b4f1",
+    "class_id": "350e7cf1-d6bf-4144-83c3-ec588dc7b852",
+    "user_id": "b2d54717-a3b0-4ea5-b357-20a9cfe1a988",
+    "is_teacher": false
+  },
+  {
+    "id": "a2c44025-d45e-4252-9826-52cc853e7e18",
+    "class_id": "350e7cf1-d6bf-4144-83c3-ec588dc7b852",
+    "user_id": "2c7b88bd-fa2d-42bf-822d-ca17997cdbbc",
+    "is_teacher": false
+  },
+  {
+    "id": "459a3645-0d0c-4019-853c-05b5d8a98fb1",
+    "class_id": "350e7cf1-d6bf-4144-83c3-ec588dc7b852",
+    "user_id": "0f33f4b1-b9e9-4126-a0fc-d4860b211e19",
+    "is_teacher": false
+  },
+  {
+    "id": "fdf91cfb-a8c8-4587-bf56-577b61bd5c8d",
+    "class_id": "fdf91cfb-a8c8-4587-bf56-577b61bd5c8f",
+    "user_id": "693d1094-8983-4245-8206-7fe6c093cddd",
+    "is_teacher": false
+  },
+  {
+    "id": "985deca1-c594-48a1-9725-403a5d225390",
+    "class_id": "985deca1-c594-48a1-9725-403a5d225391",
+    "user_id": "d0f9dd73-b323-44e2-ac97-9c4b70ce05b6",
+    "is_teacher": false
+  }
+]

@@ -358,7 +358,7 @@ class Question(db.Model):
     end_time = db.Column(INTEGER(unsigned=True), default=get_timestamp_now() + 1800)  # Default + 30 phút
     description = db.Column(db.String(255))
     title = db.Column(db.String(255))
-    status = db.Column(db.SmallInteger, default=0) # 0 Khởi tạo 1 đang xử lý 2 xong
+    status = db.Column(db.SmallInteger, default=0)  # 0 Khởi tạo 1 đang xử lý 2 xong
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
     modified_date = db.Column(INTEGER(unsigned=True), default=0)
     attached_file_url = db.Column(db.String(255))
@@ -565,4 +565,37 @@ class Comment(db.Model):
     def sender(self):
         return User.get_by_id(self.sender_id)
 
+
 # end conmment
+# Lop Hoc
+class Class(db.Model):
+    __tablename__ = 'class'
+
+    id = db.Column(db.String(50), primary_key=True)
+    name = db.Column(db.String(250))
+    created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
+
+
+# end lOP hOC
+class ClassUser(db.Model):
+    __tablename__ = 'class_user'
+
+    id = db.Column(db.String(50), primary_key=True)
+    user_id = db.Column(ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
+                        index=True)
+    class_id = db.Column(ForeignKey('class.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
+                         index=True)
+    is_teacher = db.Column(db.Boolean, default=False)
+    created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
+
+
+class TeacherRate(db.Model):
+    __tablename__ = 'teacher_rate'
+
+    id = db.Column(db.String(50), primary_key=True)
+    teacher_id = db.Column(ForeignKey('user.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
+                           index=True)
+    user_id = db.Column(ForeignKey('class.id', ondelete='CASCADE', onupdate='CASCADE'), nullable=False,
+                        index=True)
+    rate = db.Column(db.SmallInteger)
+    created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)

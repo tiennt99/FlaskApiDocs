@@ -184,7 +184,8 @@ def assignee_question(question_id: str):
     history.question_id = question_id
     history.creator_id = current_user_id
     history.assignee_user_id = json_body["assignee_user_id"]
-    history.status = 0
+    if assignee_user_group_id != GROUP_TD_ID and assignee_user_group_id != GROUP_USER_ID:
+        history.status = 0
     history.type = 1
     history.created_date = get_timestamp_now()
     db.session.add(history)
