@@ -16,6 +16,7 @@ from app.models import User, Group, GroupRole, Role
 from app.utils import escape_wildcard, get_timestamp_now
 
 api = Blueprint('admin/groups', __name__)
+ROLE_AUTH_DEFAULT = "c9a68356-6495-11ec-90d6-0242ac130033"
 
 
 @api.route('', methods=['GET'])
@@ -118,6 +119,10 @@ def create_group():
                              group_id=group_id,
                              role_id=role_id, creator_id=current_user_id)
         db.session.add(instance)
+    instance_default = GroupRole(id=str(uuid.uuid4()),
+                                 group_id=group_id,
+                                 role_id=ROLE_AUTH_DEFAULT, creator_id=current_user_id)
+    db.session.add(instance_default)
     db.session.commit()
     return send_result(message_id=SUCCESS, data=GroupSchema().dump(group))
 

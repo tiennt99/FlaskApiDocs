@@ -2,6 +2,7 @@
   {
     "id": "c9a68356-6495-11ec-90d6-0242ac130033",
     "name": "Quyền xác thực",
+    "module": "auth",
     "description": "Các quyền cơ bản của hệ thống",
     "permission_ids": [
       "22ec23de-65f1-4f0f-8c7e-6b9122939444",

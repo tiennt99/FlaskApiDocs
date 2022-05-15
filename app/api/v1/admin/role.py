@@ -116,6 +116,8 @@ def create_role():
         instance = RolePermission(id=str(uuid.uuid4()),
                                   role_id=role_id,
                                   permission_id=permission_id, creator_id=current_user_id)
+        # default
+
         db.session.add(instance)
     db.session.commit()
     return send_result(message_id=SUCCESS)
