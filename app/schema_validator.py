@@ -22,7 +22,7 @@ class CreateUserValidation(Schema):
     username = fields.String(required=True, validate=validate.Length(min=1, max=50))
     status = fields.String(required=False)
     creator_id = fields.String(required=False)
-    group_id = fields.String(required=True, validate=validate.OneOf(LIST_GROUP))
+    group_id = fields.String(required=True)
 
     @validates("email")
     def validate_email(self, value):
@@ -54,7 +54,7 @@ class UpdateUserValidation(Schema):
     username = fields.String(required=True, validate=validate.Length(min=1, max=50))
     status = fields.String(required=False)
     creator_id = fields.String(required=False)
-    group_id = fields.String(required=True, validate=validate.OneOf(LIST_GROUP))
+    group_id = fields.String(required=True)
 
     # # Clean up data
     @pre_load
