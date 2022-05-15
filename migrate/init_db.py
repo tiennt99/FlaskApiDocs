@@ -227,7 +227,7 @@ if __name__ == '__main__':
     # Group admin, teacher, student
     worker.create_default_group()
     # User default
-    worker.create_default_user()
+    # worker.create_default_user()
     worker.create_default_user_example()
     # Topic question default
     worker.create_default_topic_question()
@@ -237,7 +237,7 @@ if __name__ == '__main__':
     worker.create_default_subject()
 
     # form default
-    # worker.create_default_form()
+    worker.create_default_form()
     # question default
     worker.create_default_question()
     # comment default
@@ -245,6 +245,6 @@ if __name__ == '__main__':
     # history default
     worker.create_default_history()
     # class default
-    worker.create_default_class()
-    worker.create_default_class_user()
+    # worker.create_default_class()
+    # worker.create_default_class_user()
     print("=" * 50, "Database Migrate Completed", "=" * 50)
