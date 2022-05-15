@@ -164,12 +164,12 @@ def update_role(role_id: str):
     # update role
     # Find out old members and new members
     current_role_permissions = RolePermission.query.filter(RolePermission.role_id == role_id).all()
-    current_permission_ids = [group_role.role_id for group_role in current_role_permissions]
+    current_permission_ids = [group_role.permission_id for group_role in current_role_permissions]
     new_permission_ids = list(set(permission_ids) - set(current_permission_ids))
-    delete_role_ids = list(set(current_permission_ids) - set(permission_ids))
+    delete_permission_ids = list(set(current_permission_ids) - set(permission_ids))
     # delete user in research group
     RolePermission.query.filter(RolePermission.role_id == role_id,
-                                RolePermission.permission_id.in_(delete_role_ids)).delete()
+                                RolePermission.permission_id.in_(delete_permission_ids)).delete()
     # insert user news in research_group
     for permission_id in new_permission_ids:
         instance = RolePermission(id=str(uuid.uuid4()),

@@ -3,7 +3,7 @@ from time import strftime
 from flask import Flask, request
 from app.extensions import jwt
 from app.api import v1 as api_v1
-from app.extensions import logger, parser, db, sio
+from app.extensions import logger, parser, db
 from .enums import TIME_FORMAT_LOG, FAIL
 from .settings import ProdConfig
 from app.api.helper import send_error, send_result
@@ -40,15 +40,15 @@ def register_extensions(app, config_object):
     db.app = app
     jwt.init_app(app)
     db.init_app(app)
-    sio.init_app(app)
+    # sio.init_app(app)
 
-    @sio.on_error()  # Handles the default namespace
-    def error_handler(e):
-        print(e)
-
-    @sio.on_error_default  # handles all namespaces without an explicit error handler
-    def default_error_handler(e):
-        print(e)
+    # @sio.on_error()  # Handles the default namespace
+    # def error_handler(e):
+    #     print(e)
+    #
+    # @sio.on_error_default  # handles all namespaces without an explicit error handler
+    # def default_error_handler(e):
+    #     print(e)
 
     @app.after_request
     def after_request(response):
