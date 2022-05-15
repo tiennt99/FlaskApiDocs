@@ -188,10 +188,7 @@ def delete_role(role_id: str):
     :type role_id: string
     Returns: SUCCESS/False
     """
-    role = Role.get_by_id(role_id)
-    if not role:
-        return send_error(message_id=FAIL)
-    db.session.delete(role)
+    role = Role.query.filter(Role.id == role_id).delete()
     db.session.commit()
     return send_result(message_id=SUCCESS)
 
