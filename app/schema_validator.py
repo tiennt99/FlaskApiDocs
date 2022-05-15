@@ -180,6 +180,7 @@ class PermissionSchema(Schema):
     id = fields.String()
     name = fields.String()
     resource = fields.String()
+    module = fields.String()
 
 
 class RoleSchema(Schema):

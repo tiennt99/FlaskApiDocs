@@ -187,6 +187,7 @@ class Permission(db.Model):
     id = db.Column(db.String(50), primary_key=True)
     name = db.Column(db.String(100), nullable=False, unique=False)
     resource = db.Column(db.String(500), nullable=False, unique=True)
+    module = db.Column(db.String(100))
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)
 
 
@@ -195,7 +196,7 @@ class Role(db.Model):
 
     id = db.Column(db.String(50), primary_key=True)
     name = db.Column(db.String(100), nullable=False, unique=True)
-    module = db.Column(db.String(100))
+
     description = db.Column(db.String(255))
     creator_id = db.Column(db.String(50), default="8dbd546c-6497-11ec-90d6-0242ac120003")  # Default admin
     created_date = db.Column(INTEGER(unsigned=True), default=get_timestamp_now(), index=True)

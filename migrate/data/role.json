@@ -114,7 +114,7 @@
   {
     "id": "c9a68356-6495-11ec-90d6-0242ac120023",
     "name": "Quản lý quyền",
-    "module": "roles",
+    "module": "role",
     "description": "Tất cả api quản lý quyền",
     "permission_ids": [
       "15d481ee-468d-4198-a6df-983711ad5c97",
